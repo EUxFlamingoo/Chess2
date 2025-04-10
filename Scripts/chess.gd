@@ -196,7 +196,10 @@ func set_move(var2, var1):
 							board[en_passant.x][en_passant.y] = 0
 				-1:
 					fifty_move_rule = 0
-					if i.x == 0: promote(i)
+					if ai_enabled == false:
+						if i.x == 0: promote(i)
+					if ai_enabled == true: 
+						if i.x == 0: ai_promote(i) #TODO AI 3
 					if i.x == 4 && selected_piece.x == 6:
 						en_passant = i
 						just_now = true
@@ -498,6 +501,17 @@ func promote(_var : Vector2):
 	white_pieces.visible = white
 	black_pieces.visible = !white
 
+func ai_promote(_var : Vector2):
+	promotion_square = _var
+	auto_promote()
+
+func auto_promote():
+	board[promotion_square.x][promotion_square.y] = -5 if white else 5
+	white_pieces.visible = false
+	black_pieces.visible = false
+	promotion_square = null
+	display_board()
+
 func _on_button_pressed(button):
 	var num_char = int(button.name.substr(0, 1))
 	board[promotion_square.x][promotion_square.y] = -num_char if white else num_char
@@ -505,6 +519,8 @@ func _on_button_pressed(button):
 	black_pieces.visible = false
 	promotion_square = null
 	display_board()
+	if ai_enabled == true:
+		make_random_move() #FIXME change ai 3
 #endregion
 
 #region is_in_check/etc.
@@ -595,7 +611,8 @@ func threefold_position(var1 : Array):
 
 #region AI_sets
 
-func make_random_move():   #random piece, random legal move
+func make_random_move1():   #random piece, random legal move
+	if promotion_square != null: return
 	var all_moves: Array = []
 	var all_pieces: Array = []
 	
@@ -622,37 +639,65 @@ func make_random_move():   #random piece, random legal move
 	# Call set_move with chosen move
 	set_move(move.x, move.y)
 
+
+func make_random_move():
+	if promotion_square != null: return
+	evaluate_board_advantage()
+
+	var best_choice = -INF
+	var best_from = null
+	var best_to = null
+
+	for i in BOARD_SIZE:
+		for j in BOARD_SIZE:
+			var piece = board[i][j]
+			if piece < 0: # AI is black
+				var from = Vector2(i, j)
+				var legal_moves = get_moves(from)
+				for move in legal_moves:
+					var captured = board[move.x][move.y]
+					var value = 0
+					if captured > 0: # capturing white piece
+						value = PIECE_VALUES[captured]
+					if value > best_choice:
+						best_choice = value
+						best_from = from
+						best_to = move
+
+	if best_from != null and best_to != null:
+		selected_piece = best_from
+		moves = get_moves(best_from)
+		set_move(best_to.x, best_to.y)
+
 #endregion
 
 
-#region piece_value/-board
-var piece_values = {
-	1: 100,   # Pawn
-	2: 320,   # Knight
-	3: 330,   # Bishop
-	4: 500,   # Rook
-	5: 900,   # Queen
-	6: 20000, # King
-	-1: -100, -2: -320, -3: -330, -4: -500, -5: -900, -6: -20000
-}
-
-func evaluate_board() -> int:
-	var score: int = 0
+func evaluate_board_advantage():
+	var value = 0
 	for x in BOARD_SIZE:
 		for y in BOARD_SIZE:
-			var piece: int = board[x][y]
+			var piece = board[x][y]
 			match piece:
-				1: score += 10
-				2: score += 30
-				3: score += 30
-				4: score += 50
-				5: score += 90
-				6: score += 900
-				-1: score -= 10
-				-2: score -= 30
-				-3: score -= 30
-				-4: score -= 50
-				-5: score -= 90
-				-6: score -= 900
-	return score
-#endregion
+				1: value += 10   # white pawn
+				2: value += 30   # white knight
+				3: value += 30   # white bishop
+				4: value += 50   # white rook
+				5: value += 90   # white queen
+				6: value += 900  # white king
+				-1: value -= 10  # black pawn
+				-2: value -= 30  # black knight
+				-3: value -= 30  # black bishop
+				-4: value -= 50  # black rook
+				-5: value -= 90  # black queen
+				-6: value -= 900 # black king
+	print(value)
+	return value
+
+const PIECE_VALUES = {
+	1: 10,    # White Pawn
+	2: 30,    # White Knight
+	3: 30,    # White Bishop
+	4: 50,    # White Rook
+	5: 90,    # White Queen
+	6: 900,    # White King (never scored)
+}
