@@ -13,7 +13,6 @@ config_version=5
 config/name="Chess2"
 run/main_scene="uid://ca36wgabj32ld"
 config/features=PackedStringArray("4.4", "Forward Plus")
-config/icon="res://icon.svg"
 
 [autoload]
 
@@ -27,7 +26,7 @@ directories/dtl_directory={}
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Fantail-Interactive.top_down_camera/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/YouCanDoIt/plugin.cfg", "res://addons/addon_toggler/plugin.cfg", "res://addons/dialogic/plugin.cfg", "res://addons/gameconsole/plugin.cfg", "res://addons/project_time/plugin.cfg", "res://addons/script-ide/plugin.cfg", "res://addons/script_spliter/plugin.cfg", "res://addons/simple_gdscript_formatter/plugin.cfg")
+enabled=PackedStringArray("res://addons/Fantail-Interactive.top_down_camera/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/YouCanDoIt/plugin.cfg", "res://addons/dialogic/plugin.cfg", "res://addons/gameconsole/plugin.cfg", "res://addons/project_time/plugin.cfg", "res://addons/script-ide/plugin.cfg", "res://addons/script_spliter/plugin.cfg", "res://addons/simple_gdscript_formatter/plugin.cfg")
 
 [file_customization]
 

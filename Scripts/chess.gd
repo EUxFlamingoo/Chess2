@@ -31,6 +31,9 @@ const PIECE_MOVE = preload("res://Assets/Piece_move.png")
 @onready var turn = $Turn
 @onready var white_pieces = $"../CanvasLayer/white_pieces"
 @onready var black_pieces = $"../CanvasLayer/black_pieces"
+@onready var player_2: Button = $"../player_2"
+@onready var player_1: Button = $"../player_1"
+
 
 #Variables
 # -6 = black king
@@ -71,9 +74,22 @@ var fifty_move_rule = 0
 
 var unique_board_moves : Array = []
 var amount_of_same : Array = []
+
+var ai_enabled := true #TODO AI 1
 #endregion
 
 #region ready/input/board
+
+func _on_player_2_pressed() -> void:
+	player_2.visible = false
+	player_1.visible = false
+	ai_enabled = false
+
+func _on_player_1_pressed() -> void:
+	player_2.visible = false
+	player_1.visible = false
+	ai_enabled = true
+
 func _ready():
 	board.append([4, 2, 3, 5, 6, 3, 2, 4])
 	board.append([1, 1, 1, 1, 1, 1, 1, 1])
@@ -112,6 +128,7 @@ func is_mouse_out():
 	return true
 
 func display_board():
+	@warning_ignore("integer_division") 
 	for child in pieces.get_children():
 		child.queue_free()
 	
@@ -119,6 +136,7 @@ func display_board():
 		for j in BOARD_SIZE:
 			var holder = TEXTURE_HOLDER.instantiate()
 			pieces.add_child(holder)
+			@warning_ignore("integer_division")
 			holder.global_position = Vector2(j * CELL_WIDTH + (CELL_WIDTH / 2), -i * CELL_WIDTH - (CELL_WIDTH / 2))
 			
 			match board[i][j]:
@@ -140,7 +158,7 @@ func display_board():
 	else: turn.texture = TURN_BLACK
 #endregion
 
-#region dots
+#region set_moves/dots
 func show_options():
 	moves = get_moves(selected_piece)
 	if moves == []:
@@ -153,6 +171,7 @@ func show_dots():
 		var holder = TEXTURE_HOLDER.instantiate()
 		dots.add_child(holder)
 		holder.texture = PIECE_MOVE
+		@warning_ignore("integer_division")
 		holder.global_position = Vector2(i.y * CELL_WIDTH + (CELL_WIDTH / 2), -i.x * CELL_WIDTH - (CELL_WIDTH / 2))
 
 func delete_dots():
@@ -224,6 +243,9 @@ func set_move(var2, var1):
 			white = !white
 			threefold_position(board)
 			display_board()
+			if !white and ai_enabled: #TODO AI 2
+				await get_tree().create_timer(0.3).timeout
+				make_random_move() #FIXME change ai
 			break
 	delete_dots()
 	state = false
@@ -241,7 +263,7 @@ func set_move(var2, var1):
 
 #endregion
 
-#region moves
+#region get_moves
 func get_moves(selected : Vector2):
 	var _moves = []
 	match abs(board[selected.x][selected.y]):
@@ -410,6 +432,7 @@ func get_pawn_moves(piece_position : Vector2):
 	if white && piece_position.x == 1 || !white && piece_position.x == 6: is_first_move = true
 	
 	if en_passant != null && (white && piece_position.x == 4 || !white && piece_position.x == 3) && abs(en_passant.y - piece_position.y) == 1:
+		@warning_ignore("confusable_local_declaration")
 		var pos = en_passant + direction
 		board[pos.x][pos.y] = 1 if white else -1
 		board[piece_position.x][piece_position.y] = 0
@@ -484,7 +507,7 @@ func _on_button_pressed(button):
 	display_board()
 #endregion
 
-#region end_conditions
+#region is_in_check/etc.
 func is_in_check(king_pos: Vector2):
 	var directions = [Vector2(0, 1), Vector2(0, -1), Vector2(1, 0), Vector2(-1, 0),
 	Vector2(1, 1), Vector2(1, -1), Vector2(-1, 1), Vector2(-1, -1)]
@@ -567,4 +590,69 @@ func threefold_position(var1 : Array):
 			return
 	unique_board_moves.append(var1.duplicate(true))
 	amount_of_same.append(1)
+#endregion
+
+
+#region AI_sets
+
+func make_random_move():   #random piece, random legal move
+	var all_moves: Array = []
+	var all_pieces: Array = []
+	
+	for x in BOARD_SIZE:
+		for y in BOARD_SIZE:
+			var piece = board[x][y]
+			if piece < 0:
+				var pos = Vector2(x, y)
+				var piece_moves = get_moves(pos)
+				if piece_moves.size() > 0:
+					all_moves.append(piece_moves)
+					all_pieces.append(pos)
+	
+	if all_pieces.size() == 0:
+		print("AI: No legal moves.")
+		return
+	
+	var idx = randi() % all_pieces.size()
+	selected_piece = all_pieces[idx]
+	moves = get_moves(selected_piece)
+	var move_idx = randi() % moves.size()
+	var move = moves[move_idx]
+	
+	# Call set_move with chosen move
+	set_move(move.x, move.y)
+
+#endregion
+
+
+#region piece_value/-board
+var piece_values = {
+	1: 100,   # Pawn
+	2: 320,   # Knight
+	3: 330,   # Bishop
+	4: 500,   # Rook
+	5: 900,   # Queen
+	6: 20000, # King
+	-1: -100, -2: -320, -3: -330, -4: -500, -5: -900, -6: -20000
+}
+
+func evaluate_board() -> int:
+	var score: int = 0
+	for x in BOARD_SIZE:
+		for y in BOARD_SIZE:
+			var piece: int = board[x][y]
+			match piece:
+				1: score += 10
+				2: score += 30
+				3: score += 30
+				4: score += 50
+				5: score += 90
+				6: score += 900
+				-1: score -= 10
+				-2: score -= 30
+				-3: score -= 30
+				-4: score -= 50
+				-5: score -= 90
+				-6: score -= 900
+	return score
 #endregion
