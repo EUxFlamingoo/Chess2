@@ -33,6 +33,22 @@ const PIECE_VALUES = {
 	6: 900,    # White King (never scored)
 }
 
+const PIECE_TEXTURES = {
+  -6: BLACK_KING,
+  -5: BLACK_QUEEN,
+  -4: BLACK_ROOK,
+  -3: BLACK_BISHOP,
+  -2: BLACK_KNIGHT,
+  -1: BLACK_PAWN,
+  0: null,
+  6: WHITE_KING,
+  5: WHITE_QUEEN,
+  4: WHITE_ROOK,
+  3: WHITE_BISHOP,
+  2: WHITE_KNIGHT,
+  1: WHITE_PAWN
+}
+
 #endregion
 
 #region var
@@ -102,16 +118,20 @@ func _on_player_1_pressed() -> void:
 	player_1.visible = false
 	ai_enabled = true
 
+func initialize_board():
+	return [
+	[4, 2, 3, 5, 6, 3, 2, 4],
+	[1, 1, 1, 1, 1, 1, 1, 1],
+	[0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0],
+	[-1, -1, -1, -1, -1, -1, -1, -1],
+	[-4, -2, -3, -5, -6, -3, -2, -4]
+	]
+
 func _ready():
-	board.append([4, 2, 3, 5, 6, 3, 2, 4])
-	board.append([1, 1, 1, 1, 1, 1, 1, 1])
-	board.append([0, 0, 0, 0, 0, 0, 0, 0])
-	board.append([0, 0, 0, 0, 0, 0, 0, 0])
-	board.append([0, 0, 0, 0, 0, 0, 0, 0])
-	board.append([0, 0, 0, 0, 0, 0, 0, 0])
-	board.append([-1, -1, -1, -1, -1, -1, -1, -1])
-	board.append([-4, -2, -3, -5, -6, -3, -2, -4])
-	
+	board = initialize_board()
 	display_board()
 	
 	var white_buttons = get_tree().get_nodes_in_group("white_pieces")
@@ -151,20 +171,7 @@ func display_board():
 			@warning_ignore("integer_division")
 			holder.global_position = Vector2(j * CELL_WIDTH + (CELL_WIDTH / 2), -i * CELL_WIDTH - (CELL_WIDTH / 2))
 			
-			match board[i][j]:
-				-6: holder.texture = BLACK_KING
-				-5: holder.texture = BLACK_QUEEN
-				-4: holder.texture = BLACK_ROOK
-				-3: holder.texture = BLACK_BISHOP
-				-2: holder.texture = BLACK_KNIGHT
-				-1: holder.texture = BLACK_PAWN
-				0: holder.texture = null
-				6: holder.texture = WHITE_KING
-				5: holder.texture = WHITE_QUEEN
-				4: holder.texture = WHITE_ROOK
-				3: holder.texture = WHITE_BISHOP
-				2: holder.texture = WHITE_KNIGHT
-				1: holder.texture = WHITE_PAWN
+			holder.texture = PIECE_TEXTURES.get(board[i][j], null)
 				
 	if white: turn.texture = TURN_WHITE
 	else: turn.texture = TURN_BLACK
@@ -306,96 +313,80 @@ func get_moves(selected : Vector2):
 		
 	return _moves
 
+func update_and_check_board(pos: Vector2, piece_position: Vector2, piece_value: int) -> bool:
+	board[pos.x][pos.y] = piece_value
+	board[piece_position.x][piece_position.y] = 0
+	var is_safe = (white && !is_in_check(white_king_pos)) || (!white && !is_in_check(black_king_pos))
+	board[pos.x][pos.y] = 0
+	board[piece_position.x][piece_position.y] = piece_value
+	return is_safe
+
 func get_rook_moves(piece_position : Vector2):
 	var _moves = []
 	var directions = [Vector2(0, 1), Vector2(0, -1), Vector2(1, 0), Vector2(-1, 0)]
-	
+	var piece_value = 4 if white else -4
+
 	for i in directions:
 		var pos = piece_position
 		pos += i
 		while is_valid_position(pos):
-			if is_empty(pos): 
-				board[pos.x][pos.y] = 4 if white else -4
-				board[piece_position.x][piece_position.y] = 0
-				if white && !is_in_check(white_king_pos) || !white && !is_in_check(black_king_pos): _moves.append(pos)
-				board[pos.x][pos.y] = 0
-				board[piece_position.x][piece_position.y] = 4 if white else -4
-			elif is_enemy(pos):
-				var t = board[pos.x][pos.y]
-				board[pos.x][pos.y] = 4 if white else -4
-				board[piece_position.x][piece_position.y] = 0
-				if white && !is_in_check(white_king_pos) || !white && !is_in_check(black_king_pos): _moves.append(pos)
-				board[pos.x][pos.y] = t
-				board[piece_position.x][piece_position.y] = 4 if white else -4
-				break
-			else: break
+			if is_empty(pos) or is_enemy(pos):
+				if update_and_check_board(pos, piece_position, piece_value):
+					_moves.append(pos)
+				if is_enemy(pos):
+					break
+				else: break
 			
 			pos += i
 	
 	return _moves
-	
+
 func get_bishop_moves(piece_position : Vector2):
 	var _moves = []
 	var directions = [Vector2(1, 1), Vector2(1, -1), Vector2(-1, 1), Vector2(-1, -1)]
-	
+	var piece_value = 3 if white else -3
+
 	for i in directions:
 		var pos = piece_position
 		pos += i
 		while is_valid_position(pos):
-			if is_empty(pos):
-				board[pos.x][pos.y] = 3 if white else -3
-				board[piece_position.x][piece_position.y] = 0
-				if white && !is_in_check(white_king_pos) || !white && !is_in_check(black_king_pos): _moves.append(pos)
-				board[pos.x][pos.y] = 0
-				board[piece_position.x][piece_position.y] = 3 if white else -3
-			elif is_enemy(pos):
-				var t = board[pos.x][pos.y]
-				board[pos.x][pos.y] = 3 if white else -3
-				board[piece_position.x][piece_position.y] = 0
-				if white && !is_in_check(white_king_pos) || !white && !is_in_check(black_king_pos): _moves.append(pos)
-				board[pos.x][pos.y] = t
-				board[piece_position.x][piece_position.y] = 3 if white else -3
-				break
-			else: break
-			
+			if is_empty(pos) or is_enemy(pos):
+				if update_and_check_board(pos, piece_position, piece_value):
+					_moves.append(pos)
+				if is_enemy(pos):
+					break
+				else: break
+	
 			pos += i
 	
 	return _moves
-	
+
 func get_queen_moves(piece_position : Vector2):
 	var _moves = []
 	var directions = [Vector2(0, 1), Vector2(0, -1), Vector2(1, 0), Vector2(-1, 0),
 	Vector2(1, 1), Vector2(1, -1), Vector2(-1, 1), Vector2(-1, -1)]
-	
+	var piece_value = 5 if white else -5
+
 	for i in directions:
 		var pos = piece_position
 		pos += i
 		while is_valid_position(pos):
-			if is_empty(pos):
-				board[pos.x][pos.y] = 5 if white else -5
-				board[piece_position.x][piece_position.y] = 0
-				if white && !is_in_check(white_king_pos) || !white && !is_in_check(black_king_pos): _moves.append(pos)
-				board[pos.x][pos.y] = 0
-				board[piece_position.x][piece_position.y] = 5 if white else -5
-			elif is_enemy(pos):
-				var t = board[pos.x][pos.y]
-				board[pos.x][pos.y] = 5 if white else -5
-				board[piece_position.x][piece_position.y] = 0
-				if white && !is_in_check(white_king_pos) || !white && !is_in_check(black_king_pos): _moves.append(pos)
-				board[pos.x][pos.y] = t
-				board[piece_position.x][piece_position.y] = 5 if white else -5
-				break
+			if is_empty(pos) or is_enemy(pos):
+				if update_and_check_board(pos, piece_position, piece_value):
+					_moves.append(pos)
+				if is_enemy(pos):
+					break
 			else: break
-			
+	
 			pos += i
 	
 	return _moves
-	
+
 func get_king_moves(piece_position : Vector2):
 	var _moves = []
 	var directions = [Vector2(0, 1), Vector2(0, -1), Vector2(1, 0), Vector2(-1, 0),
 	Vector2(1, 1), Vector2(1, -1), Vector2(-1, 1), Vector2(-1, -1)]
-	
+
 	if white:
 		board[white_king_pos.x][white_king_pos.y] = 0
 	else:
@@ -408,7 +399,7 @@ func get_king_moves(piece_position : Vector2):
 				if is_empty(pos): _moves.append(pos)
 				elif is_enemy(pos):
 					_moves.append(pos)
-				
+	
 	if white && !white_king:
 		if !white_rook_left && is_empty(Vector2(0, 1)) && is_empty(Vector2(0, 2)) && !is_in_check(Vector2(0, 2)) && is_empty(Vector2(0, 3)) && !is_in_check(Vector2(0, 3)) && !is_in_check(Vector2(0, 4)):
 			_moves.append(Vector2(0, 2))
@@ -419,35 +410,26 @@ func get_king_moves(piece_position : Vector2):
 			_moves.append(Vector2(7, 2))
 		if !black_rook_right && !is_in_check(Vector2(7, 4)) && is_empty(Vector2(7, 5)) && !is_in_check(Vector2(7, 5)) && is_empty(Vector2(7, 6)) && !is_in_check(Vector2(7, 6)):
 			_moves.append(Vector2(7, 6))
-			
+	
 	if white:
 		board[white_king_pos.x][white_king_pos.y] = 6
 	else:
 		board[black_king_pos.x][black_king_pos.y] = -6
 	
 	return _moves
-	
+
 func get_knight_moves(piece_position : Vector2):
 	var _moves = []
 	var directions = [Vector2(2, 1), Vector2(2, -1), Vector2(1, 2), Vector2(1, -2),
 	Vector2(-2, 1), Vector2(-2, -1), Vector2(-1, 2), Vector2(-1, -2)]
+	var piece_value = 2 if white else -2
 	
 	for i in directions:
 		var pos = piece_position + i
 		if is_valid_position(pos):
-			if is_empty(pos):
-				board[pos.x][pos.y] = 2 if white else -2
-				board[piece_position.x][piece_position.y] = 0
-				if white && !is_in_check(white_king_pos) || !white && !is_in_check(black_king_pos): _moves.append(pos)
-				board[pos.x][pos.y] = 0
-				board[piece_position.x][piece_position.y] = 2 if white else -2
-			elif is_enemy(pos):
-				var t = board[pos.x][pos.y]
-				board[pos.x][pos.y] = 2 if white else -2
-				board[piece_position.x][piece_position.y] = 0
-				if white && !is_in_check(white_king_pos) || !white && !is_in_check(black_king_pos): _moves.append(pos)
-				board[pos.x][pos.y] = t
-				board[piece_position.x][piece_position.y] = 2 if white else -2
+			if is_empty(pos) or is_enemy(pos):
+				if update_and_check_board(pos, piece_position, piece_value):
+					_moves.append(pos)
 	
 	return _moves
 
@@ -701,8 +683,185 @@ func make_greed_move():
 			selected_piece = best_from
 			moves = get_moves(best_from)
 			set_move(best_to.x, best_to.y)
-		print("Greed move")
+			print("Greed move")
 	else: make_random_move()
+
+
+func protect_threatened_piece():
+	if promotion_square != null:
+		return
+	
+	var threat_map = get_threat_map(board, true)  # We're black, check white threats
+	var best_score = -INF
+	var best_from = null
+	var best_to = null
+	
+	# First priority: Check if king is in danger
+	var king_pos = black_king_pos
+	if threat_map.has(king_pos):
+		# King is threatened - highest priority
+		var threats: Array = threat_map[king_pos]
+		
+		# Try to capture the threatening piece
+		for threat_pos in threats:
+			for x in BOARD_SIZE:
+				for y in BOARD_SIZE:
+					if board[x][y] < 0:  # Our piece
+						var piece_pos = Vector2(x, y)
+						var piece_moves = get_moves(piece_pos)
+						for move in piece_moves:
+							if move == threat_pos:
+								selected_piece = piece_pos
+								moves = piece_moves
+								set_move(move.x, move.y)
+								print("Captured piece threatening king")
+								return
+		
+		# Try to move king to safety
+		var king_moves = get_moves(king_pos)
+		if king_moves.size() > 0:
+			selected_piece = king_pos
+			moves = king_moves
+			set_move(king_moves[0].x, king_moves[0].y)
+			print("Moved king to safety")
+			return
+		
+		# Try to block the check
+		for threat_pos in threats:
+			var direction = Vector2(
+				sign(king_pos.x - threat_pos.x),
+				sign(king_pos.y - threat_pos.y)
+			)
+			
+			# Only try to block if it's a sliding piece (bishop, rook, queen)
+			var threat_piece = abs(board[threat_pos.x][threat_pos.y])
+			if threat_piece in [3, 4, 5]:
+				var block_pos = threat_pos
+				while block_pos != king_pos:
+					block_pos += direction
+					if block_pos == king_pos:
+						break
+						
+					for x in BOARD_SIZE:
+						for y in BOARD_SIZE:
+							if board[x][y] < 0 and board[x][y] != -6:  # Our piece, not king
+								var piece_pos = Vector2(x, y)
+								var piece_moves = get_moves(piece_pos)
+								for move in piece_moves:
+									if move == block_pos:
+										selected_piece = piece_pos
+										moves = piece_moves
+										set_move(move.x, move.y)
+										print("Blocked check")
+										return
+	
+	# Second priority: Handle other threatened pieces
+	for target in threat_map.keys():
+		if target == king_pos:
+			continue  # Already handled king
+			
+		var target_value = PIECE_VALUES.get(abs(board[target.x][target.y]), 0)
+		var threats: Array = threat_map[target]
+		
+		# Try to capture threat(s) with a less valuable piece
+		for threat_pos in threats:
+			var threat_value = PIECE_VALUES.get(abs(board[threat_pos.x][threat_pos.y]), 0)
+			
+			for x in BOARD_SIZE:
+				for y in BOARD_SIZE:
+					if board[x][y] < 0:  # Our piece
+						var piece_pos = Vector2(x, y)
+						var piece_value = PIECE_VALUES.get(abs(board[x][y]), 0)
+						
+						# Only capture if our piece is less valuable or equal to the threat
+						if piece_value <= threat_value:
+							var piece_moves = get_moves(piece_pos)
+							for move in piece_moves:
+								if move == threat_pos:
+									var score = threat_value - piece_value
+									if score > best_score:
+										best_score = score
+										best_from = piece_pos
+										best_to = move
+		
+		# Try to move piece out of danger
+		var legal_escapes = get_moves(target)
+		for escape in legal_escapes:
+			var temp_piece = board[escape.x][escape.y]
+			if temp_piece == 0 or (temp_piece < 0 and PIECE_VALUES.get(abs(temp_piece), 0) < target_value):
+				# Escape is valid and doesn't sacrifice something more valuable
+				if target_value > best_score:  # Prioritize saving valuable pieces
+					best_score = target_value
+					best_from = target
+					best_to = escape
+		
+		# Try blocking with a lower value piece
+		for threat_pos in threats:
+			var threat_piece = abs(board[threat_pos.x][threat_pos.y])
+			
+			# Only try to block if it's a sliding piece (bishop, rook, queen)
+			if threat_piece in [3, 4, 5]:
+				var direction = Vector2(
+					sign(target.x - threat_pos.x),
+					sign(target.y - threat_pos.y)
+				)
+				
+				var block_pos = threat_pos
+				while block_pos != target:
+					block_pos += direction
+					if block_pos == target:
+						break
+						
+					for x in BOARD_SIZE:
+						for y in BOARD_SIZE:
+							var blocker = board[x][y]
+							if blocker < 0:
+								var blocker_pos = Vector2(x, y)
+								var blocker_value = PIECE_VALUES.get(abs(blocker), 0)
+								
+								if blocker_value < target_value:
+									var block_moves = get_moves(blocker_pos)
+									for move in block_moves:
+										if move == block_pos:
+											var score = target_value - blocker_value
+											if score > best_score:
+												best_score = score
+												best_from = blocker_pos
+												best_to = move
+	
+	# Third priority: Develop pieces if no immediate threats
+	if best_from == null:
+		# Try to develop center pawns
+		var center_pawns = [Vector2(6, 3), Vector2(6, 4)]
+		for pawn_pos in center_pawns:
+			if board[pawn_pos.x][pawn_pos.y] == -1:
+				var pawn_moves = get_moves(pawn_pos)
+				if pawn_moves.size() > 0:
+					best_from = pawn_pos
+					best_to = pawn_moves[0]
+					best_score = 1
+		
+		# Try to develop knights
+		var knights = [Vector2(7, 1), Vector2(7, 6)]
+		for knight_pos in knights:
+			if board[knight_pos.x][knight_pos.y] == -2:
+				var knight_moves = get_moves(knight_pos)
+				for move in knight_moves:
+					if move.x == 5 and (move.y == 2 or move.y == 5):  # Good knight development
+						best_from = knight_pos
+						best_to = move
+						best_score = 2  # Higher priority than pawns
+	
+	if best_from != null and best_to != null:
+		selected_piece = best_from
+		moves = get_moves(best_from)
+		set_move(best_to.x, best_to.y)
+		print("Defended threatened piece")
+	else:
+		make_greed_move()
+
+
+
 
 #endregion
 
@@ -713,19 +872,10 @@ func evaluate_board_advantage():
 	for x in BOARD_SIZE:
 		for y in BOARD_SIZE:
 			var piece = board[x][y]
-			match piece:
-				1: value += 10   # white pawn
-				2: value += 30   # white knight
-				3: value += 30   # white bishop
-				4: value += 50   # white rook
-				5: value += 90   # white queen
-				6: value += 900  # white king
-				-1: value -= 10  # black pawn
-				-2: value -= 30  # black knight
-				-3: value -= 30  # black bishop
-				-4: value -= 50  # black rook
-				-5: value -= 90  # black queen
-				-6: value -= 900 # black king
+			if piece > 0:
+				value += PIECE_VALUES.get(piece, 0)
+			elif piece < 0:
+				value -= PIECE_VALUES.get(-piece, 0)
 	print(value)
 	return value
 
@@ -760,6 +910,102 @@ func get_piece_moves(pos: Vector2, board: Array, is_white: bool) -> Array:
 	# restore state
 	white = original_white
 	return result
+
+func get_threatened_pieces(board: Array, is_white_turn: bool) -> Array:
+	var threatened_pieces: Array = []
+	var enemy_moves = get_all_enemy_moves(board, is_white_turn)
+	
+	for moves in enemy_moves.values():
+		for target in moves:
+			var piece = board[target.x][target.y]
+			if (is_white_turn and piece > 0) or (not is_white_turn and piece < 0):
+				if not threatened_pieces.has(target):
+					threatened_pieces.append(target)
+	
+	return threatened_pieces
+
+func get_threat_map(board: Array, is_white_turn: bool) -> Dictionary:
+	var threat_map: Dictionary = {}
+	
+	# Directly check for threats without using get_all_enemy_moves for efficiency
+	for x in BOARD_SIZE:
+		for y in BOARD_SIZE:
+			var piece = board[x][y]
+			# Only consider enemy pieces
+			if (is_white_turn and piece > 0) or (not is_white_turn and piece < 0):
+				var attacker_pos = Vector2(x, y)
+				var piece_type = abs(piece)
+				
+				match piece_type:
+					1: # Pawn
+						var direction = 1 if piece > 0 else -1
+						var attack_positions = [
+							Vector2(x + direction, y - 1),
+							Vector2(x + direction, y + 1)
+						]
+						
+						for attack_pos in attack_positions:
+							if is_valid_position(attack_pos):
+								var target_piece = board[attack_pos.x][attack_pos.y]
+								if (is_white_turn and target_piece < 0) or (not is_white_turn and target_piece > 0):
+									if not threat_map.has(attack_pos):
+										threat_map[attack_pos] = []
+									threat_map[attack_pos].append(attacker_pos)
+					
+					2: # Knight
+						var knight_moves = [
+							Vector2(2, 1), Vector2(2, -1), Vector2(1, 2), Vector2(1, -2),
+							Vector2(-2, 1), Vector2(-2, -1), Vector2(-1, 2), Vector2(-1, -2)
+						]
+						
+						for move in knight_moves:
+							var target = attacker_pos + move
+							if is_valid_position(target):
+								var target_piece = board[target.x][target.y]
+								if (is_white_turn and target_piece < 0) or (not is_white_turn and target_piece > 0):
+									if not threat_map.has(target):
+										threat_map[target] = []
+									threat_map[target].append(attacker_pos)
+					
+					3, 4, 5: # Bishop, Rook, Queen
+						var directions = []
+						if piece_type == 3 or piece_type == 5: # Bishop or Queen
+							directions += [Vector2(1, 1), Vector2(1, -1), Vector2(-1, 1), Vector2(-1, -1)]
+						if piece_type == 4 or piece_type == 5: # Rook or Queen
+							directions += [Vector2(0, 1), Vector2(0, -1), Vector2(1, 0), Vector2(-1, 0)]
+						
+						for direction in directions:
+							var target = attacker_pos + direction
+							while is_valid_position(target):
+								var target_piece = board[target.x][target.y]
+								if target_piece != 0: # Hit a piece
+									if (is_white_turn and target_piece < 0) or (not is_white_turn and target_piece > 0):
+										if not threat_map.has(target):
+											threat_map[target] = []
+										threat_map[target].append(attacker_pos)
+									break
+								target += direction
+					
+					6: # King
+						var king_moves = [
+							Vector2(0, 1), Vector2(0, -1), Vector2(1, 0), Vector2(-1, 0),
+							Vector2(1, 1), Vector2(1, -1), Vector2(-1, 1), Vector2(-1, -1)
+						]
+						
+						for move in king_moves:
+							var target = attacker_pos + move
+							if is_valid_position(target):
+								var target_piece = board[target.x][target.y]
+								if (is_white_turn and target_piece < 0) or (not is_white_turn and target_piece > 0):
+									if not threat_map.has(target):
+										threat_map[target] = []
+									threat_map[target].append(attacker_pos)
+	
+	return threat_map
+
+
+
+
 #endregion
 
 #region tactics
@@ -771,7 +1017,7 @@ func piece_loaction(pos: Vector2, piece_id: int) -> bool:
 
 func french_defense():
 	if  piece_loaction(Vector2(6,3), -1) && piece_loaction(Vector2(3,4), 1) && piece_loaction(Vector2(1,0), 1) && \
-	piece_loaction(Vector2(1,1), 1) && piece_loaction(Vector2(1,2), 1) && piece_loaction(Vector2(1,4), 0) && \
+	piece_loaction(Vector2(1,1), 1) && piece_loaction(Vector2(1,2), 1) && piece_loaction(Vector2(1,4), 0) && piece_loaction(Vector2(5,4), 0) &&\
 	piece_loaction(Vector2(1,5), 1) && piece_loaction(Vector2(1,6), 1) && piece_loaction(Vector2(1,7), 1) && piece_loaction(Vector2(1,3), 1):
 		board[6][4] = 0
 		board[5][4] = -1
@@ -848,5 +1094,5 @@ func queens_gambit_declined():
 		return
 	
 	else:
-		make_greed_move()
+		protect_threatened_piece()
 #endregion
