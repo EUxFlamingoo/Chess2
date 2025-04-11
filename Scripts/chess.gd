@@ -23,6 +23,16 @@ const TURN_WHITE = preload("res://Assets/turn-white.png")
 const TURN_BLACK = preload("res://Assets/turn-black.png")
 
 const PIECE_MOVE = preload("res://Assets/Piece_move.png")
+
+const PIECE_VALUES = {
+	1: 10,    # White Pawn
+	2: 30,    # White Knight
+	3: 30,    # White Bishop
+	4: 50,    # White Rook
+	5: 90,    # White Queen
+	6: 900,    # White King (never scored)
+}
+
 #endregion
 
 #region var
@@ -199,7 +209,9 @@ func set_move(var2, var1):
 					if ai_enabled == false:
 						if i.x == 0: promote(i)
 					if ai_enabled == true: 
-						if i.x == 0: ai_promote(i) #TODO AI 3
+						if i.x == 0: 
+							ai_promote(i) #TODO AI 3
+							return
 					if i.x == 4 && selected_piece.x == 6:
 						en_passant = i
 						just_now = true
@@ -248,7 +260,7 @@ func set_move(var2, var1):
 			display_board()
 			if !white and ai_enabled: #TODO AI 2
 				await get_tree().create_timer(0.3).timeout
-				make_random_move() #FIXME change ai
+				ai_move() #FIXME change ai
 			break
 	delete_dots()
 	state = false
@@ -483,6 +495,8 @@ func get_pawn_moves(piece_position : Vector2):
 	return _moves
 #endregion
 
+#region features
+
 func is_valid_position(pos : Vector2):
 	if pos.x >= 0 && pos.x < BOARD_SIZE && pos.y >= 0 && pos.y < BOARD_SIZE: return true
 	return false
@@ -495,22 +509,18 @@ func is_enemy(pos : Vector2):
 	if white && board[pos.x][pos.y] < 0 || !white && board[pos.x][pos.y] > 0: return true
 	return false
 	
-#region features
+
 func promote(_var : Vector2):
 	promotion_square = _var
 	white_pieces.visible = white
 	black_pieces.visible = !white
 
-func ai_promote(_var : Vector2):
-	promotion_square = _var
-	auto_promote()
-
-func auto_promote():
-	board[promotion_square.x][promotion_square.y] = -5 if white else 5
-	white_pieces.visible = false
-	black_pieces.visible = false
+func ai_promote(pos : Vector2):
+	board[selected_piece.x][selected_piece.y] = 0
+	board[pos.x][pos.y] = 5 if white else -5
 	promotion_square = null
 	display_board()
+	white = true
 
 func _on_button_pressed(button):
 	var num_char = int(button.name.substr(0, 1))
@@ -520,7 +530,7 @@ func _on_button_pressed(button):
 	promotion_square = null
 	display_board()
 	if ai_enabled == true:
-		make_random_move() #FIXME change ai 3
+		ai_move() #FIXME change ai 3
 #endregion
 
 #region is_in_check/etc.
@@ -608,10 +618,14 @@ func threefold_position(var1 : Array):
 	amount_of_same.append(1)
 #endregion
 
-
 #region AI_sets
 
-func make_random_move1():   #random piece, random legal move
+func ai_move():
+	if promotion_square != null: return
+	evaluate_board_advantage()
+	french_defense()
+
+func make_random_move():   #random piece, random legal move
 	if promotion_square != null: return
 	var all_moves: Array = []
 	var all_pieces: Array = []
@@ -627,7 +641,6 @@ func make_random_move1():   #random piece, random legal move
 					all_pieces.append(pos)
 	
 	if all_pieces.size() == 0:
-		print("AI: No legal moves.")
 		return
 	
 	var idx = randi() % all_pieces.size()
@@ -636,14 +649,10 @@ func make_random_move1():   #random piece, random legal move
 	var move_idx = randi() % moves.size()
 	var move = moves[move_idx]
 	
-	# Call set_move with chosen move
 	set_move(move.x, move.y)
 
 
-func make_random_move():
-	if promotion_square != null: return
-	evaluate_board_advantage()
-
+func make_greed_move():
 	var best_choice = -INF
 	var best_from = null
 	var best_to = null
@@ -651,13 +660,13 @@ func make_random_move():
 	for i in BOARD_SIZE:
 		for j in BOARD_SIZE:
 			var piece = board[i][j]
-			if piece < 0: # AI is black
+			if piece < 0:
 				var from = Vector2(i, j)
 				var legal_moves = get_moves(from)
 				for move in legal_moves:
 					var captured = board[move.x][move.y]
 					var value = 0
-					if captured > 0: # capturing white piece
+					if captured > 0:
 						value = PIECE_VALUES[captured]
 					if value > best_choice:
 						best_choice = value
@@ -668,9 +677,11 @@ func make_random_move():
 		selected_piece = best_from
 		moves = get_moves(best_from)
 		set_move(best_to.x, best_to.y)
+	print("Greed move")
 
 #endregion
 
+#region value_system
 
 func evaluate_board_advantage():
 	var value = 0
@@ -693,11 +704,122 @@ func evaluate_board_advantage():
 	print(value)
 	return value
 
-const PIECE_VALUES = {
-	1: 10,    # White Pawn
-	2: 30,    # White Knight
-	3: 30,    # White Bishop
-	4: 50,    # White Rook
-	5: 90,    # White Queen
-	6: 900,    # White King (never scored)
-}
+func get_all_enemy_moves(board: Array, is_white_turn: bool) -> Dictionary:
+	var enemy_moves: Dictionary = {}
+
+	for x in BOARD_SIZE:
+		for y in BOARD_SIZE:
+			var piece = board[x][y]
+			if is_white_turn and piece < 0 or not is_white_turn and piece > 0:
+				var pos = Vector2(x, y)
+				var moves = get_piece_moves(pos, board, not is_white_turn)
+				enemy_moves[pos] = moves
+
+	return enemy_moves
+
+# Wrapper for move generation without side effects
+func get_piece_moves(pos: Vector2, board: Array, is_white: bool) -> Array:
+	# backup original state
+	var original_white = white
+	white = is_white
+	
+	var result = []
+	match abs(board[pos.x][pos.y]):
+		1: result = get_pawn_moves(pos)
+		2: result = get_knight_moves(pos)
+		3: result = get_bishop_moves(pos)
+		4: result = get_rook_moves(pos)
+		5: result = get_queen_moves(pos)
+		6: result = get_king_moves(pos)
+
+	# restore state
+	white = original_white
+	return result
+#endregion
+
+
+func piece_loaction(pos: Vector2, piece_id: int) -> bool:
+	if not is_valid_position(pos):
+		return false
+	return board[pos.x][pos.y] == piece_id
+
+func french_defense():
+	if  piece_loaction(Vector2(6,3), -1) && piece_loaction(Vector2(3,4), 1) && piece_loaction(Vector2(1,0), 1) && \
+	piece_loaction(Vector2(1,1), 1) && piece_loaction(Vector2(1,2), 1) && piece_loaction(Vector2(1,4), 0) && \
+	piece_loaction(Vector2(1,5), 1) && piece_loaction(Vector2(1,6), 1) && piece_loaction(Vector2(1,7), 1) && piece_loaction(Vector2(1,3), 1):
+		board[6][4] = 0
+		board[5][4] = -1
+		display_board()
+		print("French Defense 1")
+		if !white: white = true
+		return
+	
+	if  piece_loaction(Vector2(3,3), 1) && piece_loaction(Vector2(1,0), 1) && piece_loaction(Vector2(3,4), 1) &&\
+	piece_loaction(Vector2(1,1), 1) && piece_loaction(Vector2(1,2), 1) && piece_loaction(Vector2(1,4), 0) && \
+	piece_loaction(Vector2(1,5), 1) && piece_loaction(Vector2(1,6), 1) && piece_loaction(Vector2(1,7), 1) && piece_loaction(Vector2(4,3), 0):
+		board[6][3] = 0
+		board[4][3] = -1
+		display_board()
+		print("French Defense 2")
+		if !white: white = true
+		return
+	
+	if  piece_loaction(Vector2(1,0), 1) && piece_loaction(Vector2(1,1), 1) && piece_loaction(Vector2(1,2), 1)\
+	 && piece_loaction(Vector2(3,3), 1) && piece_loaction(Vector2(4,4), 1) && piece_loaction(Vector2(1,5), 1)\
+	 && piece_loaction(Vector2(1,6), 1) && piece_loaction(Vector2(1,7), 1) && piece_loaction(Vector2(1,3), 0):
+		board[6][2] = 0
+		board[4][2] = -1
+		display_board()
+		print("French Defense 3")
+		if !white: white = true
+		return
+	
+	else:
+		queens_gambit_declined()
+
+
+func queens_gambit_declined():
+	if  piece_loaction(Vector2(1,0), 1) && piece_loaction(Vector2(1,1), 1) && piece_loaction(Vector2(1,2), 1)\
+	 && piece_loaction(Vector2(3,3), 1) && piece_loaction(Vector2(1,4), 1) && piece_loaction(Vector2(1,5), 1)\
+	 && piece_loaction(Vector2(1,6), 1) && piece_loaction(Vector2(1,7), 1):
+		board[6][3] = 0
+		board[4][3] = -1
+		display_board()
+		print("The Queen’s Gambit Declined 1")
+		if !white: white = true
+		return
+	
+	if  piece_loaction(Vector2(1,0), 1) && piece_loaction(Vector2(1,1), 1) && piece_loaction(Vector2(3,2), 1)\
+	 && piece_loaction(Vector2(3,3), 1) && piece_loaction(Vector2(1,4), 1) && piece_loaction(Vector2(1,5), 1)\
+	 && piece_loaction(Vector2(1,6), 1) && piece_loaction(Vector2(1,7), 1) && piece_loaction(Vector2(0,1), 2):
+		board[6][2] = 0
+		board[5][2] = -1
+		display_board()
+		print("The Queen’s Gambit Declined 2")
+		if !white: white = true
+		return
+	
+	if  piece_loaction(Vector2(1,0), 1) && piece_loaction(Vector2(1,1), 1) && piece_loaction(Vector2(3,2), 1)\
+	 && piece_loaction(Vector2(3,3), 1) && piece_loaction(Vector2(1,4), 1) && piece_loaction(Vector2(1,5), 1)\
+	 && piece_loaction(Vector2(1,6), 1) && piece_loaction(Vector2(1,7), 1) && piece_loaction(Vector2(2,2), 2)\
+	 && piece_loaction(Vector2(0,2), 3):
+		board[7][6] = 0
+		board[5][5] = -2
+		display_board()
+		print("The Queen’s Gambit Declined 3")
+		if !white: white = true
+		return
+	
+	if  piece_loaction(Vector2(1,0), 1) && piece_loaction(Vector2(1,1), 1) && piece_loaction(Vector2(3,2), 1)\
+	 && piece_loaction(Vector2(3,3), 1) && piece_loaction(Vector2(1,4), 1) && piece_loaction(Vector2(1,5), 1)\
+	 && piece_loaction(Vector2(1,6), 1) && piece_loaction(Vector2(1,7), 1) && piece_loaction(Vector2(2,2), 2)\
+	 && piece_loaction(Vector2(4,6), 3):
+		board[7][1] = 0
+		board[6][3] = -2
+		display_board()
+		print("The Queen’s Gambit Declined 4")
+		if !white: white = true
+		return
+	
+	else:
+		make_greed_move()
