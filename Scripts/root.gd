@@ -729,6 +729,7 @@ func evaluate_board_advantage():
 	print(value)
 	return value
 
+@warning_ignore("shadowed_variable")
 func get_all_enemy_moves(board: Array, is_white_turn: bool) -> Dictionary:
 	var enemy_moves: Dictionary = {}
 
@@ -737,12 +738,14 @@ func get_all_enemy_moves(board: Array, is_white_turn: bool) -> Dictionary:
 			var piece = board[x][y]
 			if is_white_turn and piece < 0 or not is_white_turn and piece > 0:
 				var pos = Vector2(x, y)
+				@warning_ignore("shadowed_variable")
 				var moves = get_piece_moves(pos, board, not is_white_turn)
 				enemy_moves[pos] = moves
 
 	return enemy_moves
 
 # Wrapper for move generation without side effects
+@warning_ignore("shadowed_variable")
 func get_piece_moves(pos: Vector2, board: Array, is_white: bool) -> Array:
 	# backup original state
 	var original_white = white

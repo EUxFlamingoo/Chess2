@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://ca36wgabj32ld"]
+[gd_scene load_steps=45 format=3 uid="uid://ca36wgabj32ld"]
 
 [ext_resource type="PackedScene" uid="uid://cotad1eeq2v3n" path="res://Scenes/board.tscn" id="1_jjgbg"]
 [ext_resource type="Texture2D" uid="uid://cx1r0e1js6u2a" path="res://Assets/white_knight.png" id="1_ynf5e"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cjkbioloy1lwr" path="res://Assets/black_bishop.png" id="6_jkdf5"]
 [ext_resource type="Texture2D" uid="uid://da6ab4ww6341s" path="res://Assets/black_rook.png" id="7_wsu2k"]
 [ext_resource type="Texture2D" uid="uid://bvxsmtvtqsvtp" path="res://Assets/black_queen.png" id="8_k12tt"]
+[ext_resource type="FontFile" uid="uid://cxj41dewvwgkt" path="res://Assets/PixelOperator8.ttf" id="10_hptm8"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h1bgf"]
 
@@ -272,6 +273,22 @@ offset_top = -144.0
 offset_right = 144.0
 text = "Draw
 Game Finish"
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 144.0
+offset_bottom = 12.0
+
+[node name="ConsoleLog" type="TextEdit" parent="Control"]
+layout_mode = 0
+offset_left = -78.0
+offset_top = -151.0
+offset_right = -10.0
+theme_override_fonts/font = ExtResource("10_hptm8")
+theme_override_font_sizes/font_size = 7
+text = "ConsoleLog"
+editable = false
 
 [connection signal="pressed" from="player_2" to="Board" method="_on_player_2_pressed"]
 [connection signal="pressed" from="player_1" to="Board" method="_on_player_1_pressed"]
