@@ -43,6 +43,8 @@ const PIECE_VALUES = {
 @onready var black_pieces = $"../CanvasLayer/black_pieces"
 @onready var player_2: Button = $"../player_2"
 @onready var player_1: Button = $"../player_1"
+@onready var game_finish: Button = $"../game_finish"
+@onready var game_finish_2: Button = $"../game_finish2"
 
 
 #Variables
@@ -270,11 +272,24 @@ func set_move(var2, var1):
 		show_options()
 		state = true
 	elif is_stalemate():
-		if white && is_in_check(white_king_pos) || !white && is_in_check(black_king_pos): print("CHECKMATE")
-		else: print("DRAW")
+		if white && is_in_check(white_king_pos) || !white && is_in_check(black_king_pos): 
+			print("CHECKMATE")
+			white = true
+			game_finish.visible = true
+			
+		else: 
+			print("DRAW")
+			white = true
+			game_finish_2.visible = true
 		
-	if fifty_move_rule == 50: print("DRAW")
-	elif insuficient_material(): print("DRAW")
+	if fifty_move_rule == 50: 
+		print("DRAW")
+		white = true
+		game_finish_2.visible = true
+	elif insuficient_material(): 
+		print("DRAW")
+		white = true
+		game_finish_2.visible = true
 
 #endregion
 
@@ -531,6 +546,14 @@ func _on_button_pressed(button):
 	display_board()
 	if ai_enabled == true:
 		ai_move() #FIXME change ai 3
+
+
+func _on_game_finish_pressed() -> void:
+	get_tree().reload_current_scene()
+
+func _on_game_finish_2_pressed() -> void:
+	get_tree().reload_current_scene()
+
 #endregion
 
 #region is_in_check/etc.
@@ -650,6 +673,7 @@ func make_random_move():   #random piece, random legal move
 	var move = moves[move_idx]
 	
 	set_move(move.x, move.y)
+	print("Random move")
 
 
 func make_greed_move():
@@ -672,12 +696,13 @@ func make_greed_move():
 						best_choice = value
 						best_from = from
 						best_to = move
-
-	if best_from != null and best_to != null:
-		selected_piece = best_from
-		moves = get_moves(best_from)
-		set_move(best_to.x, best_to.y)
-	print("Greed move")
+	if best_choice > 0:
+		if best_from != null and best_to != null:
+			selected_piece = best_from
+			moves = get_moves(best_from)
+			set_move(best_to.x, best_to.y)
+		print("Greed move")
+	else: make_random_move()
 
 #endregion
 
@@ -737,6 +762,7 @@ func get_piece_moves(pos: Vector2, board: Array, is_white: bool) -> Array:
 	return result
 #endregion
 
+#region tactics
 
 func piece_loaction(pos: Vector2, piece_id: int) -> bool:
 	if not is_valid_position(pos):
@@ -823,3 +849,4 @@ func queens_gambit_declined():
 	
 	else:
 		make_greed_move()
+#endregion

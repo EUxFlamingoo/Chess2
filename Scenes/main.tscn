@@ -259,5 +259,21 @@ offset_right = 120.0
 offset_bottom = -44.0
 text = "1-Player"
 
+[node name="game_finish" type="Button" parent="."]
+visible = false
+offset_top = -144.0
+offset_right = 144.0
+text = "Checkmate
+Game Finish"
+
+[node name="game_finish2" type="Button" parent="."]
+visible = false
+offset_top = -144.0
+offset_right = 144.0
+text = "Draw
+Game Finish"
+
 [connection signal="pressed" from="player_2" to="Board" method="_on_player_2_pressed"]
 [connection signal="pressed" from="player_1" to="Board" method="_on_player_1_pressed"]
+[connection signal="pressed" from="game_finish" to="Board" method="_on_game_finish_pressed"]
+[connection signal="pressed" from="game_finish2" to="Board" method="_on_game_finish_2_pressed"]
