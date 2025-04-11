@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cotad1eeq2v3n"]
 
 [ext_resource type="Texture2D" uid="uid://c2dglseqprmfx" path="res://Assets/Chess_board.png" id="1_tnbny"]
-[ext_resource type="Script" uid="uid://2qc3xbqjpq6s" path="res://Scripts/chess.gd" id="2_2wvcj"]
+[ext_resource type="Script" uid="uid://bds44cw1o1qbs" path="res://Scripts/chess.gd" id="2_2wvcj"]
 
 [node name="Board" type="Sprite2D"]
 texture = ExtResource("1_tnbny")
