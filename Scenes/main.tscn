@@ -267,30 +267,26 @@ offset_right = 144.0
 text = "Checkmate
 Game Finish"
 
-[node name="game_finish2" type="Button" parent="."]
-visible = false
-offset_top = -144.0
-offset_right = 144.0
-text = "Draw
-Game Finish"
-
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 144.0
-offset_bottom = 12.0
-
-[node name="ConsoleLog" type="TextEdit" parent="Control"]
-layout_mode = 0
-offset_left = -78.0
-offset_top = -151.0
-offset_right = -10.0
+[node name="reload_button" type="Button" parent="."]
+offset_left = 177.0
+offset_top = -154.0
+offset_right = 220.0
+offset_bottom = -139.0
 theme_override_fonts/font = ExtResource("10_hptm8")
-theme_override_font_sizes/font_size = 7
-text = "ConsoleLog"
-editable = false
+theme_override_font_sizes/font_size = 6
+text = "Restart"
+
+[node name="undo_button" type="Button" parent="."]
+offset_left = 190.0
+offset_top = -136.0
+offset_right = 219.0
+offset_bottom = -121.0
+theme_override_fonts/font = ExtResource("10_hptm8")
+theme_override_font_sizes/font_size = 6
+text = "undo"
 
 [connection signal="pressed" from="player_2" to="Board" method="_on_player_2_pressed"]
 [connection signal="pressed" from="player_1" to="Board" method="_on_player_1_pressed"]
 [connection signal="pressed" from="game_finish" to="Board" method="_on_game_finish_pressed"]
-[connection signal="pressed" from="game_finish2" to="Board" method="_on_game_finish_2_pressed"]
+[connection signal="pressed" from="reload_button" to="Board" method="_on_reload_button_pressed"]
+[connection signal="pressed" from="undo_button" to="Board" method="_on_undo_button_pressed"]

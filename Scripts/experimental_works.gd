@@ -788,9 +788,31 @@ func ai_move():
 		white = true
 		return  # Stop if a move is made in french_defense()
 
-	# Handle threatened pieces
-	if handle_threatened_pieces():
-		return  # Stop if a threat was handled
+	print("AI checking for threatened pieces.")
+	var threatened_pieces = get_threatened_black_pieces()
+
+	# Find the most valuable threatened piece
+	var most_valuable_piece = null
+	var most_valuable_threat = null
+	var highest_value = -INF
+
+	for pair in threatened_pieces:
+		var piece = pair[0]
+		var threat = pair[1]
+		var piece_value = get_piece_value(board[piece.x][piece.y])
+
+		print("Black piece at " + str(piece) + " (value: " + str(piece_value) + ") is threatened by white piece at " + str(threat))
+
+		if piece_value > highest_value:
+			highest_value = piece_value
+			most_valuable_piece = piece
+			most_valuable_threat = threat
+
+	if most_valuable_piece != null:
+		print("Most valuable black piece at " + str(most_valuable_piece) + " is threatened by white piece at " + str(most_valuable_threat))
+		print("AI needs to protect piece at " + str(most_valuable_piece) + " from " + str(most_valuable_threat))
+		# Add logic to handle the threat here
+		return  # Stop after handling the most valuable threat
 
 	print("AI looking for highest valued piece.")
 	if make_greed_move():
@@ -1136,44 +1158,5 @@ func _compare_piece_value(a: Array, b: Array) -> int:
 
 	# Return the difference in values (descending order)
 	return piece_b_value - piece_a_value
-
-# Helper function to sort threatened pieces by value
-func get_sorted_threatened_pieces(threatened_pieces: Array) -> Array:
-	print("Sorting threatened pieces...")
-	threatened_pieces.sort_custom(Callable(self, "_compare_piece_value"))
-	return threatened_pieces
-
-
-# Helper function to handle threatened pieces
-func handle_threatened_pieces() -> bool:
-	print("AI checking for threatened pieces.")
-	var threatened_pieces = get_threatened_black_pieces()
-	print("Threatened black pieces before sorting:")
-	for pair in threatened_pieces:
-		var piece = pair[0]
-		var threat = pair[1]
-		var piece_value = get_piece_value(board[piece.x][piece.y])
-		print("Black piece at " + str(piece) + " (value: " + str(piece_value) + ") is threatened by white piece at " + str(threat))
-
-	# Sort threatened pieces by their value
-	threatened_pieces = get_sorted_threatened_pieces(threatened_pieces)
-
-	print("Threatened black pieces after sorting:")
-	for pair in threatened_pieces:
-		var piece = pair[0]
-		var threat = pair[1]
-		var piece_value = get_piece_value(board[piece.x][piece.y])
-		print("Black piece at " + str(piece) + " (value: " + str(piece_value) + ") is threatened by white piece at " + str(threat))
-
-	if threatened_pieces.size() > 0:
-		# Protect the most valuable piece
-		var piece = threatened_pieces[0][0]
-		var threat = threatened_pieces[0][1]
-		print("Most valuable black piece at " + str(piece) + " is threatened by white piece at " + str(threat))
-		print("AI needs to protect piece at " + str(piece) + " from " + str(threat))
-		# Add logic to handle the threat here
-		return true  # Threat handled
-
-	return false  # No threats to handle
 
 #endregion
