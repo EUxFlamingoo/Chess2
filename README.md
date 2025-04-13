@@ -32,10 +32,15 @@ Everything is made in Godot 4.
 ---------------------------------------------------------------------------------------------------------
 Next to do:
 
-bot acts on threat detection appropriately
+reimplement features
 
 ---------------------------------------------------------------------------------------------------------
 Log:
+
+Apr 13, 2025
+
+- threat detection and ai movement bugged and stuck
+- started from ground up with new approach
 
 Apr 12, 2025
 
