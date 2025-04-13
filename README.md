@@ -27,6 +27,7 @@ Everything is made in Godot 4.
    - z-axis capabilities
    - players choose their moves but both turns get resolved simultaniously in an "action phase"
    - online multiplayer capabilities
+   - more advanced enemy algorithm
 
 ---------------------------------------------------------------------------------------------------------
 Next to do:
