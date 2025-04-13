@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://ca36wgabj32ld"]
+[gd_scene load_steps=46 format=3 uid="uid://ca36wgabj32ld"]
 
 [ext_resource type="PackedScene" uid="uid://cotad1eeq2v3n" path="res://Scenes/board.tscn" id="1_jjgbg"]
 [ext_resource type="Texture2D" uid="uid://cx1r0e1js6u2a" path="res://Assets/white_knight.png" id="1_ynf5e"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cjkbioloy1lwr" path="res://Assets/black_bishop.png" id="6_jkdf5"]
 [ext_resource type="Texture2D" uid="uid://da6ab4ww6341s" path="res://Assets/black_rook.png" id="7_wsu2k"]
 [ext_resource type="Texture2D" uid="uid://bvxsmtvtqsvtp" path="res://Assets/black_queen.png" id="8_k12tt"]
+[ext_resource type="Script" uid="uid://b1vcxxkuqv2nx" path="res://Scripts/different_approach.gd" id="10_d1ilt"]
 [ext_resource type="FontFile" uid="uid://cxj41dewvwgkt" path="res://Assets/PixelOperator8.ttf" id="10_hptm8"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h1bgf"]
@@ -245,6 +246,7 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_dmskm")
 
 [node name="Board" parent="." instance=ExtResource("1_jjgbg")]
 position = Vector2(72, -72)
+script = ExtResource("10_d1ilt")
 
 [node name="player_2" type="Button" parent="."]
 offset_left = 25.0
@@ -285,8 +287,26 @@ theme_override_fonts/font = ExtResource("10_hptm8")
 theme_override_font_sizes/font_size = 6
 text = "undo"
 
+[node name="play_white" type="Button" parent="."]
+visible = false
+offset_left = 25.0
+offset_top = -106.0
+offset_right = 120.0
+offset_bottom = -85.0
+text = "White"
+
+[node name="play_black" type="Button" parent="."]
+visible = false
+offset_left = 25.0
+offset_top = -75.0
+offset_right = 120.0
+offset_bottom = -44.0
+text = "Black"
+
 [connection signal="pressed" from="player_2" to="Board" method="_on_player_2_pressed"]
 [connection signal="pressed" from="player_1" to="Board" method="_on_player_1_pressed"]
 [connection signal="pressed" from="game_finish" to="Board" method="_on_game_finish_pressed"]
 [connection signal="pressed" from="reload_button" to="Board" method="_on_reload_button_pressed"]
 [connection signal="pressed" from="undo_button" to="Board" method="_on_undo_button_pressed"]
+[connection signal="pressed" from="play_white" to="Board" method="_on_play_white_pressed"]
+[connection signal="pressed" from="play_black" to="Board" method="_on_play_black_pressed"]

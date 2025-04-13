@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://crc06idroqlgk"]
+
+[ext_resource type="Texture2D" uid="uid://b3ryjpbuyofwq" path="res://Assets/white_pawn.png" id="1_76mqc"]
+
+[node name="white_pawn" type="Sprite2D"]
+scale = Vector2(3.6, 3.6)
+texture = ExtResource("1_76mqc")

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://8v2wdlgdhhbk"]
+
+[ext_resource type="Texture2D" uid="uid://bvxsmtvtqsvtp" path="res://Assets/black_queen.png" id="1_ncdib"]
+
+[node name="black_queen" type="Sprite2D"]
+scale = Vector2(3.4, 3.4)
+texture = ExtResource("1_ncdib")

@@ -1,0 +1,68 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbch80o26fy11"]
+
+[ext_resource type="Script" uid="uid://b1vcxxkuqv2nx" path="res://Scripts/different_approach.gd" id="10_yboly"]
+[ext_resource type="FontFile" uid="uid://cxj41dewvwgkt" path="res://Assets/PixelOperator8.ttf" id="11_rkg6e"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("10_yboly")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(264, -191)
+zoom = Vector2(1.2, 1.2)
+
+[node name="player_2" type="Button" parent="."]
+offset_left = -208.0
+offset_top = -452.0
+offset_right = -113.0
+offset_bottom = -421.0
+text = "2-Player"
+
+[node name="player_1" type="Button" parent="."]
+offset_left = -208.0
+offset_top = -421.0
+offset_right = -113.0
+offset_bottom = -390.0
+text = "1-Player"
+
+[node name="game_finish" type="Button" parent="."]
+visible = false
+offset_left = 125.0
+offset_top = -414.0
+offset_right = 722.0
+offset_bottom = 52.0
+text = "Checkmate
+Game Finish"
+
+[node name="reload_button" type="Button" parent="."]
+offset_left = 551.0
+offset_top = -451.0
+offset_right = 730.0
+offset_bottom = -374.0
+theme_override_fonts/font = ExtResource("11_rkg6e")
+theme_override_font_sizes/font_size = 15
+text = "Restart"
+
+[node name="undo_button" type="Button" parent="."]
+offset_left = 626.0
+offset_top = -371.0
+offset_right = 725.0
+offset_bottom = -307.0
+theme_override_fonts/font = ExtResource("11_rkg6e")
+theme_override_font_sizes/font_size = 15
+text = "undo"
+
+[node name="play_white" type="Button" parent="."]
+visible = false
+offset_left = 391.0
+offset_top = -351.0
+offset_right = 486.0
+offset_bottom = -320.0
+text = "White"
+
+[node name="play_black" type="Button" parent="."]
+visible = false
+offset_left = 391.0
+offset_top = -320.0
+offset_right = 486.0
+offset_bottom = -289.0
+text = "Black"
