@@ -1,7 +1,116 @@
-[gd_scene load_steps=3 format=3 uid="uid://bbch80o26fy11"]
+[gd_scene load_steps=46 format=3 uid="uid://bbch80o26fy11"]
 
+[ext_resource type="FontFile" uid="uid://bhycs4xjask1f" path="res://Assets/TYPEWR__.TTF" id="3_g8kmr"]
+[ext_resource type="Texture2D" uid="uid://cx1r0e1js6u2a" path="res://Assets/white_knight.png" id="4_qv381"]
+[ext_resource type="Texture2D" uid="uid://bly06pm631l0d" path="res://Assets/white_bishop.png" id="5_fbm17"]
+[ext_resource type="Texture2D" uid="uid://dmfuj6c36olmn" path="res://Assets/white_rook.png" id="6_l6pj4"]
+[ext_resource type="Texture2D" uid="uid://b1vdjwwlmhg1v" path="res://Assets/white_queen.png" id="7_jyhx4"]
+[ext_resource type="Texture2D" uid="uid://bksrbngk5joi7" path="res://Assets/black_knight.png" id="8_x6r4n"]
+[ext_resource type="Texture2D" uid="uid://cjkbioloy1lwr" path="res://Assets/black_bishop.png" id="9_dxxom"]
+[ext_resource type="Texture2D" uid="uid://da6ab4ww6341s" path="res://Assets/black_rook.png" id="10_gvlqo"]
 [ext_resource type="Script" uid="uid://b1vcxxkuqv2nx" path="res://Scripts/different_approach.gd" id="10_yboly"]
 [ext_resource type="FontFile" uid="uid://cxj41dewvwgkt" path="res://Assets/PixelOperator8.ttf" id="11_rkg6e"]
+[ext_resource type="Texture2D" uid="uid://bvxsmtvtqsvtp" path="res://Assets/black_queen.png" id="11_vt6um"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_on4sc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yboly"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rkg6e"]
+texture = ExtResource("4_qv381")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sej1a"]
+texture = ExtResource("4_qv381")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mc2fm"]
+texture = ExtResource("4_qv381")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uxvps"]
+texture = ExtResource("4_qv381")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qux0v"]
+texture = ExtResource("5_fbm17")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fvls2"]
+texture = ExtResource("5_fbm17")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_20c72"]
+texture = ExtResource("5_fbm17")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xk0xp"]
+texture = ExtResource("5_fbm17")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cybxk"]
+texture = ExtResource("6_l6pj4")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ehnl4"]
+texture = ExtResource("6_l6pj4")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8bv7e"]
+texture = ExtResource("6_l6pj4")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6pwei"]
+texture = ExtResource("6_l6pj4")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_72m11"]
+texture = ExtResource("7_jyhx4")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yakfb"]
+texture = ExtResource("7_jyhx4")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q70v4"]
+texture = ExtResource("7_jyhx4")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3b705"]
+texture = ExtResource("7_jyhx4")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dga7u"]
+texture = ExtResource("8_x6r4n")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tipo7"]
+texture = ExtResource("8_x6r4n")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ii62h"]
+texture = ExtResource("8_x6r4n")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_epr3f"]
+texture = ExtResource("8_x6r4n")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_21teg"]
+texture = ExtResource("9_dxxom")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vlr1q"]
+texture = ExtResource("9_dxxom")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yysie"]
+texture = ExtResource("9_dxxom")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2ryth"]
+texture = ExtResource("9_dxxom")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_457c2"]
+texture = ExtResource("10_gvlqo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2qjws"]
+texture = ExtResource("10_gvlqo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3656k"]
+texture = ExtResource("10_gvlqo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cbh4w"]
+texture = ExtResource("10_gvlqo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xo33y"]
+texture = ExtResource("11_vt6um")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gs3d0"]
+texture = ExtResource("11_vt6um")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mvy52"]
+texture = ExtResource("11_vt6um")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4fhuq"]
+texture = ExtResource("11_vt6um")
 
 [node name="Main" type="Node2D"]
 script = ExtResource("10_yboly")
@@ -66,3 +175,167 @@ offset_top = -320.0
 offset_right = 486.0
 offset_bottom = -289.0
 text = "Black"
+
+[node name="end_turn" type="Button" parent="."]
+visible = false
+offset_left = 569.0
+offset_top = 30.0
+offset_right = 736.0
+offset_bottom = 68.0
+theme_override_fonts/font = ExtResource("3_g8kmr")
+theme_override_font_sizes/font_size = 22
+text = "End turn"
+
+[node name="white2" type="Button" parent="."]
+visible = false
+top_level = true
+z_index = 50
+anchors_preset = -1
+anchor_left = -0.176215
+anchor_top = -0.367284
+anchor_right = -0.176215
+anchor_bottom = -0.367284
+offset_left = -5.0
+offset_top = -152.0
+offset_right = 95.0
+offset_bottom = -52.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_on4sc")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_yboly")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_rkg6e")
+theme_override_styles/hover = SubResource("StyleBoxTexture_sej1a")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_mc2fm")
+theme_override_styles/normal = SubResource("StyleBoxTexture_uxvps")
+metadata/_edit_use_anchors_ = true
+
+[node name="white3" type="Button" parent="."]
+visible = false
+top_level = true
+z_index = 50
+anchors_preset = -1
+anchor_left = -0.176215
+anchor_top = -0.367284
+anchor_right = -0.176215
+anchor_bottom = -0.367284
+offset_left = -5.0
+offset_top = -51.0
+offset_right = 95.0
+offset_bottom = 49.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_on4sc")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_yboly")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_qux0v")
+theme_override_styles/hover = SubResource("StyleBoxTexture_fvls2")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_20c72")
+theme_override_styles/normal = SubResource("StyleBoxTexture_xk0xp")
+metadata/_edit_use_anchors_ = true
+
+[node name="white4" type="Button" parent="."]
+visible = false
+top_level = true
+z_index = 50
+anchors_preset = -1
+anchor_left = -0.176215
+anchor_top = -0.367284
+anchor_right = -0.176215
+anchor_bottom = -0.367284
+offset_left = -5.0
+offset_top = 49.0
+offset_right = 95.0
+offset_bottom = 149.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_on4sc")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_yboly")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_cybxk")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ehnl4")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_8bv7e")
+theme_override_styles/normal = SubResource("StyleBoxTexture_6pwei")
+metadata/_edit_use_anchors_ = true
+
+[node name="white5" type="Button" parent="."]
+visible = false
+top_level = true
+z_index = 50
+anchors_preset = -1
+anchor_left = -0.176215
+anchor_top = -0.367284
+anchor_right = -0.176215
+anchor_bottom = -0.367284
+offset_left = -5.0
+offset_top = 149.0
+offset_right = 95.0
+offset_bottom = 249.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_on4sc")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_yboly")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_72m11")
+theme_override_styles/hover = SubResource("StyleBoxTexture_yakfb")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_q70v4")
+theme_override_styles/normal = SubResource("StyleBoxTexture_3b705")
+metadata/_edit_use_anchors_ = true
+
+[node name="black2" type="Button" parent="."]
+visible = false
+top_level = true
+offset_left = -208.0
+offset_top = -390.0
+offset_right = -108.0
+offset_bottom = -290.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_on4sc")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_yboly")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_dga7u")
+theme_override_styles/hover = SubResource("StyleBoxTexture_tipo7")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ii62h")
+theme_override_styles/normal = SubResource("StyleBoxTexture_epr3f")
+metadata/_edit_use_anchors_ = true
+
+[node name="black3" type="Button" parent="."]
+visible = false
+top_level = true
+offset_left = -208.0
+offset_top = -289.0
+offset_right = -108.0
+offset_bottom = -189.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_on4sc")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_yboly")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_21teg")
+theme_override_styles/hover = SubResource("StyleBoxTexture_vlr1q")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_yysie")
+theme_override_styles/normal = SubResource("StyleBoxTexture_2ryth")
+metadata/_edit_use_anchors_ = true
+
+[node name="black4" type="Button" parent="."]
+visible = false
+top_level = true
+offset_left = -208.0
+offset_top = -189.0
+offset_right = -108.0
+offset_bottom = -89.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_on4sc")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_yboly")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_457c2")
+theme_override_styles/hover = SubResource("StyleBoxTexture_2qjws")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_3656k")
+theme_override_styles/normal = SubResource("StyleBoxTexture_cbh4w")
+metadata/_edit_use_anchors_ = true
+
+[node name="black5" type="Button" parent="."]
+visible = false
+top_level = true
+offset_left = -208.0
+offset_top = -89.0
+offset_right = -108.0
+offset_bottom = 11.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_on4sc")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_yboly")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_xo33y")
+theme_override_styles/hover = SubResource("StyleBoxTexture_gs3d0")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_mvy52")
+theme_override_styles/normal = SubResource("StyleBoxTexture_4fhuq")
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="end_turn" to="." method="_on_end_turn_pressed"]
+[connection signal="pressed" from="white2" to="." method="_on_white_2_pressed"]
+[connection signal="pressed" from="white3" to="." method="_on_white_3_pressed"]
+[connection signal="pressed" from="white4" to="." method="_on_white_4_pressed"]
+[connection signal="pressed" from="white5" to="." method="_on_white_5_pressed"]
+[connection signal="pressed" from="black2" to="." method="_on_black_2_pressed"]
+[connection signal="pressed" from="black3" to="." method="_on_black_3_pressed"]
+[connection signal="pressed" from="black4" to="." method="_on_black_4_pressed"]
+[connection signal="pressed" from="black5" to="." method="_on_black_5_pressed"]

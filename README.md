@@ -37,6 +37,10 @@ reimplement features
 ---------------------------------------------------------------------------------------------------------
 Log:
 
+Apr 14, 2025
+
+- pawns can move promote and en passant
+
 Apr 13, 2025
 
 - threat detection and ai movement bugged and stuck

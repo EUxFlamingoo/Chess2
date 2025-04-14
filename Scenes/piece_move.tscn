@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5op4fnw4sq5e"]
+
+[ext_resource type="Texture2D" uid="uid://bqc7wa88weh5g" path="res://Assets/Piece_move.png" id="1_7tbkv"]
+
+[node name="PIECE_MOVE" type="Sprite2D"]
+top_level = true
+z_index = 5
+scale = Vector2(3.6, 3.6)
+texture = ExtResource("1_7tbkv")
