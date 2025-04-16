@@ -37,6 +37,11 @@ reimplement features
 ---------------------------------------------------------------------------------------------------------
 Log:
 
+Apr 16, 2025
+
+- seperate code in multiple scripts
+- currentyl failing to implement check
+
 Apr 14, 2025
 
 - pawns can move promote and en passant

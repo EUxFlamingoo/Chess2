@@ -1,16 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cotad1eeq2v3n"]
+[gd_scene load_steps=2 format=3 uid="uid://bbch80o26fy11"]
 
-[ext_resource type="Texture2D" uid="uid://c2dglseqprmfx" path="res://Assets/Chess_board.png" id="1_tnbny"]
-[ext_resource type="Script" uid="uid://bucy7kfpbptkr" path="res://Scripts/experimental_broke.gd" id="2_2wvcj"]
+[ext_resource type="Script" uid="uid://sggvwso8jeay" path="res://Scripts/board_manager.gd" id="1_d7frl"]
 
-[node name="Board" type="Sprite2D"]
-texture = ExtResource("1_tnbny")
-script = ExtResource("2_2wvcj")
-
-[node name="Pieces" type="Node2D" parent="."]
-
-[node name="Dots" type="Node2D" parent="."]
-
-[node name="Turn" type="Sprite2D" parent="."]
-modulate = Color(1, 1, 1, 0.686275)
-z_index = -5
+[node name="board" type="Node2D"]
+script = ExtResource("1_d7frl")

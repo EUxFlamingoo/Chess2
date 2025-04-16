@@ -3,6 +3,10 @@
 /android/
 .qodo
 .vscode
-.addons
+addons
 *.uid
+project_time.json
+*.tmp
+*.import
+*.pck
 export_presets.cfg

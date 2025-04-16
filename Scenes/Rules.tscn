@@ -1,0 +1,267 @@
+[gd_scene load_steps=44 format=3 uid="uid://nssyy6yi516l"]
+
+[ext_resource type="Script" uid="uid://kcpq5kxojtaj" path="res://Scripts/rules.gd" id="1_8rmfh"]
+[ext_resource type="Texture2D" uid="uid://cx1r0e1js6u2a" path="res://Assets/white_knight.png" id="2_kf4e7"]
+[ext_resource type="Texture2D" uid="uid://bly06pm631l0d" path="res://Assets/white_bishop.png" id="3_dr23v"]
+[ext_resource type="Texture2D" uid="uid://dmfuj6c36olmn" path="res://Assets/white_rook.png" id="4_1ud7n"]
+[ext_resource type="Texture2D" uid="uid://b1vdjwwlmhg1v" path="res://Assets/white_queen.png" id="5_rvdrs"]
+[ext_resource type="Texture2D" uid="uid://bksrbngk5joi7" path="res://Assets/black_knight.png" id="6_3jwr6"]
+[ext_resource type="Texture2D" uid="uid://cjkbioloy1lwr" path="res://Assets/black_bishop.png" id="7_r5mbi"]
+[ext_resource type="Texture2D" uid="uid://da6ab4ww6341s" path="res://Assets/black_rook.png" id="8_qb3qx"]
+[ext_resource type="Texture2D" uid="uid://bvxsmtvtqsvtp" path="res://Assets/black_queen.png" id="9_teh1u"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4ocan"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uhxfv"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4x4sf"]
+texture = ExtResource("2_kf4e7")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vyptn"]
+texture = ExtResource("2_kf4e7")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_r5fix"]
+texture = ExtResource("2_kf4e7")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6uol7"]
+texture = ExtResource("2_kf4e7")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_83pra"]
+texture = ExtResource("3_dr23v")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yu0r6"]
+texture = ExtResource("3_dr23v")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rthsk"]
+texture = ExtResource("3_dr23v")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_drpkg"]
+texture = ExtResource("3_dr23v")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mg8ao"]
+texture = ExtResource("4_1ud7n")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_h3o7y"]
+texture = ExtResource("4_1ud7n")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bjreu"]
+texture = ExtResource("4_1ud7n")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aoux3"]
+texture = ExtResource("4_1ud7n")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mculp"]
+texture = ExtResource("5_rvdrs")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2bdmj"]
+texture = ExtResource("5_rvdrs")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kexf5"]
+texture = ExtResource("5_rvdrs")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ke00p"]
+texture = ExtResource("5_rvdrs")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2xm6m"]
+texture = ExtResource("6_3jwr6")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_27agn"]
+texture = ExtResource("6_3jwr6")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dosku"]
+texture = ExtResource("6_3jwr6")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ntew7"]
+texture = ExtResource("6_3jwr6")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vxp2p"]
+texture = ExtResource("7_r5mbi")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uijgb"]
+texture = ExtResource("7_r5mbi")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_t2r0g"]
+texture = ExtResource("7_r5mbi")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_a0084"]
+texture = ExtResource("7_r5mbi")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bprpb"]
+texture = ExtResource("8_qb3qx")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6l2ye"]
+texture = ExtResource("8_qb3qx")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mtkyf"]
+texture = ExtResource("8_qb3qx")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vior8"]
+texture = ExtResource("8_qb3qx")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sf2kk"]
+texture = ExtResource("9_teh1u")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l4hko"]
+texture = ExtResource("9_teh1u")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lhxbs"]
+texture = ExtResource("9_teh1u")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kk4ef"]
+texture = ExtResource("9_teh1u")
+
+[node name="Rules" type="Node"]
+script = ExtResource("1_8rmfh")
+
+[node name="white2" type="Button" parent="."]
+visible = false
+top_level = true
+z_index = 50
+anchors_preset = -1
+anchor_left = -0.176215
+anchor_top = -0.367284
+anchor_right = -0.176215
+anchor_bottom = -0.367284
+offset_left = -10.0003
+offset_top = -104.0
+offset_right = 89.9997
+offset_bottom = -3.99997
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4ocan")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_uhxfv")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_4x4sf")
+theme_override_styles/hover = SubResource("StyleBoxTexture_vyptn")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_r5fix")
+theme_override_styles/normal = SubResource("StyleBoxTexture_6uol7")
+metadata/_edit_use_anchors_ = true
+
+[node name="white3" type="Button" parent="."]
+visible = false
+top_level = true
+z_index = 50
+anchors_preset = -1
+anchor_left = -0.176215
+anchor_top = -0.367284
+anchor_right = -0.176215
+anchor_bottom = -0.367284
+offset_left = -10.0003
+offset_top = -2.99997
+offset_right = 89.9997
+offset_bottom = 97.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4ocan")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_uhxfv")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_83pra")
+theme_override_styles/hover = SubResource("StyleBoxTexture_yu0r6")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_rthsk")
+theme_override_styles/normal = SubResource("StyleBoxTexture_drpkg")
+metadata/_edit_use_anchors_ = true
+
+[node name="white4" type="Button" parent="."]
+visible = false
+top_level = true
+z_index = 50
+anchors_preset = -1
+anchor_left = -0.176215
+anchor_top = -0.367284
+anchor_right = -0.176215
+anchor_bottom = -0.367284
+offset_left = -10.0003
+offset_top = 97.0
+offset_right = 89.9997
+offset_bottom = 197.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4ocan")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_uhxfv")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_mg8ao")
+theme_override_styles/hover = SubResource("StyleBoxTexture_h3o7y")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_bjreu")
+theme_override_styles/normal = SubResource("StyleBoxTexture_aoux3")
+metadata/_edit_use_anchors_ = true
+
+[node name="white5" type="Button" parent="."]
+visible = false
+top_level = true
+z_index = 50
+anchors_preset = -1
+anchor_left = -0.176215
+anchor_top = -0.367284
+anchor_right = -0.176215
+anchor_bottom = -0.367284
+offset_left = -10.0003
+offset_top = 197.0
+offset_right = 89.9997
+offset_bottom = 297.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4ocan")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_uhxfv")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_mculp")
+theme_override_styles/hover = SubResource("StyleBoxTexture_2bdmj")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_kexf5")
+theme_override_styles/normal = SubResource("StyleBoxTexture_ke00p")
+metadata/_edit_use_anchors_ = true
+
+[node name="black2" type="Button" parent="."]
+visible = false
+top_level = true
+offset_left = -213.0
+offset_top = -342.0
+offset_right = -113.0
+offset_bottom = -242.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4ocan")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_uhxfv")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_2xm6m")
+theme_override_styles/hover = SubResource("StyleBoxTexture_27agn")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_dosku")
+theme_override_styles/normal = SubResource("StyleBoxTexture_ntew7")
+metadata/_edit_use_anchors_ = true
+
+[node name="black3" type="Button" parent="."]
+visible = false
+top_level = true
+offset_left = -213.0
+offset_top = -241.0
+offset_right = -113.0
+offset_bottom = -141.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4ocan")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_uhxfv")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_vxp2p")
+theme_override_styles/hover = SubResource("StyleBoxTexture_uijgb")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_t2r0g")
+theme_override_styles/normal = SubResource("StyleBoxTexture_a0084")
+metadata/_edit_use_anchors_ = true
+
+[node name="black4" type="Button" parent="."]
+visible = false
+top_level = true
+offset_left = -213.0
+offset_top = -141.0
+offset_right = -113.0
+offset_bottom = -41.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4ocan")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_uhxfv")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_bprpb")
+theme_override_styles/hover = SubResource("StyleBoxTexture_6l2ye")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_mtkyf")
+theme_override_styles/normal = SubResource("StyleBoxTexture_vior8")
+metadata/_edit_use_anchors_ = true
+
+[node name="black5" type="Button" parent="."]
+visible = false
+top_level = true
+offset_left = -213.0
+offset_top = -41.0
+offset_right = -113.0
+offset_bottom = 59.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4ocan")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_uhxfv")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_sf2kk")
+theme_override_styles/hover = SubResource("StyleBoxTexture_l4hko")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_lhxbs")
+theme_override_styles/normal = SubResource("StyleBoxTexture_kk4ef")
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="white2" to="." method="_on_white_2_pressed"]
+[connection signal="pressed" from="white3" to="." method="_on_white_3_pressed"]
+[connection signal="pressed" from="white4" to="." method="_on_white_4_pressed"]
+[connection signal="pressed" from="white5" to="." method="_on_white_5_pressed"]
+[connection signal="pressed" from="black2" to="." method="_on_black_2_pressed"]
+[connection signal="pressed" from="black3" to="." method="_on_black_3_pressed"]
+[connection signal="pressed" from="black4" to="." method="_on_black_4_pressed"]
+[connection signal="pressed" from="black5" to="." method="_on_black_5_pressed"]

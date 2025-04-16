@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://co0du4yeutoyt"]
+
+[ext_resource type="Script" uid="uid://cdvadrnnn5x0y" path="res://Scripts/move_manager.gd" id="1_tovik"]
+
+[node name="MoveManager" type="Node2D"]
+script = ExtResource("1_tovik")

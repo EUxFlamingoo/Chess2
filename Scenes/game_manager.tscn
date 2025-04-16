@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://db1bnwhfsfbvx"]
+
+[ext_resource type="Script" uid="uid://deirr5xccrio8" path="res://Scripts/game_manager.gd" id="1_oj352"]
+[ext_resource type="FontFile" uid="uid://cxj41dewvwgkt" path="res://Assets/PixelOperator8.ttf" id="2_e5fcp"]
+
+[node name="game_manager" type="Node"]
+script = ExtResource("1_oj352")
+
+[node name="reload_button" type="Button" parent="."]
+offset_left = 551.0
+offset_top = -451.0
+offset_right = 730.0
+offset_bottom = -374.0
+theme_override_fonts/font = ExtResource("2_e5fcp")
+theme_override_font_sizes/font_size = 15
+text = "Restart"
+
+[node name="undo_button" type="Button" parent="."]
+offset_left = 626.0
+offset_top = -371.0
+offset_right = 725.0
+offset_bottom = -307.0
+theme_override_fonts/font = ExtResource("2_e5fcp")
+theme_override_font_sizes/font_size = 15
+text = "undo"
+
+[node name="game_finish" type="Button" parent="."]
+visible = false
+top_level = true
+z_index = 15
+offset_left = -68.0
+offset_top = -426.0
+offset_right = 529.0
+offset_bottom = 40.0
+text = "Checkmate
+Game Finish"
+
+[connection signal="pressed" from="reload_button" to="." method="_on_reload_button_pressed"]
+[connection signal="pressed" from="game_finish" to="." method="_on_game_finish_pressed"]
