@@ -66,6 +66,13 @@ func _input(event):
 				if selected_piece == null:
 					select_piece(x, y)
 				else:
+					# If clicking on a friendly piece, select it instead of moving
+					if is_tile_occupied(x, y):
+						var piece = board_state[y][x]
+						var is_white_piece = piece.name.begins_with("White")
+						if is_white_piece == TurnManager.is_white_turn:
+							select_piece(x, y)
+							return
 					MoveManager.move_selected_piece(x, y)
 
 func get_centered_position(x: int, y: int) -> Vector2:
@@ -96,20 +103,12 @@ func select_piece(x: int, y: int):
 		if is_white_piece == TurnManager.is_white_turn:
 			selected_piece = piece
 			selected_piece_position = Vector2(x, y)
-			var moves = []
-			if piece.name.find("Pawn") != -1:
-				moves = UnitManager.get_pawn_moves(x, y, is_white_piece)
-			elif piece.name.find("Rook") != -1:
-				moves = UnitManager.get_rook_moves(x, y, is_white_piece)
-			elif piece.name.find("Bishop") != -1:
-				moves = UnitManager.get_bishop_moves(x, y, is_white_piece)
-			elif piece.name.find("Queen") != -1:
-				moves = UnitManager.get_queen_moves(x, y, is_white_piece)
-			elif piece.name.find("King") != -1:
-				moves = UnitManager.get_king_moves(x, y, is_white_piece)
-			elif piece.name.find("Knight") != -1:
-				moves = UnitManager.get_knight_moves(x, y, is_white_piece)
+			var moves = MoveManager.get_valid_moves(piece, x, y)
 			MoveManager.highlight_possible_moves(moves)
+		else:
+			print("Cannot select piece: Not the current player's turn")
+	else:
+		print("No piece found at: ", x, ", ", y)
 
 func deselect_piece():
 	BoardManager.selected_piece = null
