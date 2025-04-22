@@ -1,5 +1,7 @@
 extends Node
 
+#region const
+
 # set units, start positions and define Moves
 
 const WHITE_PAWN = preload("res://Scenes/Pieces/white_pawn.tscn")
@@ -15,12 +17,21 @@ const BLACK_QUEEN = preload("res://Scenes/Pieces/black_queen.tscn")
 const WHITE_KING = preload("res://Scenes/Pieces/white_king.tscn")
 const BLACK_KING = preload("res://Scenes/Pieces/black_king.tscn")
 
+# Typical chess piece values
+const PIECE_VALUES = {
+	"Pawn": 1,
+	"Knight": 3,
+	"Bishop": 3,
+	"Rook": 5,
+	"Queen": 9,
+	"King": 1000  # Arbitrarily high, since the king is invaluable
+}
+
+
+#endregion
 
 var white_king_pos = Vector2(4, BoardManager.First_Rank)
 var black_king_pos = Vector2(4, BoardManager.Last_Rank)
-
-#func initialize():
-#	place_pieces()
 
 func place_starting_pieces():
 	place_white_pawns()
@@ -35,8 +46,6 @@ func place_starting_pieces():
 	place_white_king()
 	place_black_queen()
 	place_black_king()
-
-
 # Helper function to place a piece
 func place_piece(piece_scene: PackedScene, board_x: int, board_y: int, name_prefix: String = ""):
 	var piece = piece_scene.instantiate()
@@ -105,8 +114,17 @@ func place_black_king():
 	place_piece(BLACK_KING, 4, BoardManager.Last_Rank, "BlackKing")
 #endregion
 
-
 #region unit_specific_moves
+
+# Returns the value of a piece based on its name
+func get_piece_value(piece) -> int:
+	if piece == null or not piece.has_method("get_name"):
+		return 0
+	var piece_name = piece.name
+	for key in PIECE_VALUES.keys():
+		if piece_name.find(key) != -1:
+			return PIECE_VALUES[key]
+	return 0
 
 #region pawn
 
@@ -130,8 +148,13 @@ func get_pawn_moves(x: int, y: int, is_white_piece: bool) -> Array:
 		if BoardManager.is_within_board(target_x, target_y):
 			if BoardManager.is_tile_occupied_by_opponent(target_x, target_y, is_white_piece):
 				moves.append(Vector2(target_x, target_y))
-			elif Rules.en_passant == Vector2(target_x, target_y) && Rules.en_passant_enabled == true:
-				moves.append(Rules.en_passant)
+			elif Rules.en_passant == Vector2(target_x, target_y) and Rules.en_passant_enabled == true:
+				# The en passant target square must be empty
+				if not BoardManager.is_tile_occupied(target_x, target_y):
+					# The captured pawn must be an opponent's pawn
+					var captured_pawn_y = y
+					if BoardManager.is_tile_occupied_by_opponent(target_x, captured_pawn_y, is_white_piece):
+						moves.append(Rules.en_passant)
 
 	return moves
 
@@ -159,7 +182,7 @@ func handle_en_passant(from_position: Vector2, to_position: Vector2) -> void:
 func handle_double_forward_move(piece, from_position: Vector2, to_position: Vector2) -> void:
 	# Check if the piece is a pawn
 	if piece.name.find("Pawn") != -1:
-		var starting_row = BoardManager.First_Rank + 1 if piece.name.begins_with("White") else BoardManager.Last_Rank - 1
+		var starting_row = BoardManager.First_Rank + 1 if piece != null and piece.name.begins_with("White") else BoardManager.Last_Rank - 1
 		# Check if the move is a double forward move from the starting row
 		if abs(to_position.y - from_position.y) == 2 and from_position.y == starting_row:
 			Rules.en_passant = Vector2(to_position.x, (to_position.y + from_position.y) / 2)  # Set en passant target square
@@ -169,7 +192,6 @@ func handle_double_forward_move(piece, from_position: Vector2, to_position: Vect
 				Rules.en_passant_capture_black = true
 
 #endregion
-
 
 func get_linear_moves(x: int, y: int, is_white_piece: bool, directions: Array) -> Array:
 	var moves = []
@@ -194,7 +216,6 @@ func get_rook_moves(x: int, y: int, is_white_piece: bool) -> Array:
 		Vector2(0, 1),  # Down
 		Vector2(0, -1)  # Up
 	]
-
 	for direction in directions:
 		var pos = Vector2(x, y) + direction
 		while BoardManager.is_within_board(pos.x, pos.y):
@@ -217,7 +238,6 @@ func get_bishop_moves(x: int, y: int, is_white_piece: bool) -> Array:
 		Vector2(1, -1),  # Diagonal down-right
 		Vector2(-1, -1)  # Diagonal down-left
 	]
-
 	for direction in directions:
 		var pos = Vector2(x, y) + direction
 		while BoardManager.is_within_board(pos.x, pos.y):
@@ -229,7 +249,6 @@ func get_bishop_moves(x: int, y: int, is_white_piece: bool) -> Array:
 			else:
 				break  # Stop further moves in this direction
 			pos += direction  # Move to the next position in the direction
-
 	return moves
 
 func get_queen_moves(x: int, y: int, is_white_piece: bool) -> Array:
@@ -245,14 +264,14 @@ func move_rook(from_position: Vector2, to_position: Vector2):
 	BoardManager.board_state[to_position.y][to_position.x] = rook  # Set the new position
 	rook.position = BoardManager.get_centered_position(int(to_position.x), int(to_position.y))
 
+#region king
+
 func get_king_moves(x: int, y: int, is_white_piece: bool) -> Array:
-	print("Entering get_king_moves for king at (", x, ", ", y, ")")
 	var moves = []
 	var directions = [
 		Vector2(1, 0), Vector2(-1, 0), Vector2(0, 1), Vector2(0, -1),
 		Vector2(1, 1), Vector2(-1, 1), Vector2(1, -1), Vector2(-1, -1)
 	]
-
 	# Generate all potential moves for the king
 	for direction in directions:
 		var target_x = x + direction.x
@@ -262,11 +281,8 @@ func get_king_moves(x: int, y: int, is_white_piece: bool) -> Array:
 				# Only allow move if the target square is NOT attacked
 				if not MoveManager.is_square_attacked(Vector2(target_x, target_y), not is_white_piece):
 					moves.append(Vector2(target_x, target_y))
-
 	# Add castling moves (you may want to add additional checks for castling safety)
 	moves += get_king_castling_moves(x, y, is_white_piece)
-
-	print("Exiting get_king_moves for king at (", x, ", ", y, ")")
 	return moves
 
 func get_king_castling_moves(x: int, y: int, is_white_piece: bool) -> Array:
@@ -284,6 +300,13 @@ func get_king_castling_moves(x: int, y: int, is_white_piece: bool) -> Array:
 			if Rules.can_castle(false, false):  # Black queenside castling
 				moves.append(Vector2(2, 7))
 	return moves
+
+
+func locate_king(is_white_turn: bool) -> Vector2:
+	return white_king_pos if is_white_turn else black_king_pos
+
+
+#endregion
 
 func get_knight_moves(x: int, y: int, is_white_piece: bool) -> Array:
 	var moves = []
@@ -304,11 +327,5 @@ func get_knight_moves(x: int, y: int, is_white_piece: bool) -> Array:
 			if not BoardManager.is_tile_occupied(target_x, target_y) or BoardManager.is_tile_occupied_by_opponent(target_x, target_y, is_white_piece):
 				moves.append(Vector2(target_x, target_y))
 	return moves
-
-func locate_king(is_white_turn: bool) -> Vector2:
-	return white_king_pos if is_white_turn else black_king_pos
-
-
-
 
 #endregion

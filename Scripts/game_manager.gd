@@ -14,9 +14,9 @@ func start_game():
 
 func end_game(result: String):
 	print(result)
+	if Rules.is_checkmate(TurnManager.is_white_turn):
+		GameManager.end_game("Checkmate! " + ("Black" if TurnManager.is_white_turn else "White") + " wins.")
+	if Rules.is_stalemate(TurnManager.is_white_turn):
+		GameManager.end_game("Stalemate! The game is a draw.")
 	game_finish.visible = true
-	# Add logic to display the result and stop the game
-
-
-func _on_game_finish_pressed() -> void:
-	get_tree().reload_current_scene()
+	

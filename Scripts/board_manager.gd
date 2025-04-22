@@ -1,7 +1,5 @@
 extends Node2D
 
-# select_piece needto be updated when new unit is added
-
 const TILE_SIZE = 64  # Modify
 const BOARD_WIDTH = 8  # Modify
 const BOARD_HEIGHT = 8  # Modify
@@ -13,10 +11,14 @@ const adjust_height = TILE_SIZE / 1.01  # Modify
 const LIGHT_COLOR = Color(0.4, 0.3, 0.2)  # Modify
 const DARK_COLOR = Color(0.3, 0.2, 0.1)  # Modify
 
+#region var
+
 var board_state = []
 var selected_piece = null
 var selected_piece_position = null
 
+
+#endregion
 
 #region create/initialize_board
 

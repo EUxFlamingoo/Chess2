@@ -32,10 +32,19 @@ Everything is made in Godot 4.
 ---------------------------------------------------------------------------------------------------------
 Next to do:
 
-reimplement features
+working end conditions, polish check & defensive logic
 
 ---------------------------------------------------------------------------------------------------------
 Log:
+
+Apr 22, 2025
+
+- working enemy logic
+
+Apr 17, 2025
+
+- Almost all 2-player features reimplemented
+- check works semi good
 
 Apr 16, 2025
 

@@ -99,6 +99,8 @@ func clear_move_highlights():
 
 #endregion
 
+#region tile_validation
+
 func get_valid_moves(piece, x: int, y: int, ignore_check_filter := false) -> Array:
 	var moves = []
 	var is_white = piece.name.begins_with("White")
@@ -127,6 +129,22 @@ func get_valid_moves(piece, x: int, y: int, ignore_check_filter := false) -> Arr
 			moves = filtered_moves
 
 	return moves
+
+func get_all_valid_moves(is_white_turn: bool) -> Array:
+	var all_moves = []
+	for y in range(BoardManager.BOARD_HEIGHT):
+		for x in range(BoardManager.BOARD_WIDTH):
+			if BoardManager.is_tile_occupied(x, y):
+				var piece = BoardManager.board_state[y][x]
+				if piece.name.begins_with("White") == is_white_turn:
+					var moves = get_valid_moves(piece, x, y)
+					if moves.size() > 0:
+						all_moves.append({
+							"piece": piece,
+							"position": Vector2(x, y),
+							"moves": moves
+						})
+	return all_moves
 
 # Returns true if the given position is attacked by the opponent
 func is_square_attacked(pos: Vector2, by_white: bool) -> bool:
@@ -169,7 +187,7 @@ func simulate_move(from_position: Vector2, to_position: Vector2) -> Variant:
 	BoardManager.board_state[to_position.y][to_position.x] = piece
 	BoardManager.board_state[from_position.y][from_position.x] = null
 	# If the king moves, update its tracked position
-	if piece.name.find("King") != -1:
+	if piece != null and piece.name.find("King") != -1:
 		if piece.name.begins_with("White"):
 			UnitManager.white_king_pos = to_position
 		else:
@@ -182,8 +200,10 @@ func revert_move(from_position: Vector2, to_position: Vector2, captured_piece: V
 	BoardManager.board_state[from_position.y][from_position.x] = piece
 	BoardManager.board_state[to_position.y][to_position.x] = captured_piece
 	# If the king moves, restore its tracked position
-	if piece.name.find("King") != -1:
+	if piece != null and piece.name.find("King") != -1:
 		if piece.name.begins_with("White"):
 			UnitManager.white_king_pos = from_position
 		else:
 			UnitManager.black_king_pos = from_position
+
+#endregion

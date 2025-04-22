@@ -1,5 +1,7 @@
 extends Node
 
+#region onready
+
 @onready var white_2: Button = $white2
 @onready var white_3: Button = $white3
 @onready var white_4: Button = $white4
@@ -9,11 +11,16 @@ extends Node
 @onready var black_4: Button = $black4
 @onready var black_5: Button = $black5
 
+#endregion
+
+var enemy_logic_on = false
 const chess_mode = true     # Modify
 const en_passant_enabled = true # Modify
 const max_moves_per_turn = 1   # Modify
 const castling_enabled = true # Modify
 const fifty_move_rule_enabled = true  # Modify
+
+#region var
 
 var promotion_pawn = null  # Stores the pawn to be promoted
 var promotion_position = null  # Stores the position of the pawn to be promoted
@@ -31,12 +38,22 @@ var black_rook_queenside_moved = false
 # Tracks the number of moves since the last pawn move or capture
 var move_counter = 0
 
+var player_is_white = true
+
+#endregion
+
 #region promotion
 
 
 func handle_promotion(pawn, target_position: Vector2):
-# Check if the pawn has reached the last rank
+	# Only allow promotion if the piece is a pawn
+	if pawn == null or pawn.name.find("Pawn") == -1:
+		return
+	# Check if the pawn has reached the last rank
 	if pawn.name.begins_with("White") and target_position.y == BoardManager.Last_Rank:
+		if Rules.enemy_logic_on:
+			promote_pawn("Queen", UnitManager.WHITE_QUEEN)
+			return
 		print("White pawn reached the last rank at position: ", target_position)
 		promotion_pawn = pawn
 		promotion_position = target_position
@@ -46,6 +63,9 @@ func handle_promotion(pawn, target_position: Vector2):
 		white_4.visible = true
 		white_5.visible = true
 	elif pawn.name.begins_with("Black") and target_position.y == BoardManager.First_Rank:
+		if Rules.enemy_logic_on:
+			promote_pawn("Queen", UnitManager.BLACK_QUEEN)
+			return
 		print("Black pawn reached the last rank at position: ", target_position)
 		promotion_pawn = pawn
 		promotion_position = target_position
@@ -167,7 +187,6 @@ func handle_en_passant(from_position: Vector2, to_position: Vector2):
 
 #endregion
 
-
 func are_squares_safe_and_empty(_king_pos: Vector2, square1: Vector2, square2: Vector2) -> bool:
 	# Check if the squares are empty
 	if BoardManager.is_tile_occupied(int(square1.x), int(square1.y)) or BoardManager.is_tile_occupied(int(square2.x), int(square2.y)):
@@ -176,7 +195,6 @@ func are_squares_safe_and_empty(_king_pos: Vector2, square1: Vector2, square2: V
 	# For now, assume it is safe
 	return true
 
-
 func check_fifty_move_rule() -> bool:
 	if not fifty_move_rule_enabled:
 		return false
@@ -184,3 +202,13 @@ func check_fifty_move_rule() -> bool:
 		print("Fifty-move rule triggered. Game is a draw.")
 		return true
 	return false
+
+func is_checkmate(is_white: bool) -> bool:
+	var king_in_check = MoveManager.is_king_in_check(is_white)
+	var all_moves = MoveManager.get_all_valid_moves(is_white)
+	return king_in_check and all_moves.size() == 0
+
+func is_stalemate(is_white: bool) -> bool:
+	var king_in_check = MoveManager.is_king_in_check(is_white)
+	var all_moves = MoveManager.get_all_valid_moves(is_white)
+	return not king_in_check and all_moves.size() == 0

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Chess2"
-run/main_scene="uid://dwukfwl2iq1ex"
+run/main_scene="uid://p1ockqo357ax"
 config/features=PackedStringArray("4.4", "Forward Plus")
 
 [autoload]
@@ -20,10 +20,11 @@ BoardManager="*res://Scenes/board.tscn"
 Rules="*res://Scenes/Rules.tscn"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 Console="*res://addons/gameconsole/console/console.gd"
-GameManager="*res://Scenes/game_manager.tscn"
 UnitManager="*res://Scenes/unit_manager.tscn"
 MoveManager="*res://Scenes/move_manager.tscn"
 TurnManager="*res://Scenes/turn_manager.tscn"
+EnemyLogic="*res://Scripts/enemy_logic.gd"
+GameManager="*res://Scenes/game_manager.tscn"
 
 [dialogic]
 
