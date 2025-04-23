@@ -1,19 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://r0no1d0nfg6m"]
+[gd_scene load_steps=2 format=3 uid="uid://r0no1d0nfg6m"]
 
 [ext_resource type="Script" uid="uid://8476l438v727" path="res://Scripts/turn_manager.gd" id="1_4ke4u"]
-[ext_resource type="FontFile" uid="uid://bhycs4xjask1f" path="res://Assets/TYPEWR__.TTF" id="2_mit3j"]
 
 [node name="TurnManager" type="Node"]
 script = ExtResource("1_4ke4u")
-
-[node name="end_turn_button" type="Button" parent="."]
-visible = false
-offset_left = 569.0
-offset_top = 30.0
-offset_right = 736.0
-offset_bottom = 68.0
-theme_override_fonts/font = ExtResource("2_mit3j")
-theme_override_font_sizes/font_size = 22
-text = "End turn"
-
-[connection signal="pressed" from="end_turn_button" to="." method="_on_end_turn_button_pressed"]

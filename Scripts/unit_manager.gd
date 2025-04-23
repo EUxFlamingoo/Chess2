@@ -34,6 +34,18 @@ var white_king_pos = Vector2(4, BoardManager.First_Rank)
 var black_king_pos = Vector2(4, BoardManager.Last_Rank)
 
 func place_starting_pieces():
+	# Remove all existing pieces from the board
+	for y in range(BoardManager.BOARD_HEIGHT):
+		for x in range(BoardManager.BOARD_WIDTH):
+			var piece = BoardManager.board_state[y][x]
+			if piece != null:
+				piece.queue_free()
+			BoardManager.board_state[y][x] = null
+	# Optionally, remove all children from BoardManager (if pieces are children)
+	for child in BoardManager.get_children():
+		if child.name.begins_with("White") or child.name.begins_with("Black"):
+			child.queue_free()
+	# Now place new pieces
 	place_white_pawns()
 	place_black_pawns()
 	place_white_knights()
@@ -46,6 +58,7 @@ func place_starting_pieces():
 	place_white_king()
 	place_black_queen()
 	place_black_king()
+
 # Helper function to place a piece
 func place_piece(piece_scene: PackedScene, board_x: int, board_y: int, name_prefix: String = ""):
 	var piece = piece_scene.instantiate()
@@ -329,3 +342,14 @@ func get_knight_moves(x: int, y: int, is_white_piece: bool) -> Array:
 	return moves
 
 #endregion
+
+func place_piece_by_name(type: String, x: int, y: int):
+	# Map type string to PackedScene, e.g.:
+	var scene = null
+	if type.find("WhitePawn") != -1:
+		scene = WHITE_PAWN
+	elif type.find("BlackPawn") != -1:
+		scene = BLACK_PAWN
+	# ...repeat for all piece types...
+	if scene:
+		place_piece(scene, x, y, type)

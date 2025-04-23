@@ -32,10 +32,15 @@ Everything is made in Godot 4.
 ---------------------------------------------------------------------------------------------------------
 Next to do:
 
-working end conditions, polish check & defensive logic
+make basic inline player versus, stress testing + debbuging with default settings
 
 ---------------------------------------------------------------------------------------------------------
 Log:
+
+Apr 23, 2025
+
+- enemy logic works for the most part
+- started playing around with online multiplayer 
 
 Apr 22, 2025
 

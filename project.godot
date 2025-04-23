@@ -16,6 +16,7 @@ config/features=PackedStringArray("4.4", "Forward Plus")
 
 [autoload]
 
+NetworkManager="*res://Scenes/network_manager.tscn"
 BoardManager="*res://Scenes/board.tscn"
 Rules="*res://Scenes/Rules.tscn"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"

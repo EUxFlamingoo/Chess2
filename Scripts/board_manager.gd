@@ -29,9 +29,6 @@ func initialize():
 		for x in range(BOARD_WIDTH):  # Use BOARD_WIDTH for the number of columns
 			row.append(null)
 		board_state.append(row)
-	setup_board()
-
-func setup_board():
 	create_chessboard()
 
 func initialize_board_state():
@@ -135,3 +132,27 @@ func is_tile_occupied_by_opponent(x: int, y: int, is_white_piece: bool) -> bool:
 
 
 #endregion
+
+func remove_all_pieces():
+	for y in range(BOARD_HEIGHT):
+		for x in range(BOARD_WIDTH):
+			var piece = board_state[y][x]
+			if piece != null:
+				piece.queue_free()
+			board_state[y][x] = null
+
+
+
+
+func get_board_state_as_array() -> Array:
+	var state = []
+	for y in range(BOARD_HEIGHT):
+		for x in range(BOARD_WIDTH):
+			var piece = board_state[y][x]
+			if piece:
+				state.append({
+					"type": piece.name, # or use a type string
+					"x": x,
+					"y": y
+				})
+	return state

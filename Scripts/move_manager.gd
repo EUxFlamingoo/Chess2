@@ -30,7 +30,7 @@ func move_piece(piece, from_position: Vector2, to_position: Vector2):
 	# Locate and print the king's position
 	var is_white_turn = TurnManager.is_white_turn
 	var king_position = UnitManager.locate_king(is_white_turn)
-	print("King position for ", "White" if is_white_turn else "Black", " turn: ", king_position)
+	TurnManager.check_turn_end()
 
 func handle_capture(to_position: Vector2):
 	if BoardManager.is_tile_occupied(int(to_position.x), int(to_position.y)):
@@ -64,10 +64,8 @@ func track_piece_movement(piece, from_position: Vector2):
 func move_selected_piece(x: int, y: int):
 	# Get the valid moves for the selected piece
 	var moves = get_valid_moves(BoardManager.selected_piece, BoardManager.selected_piece_position.x, BoardManager.selected_piece_position.y)
-	
 	# Highlight only valid moves
 	highlight_possible_moves(moves)
-
 	# Check if the target position is in the list of valid moves
 	if Vector2(x, y) in moves:
 		move_piece(BoardManager.selected_piece, BoardManager.selected_piece_position, Vector2(x, y))
@@ -116,7 +114,6 @@ func get_valid_moves(piece, x: int, y: int, ignore_check_filter := false) -> Arr
 		moves = UnitManager.get_knight_moves(x, y, is_white)
 	elif piece.name.find("Pawn") != -1:
 		moves = UnitManager.get_pawn_moves(x, y, is_white)
-
 	# --- Filter moves if the king is in check and this is NOT the king ---
 	if not ignore_check_filter and piece.name.find("King") == -1:
 		if MoveManager.is_king_in_check(is_white):
@@ -127,7 +124,6 @@ func get_valid_moves(piece, x: int, y: int, ignore_check_filter := false) -> Arr
 					filtered_moves.append(move)
 				revert_move(Vector2(x, y), move, original_piece)
 			moves = filtered_moves
-
 	return moves
 
 func get_all_valid_moves(is_white_turn: bool) -> Array:
@@ -165,7 +161,6 @@ func is_square_attacked(pos: Vector2, by_white: bool) -> bool:
 func is_king_in_check(is_white: bool) -> bool:
 	var king_pos = UnitManager.white_king_pos if is_white else UnitManager.black_king_pos
 	return is_square_attacked(king_pos, not is_white)
-
 # Returns all pieces attacking the given position
 func get_attackers(pos: Vector2, by_white: bool) -> Array:
 	var attackers = []
@@ -207,3 +202,12 @@ func revert_move(from_position: Vector2, to_position: Vector2, captured_piece: V
 			UnitManager.black_king_pos = from_position
 
 #endregion
+
+func get_piece_at(pos: Vector2):
+	if BoardManager.is_within_board(int(pos.x), int(pos.y)):
+		return BoardManager.board_state[int(pos.y)][int(pos.x)]
+	return null
+
+func move_piece_networked(from: Vector2, to: Vector2):
+	# Move the piece without sending another network message
+	move_piece(get_piece_at(from), from, to)
