@@ -1,6 +1,5 @@
 The goal is to make a lightweight and modular chess framework, which can be used to make chess clones, turn based top down strategie games and similar.
 Everything is horrible and unoptimized, I'm very much a beginner.
-Initial setup was made with https://youtube.com/playlist?list=PLd_56bdSJ-tS4-q1gczTdKJhqMep3Ij_w&si=yFeAbLqsj4sf9zSc as a guide.
 Everything is made in Godot 4.
 
 - local 2 Player mode adhering to all conventional chess rules (done)
