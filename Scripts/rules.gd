@@ -58,10 +58,22 @@ func handle_promotion(pawn, target_position: Vector2):
 		promotion_pawn = pawn
 		promotion_position = target_position
 		is_promotion_in_progress = true  # Set promotion in progress
-		white_2.visible = true
-		white_3.visible = true
-		white_4.visible = true
-		white_5.visible = true
+		if GameManager.online_enabled:
+			if multiplayer.get_unique_id() == 1:
+				# Host: only notify client if it's their pawn
+				if not pawn.name.begins_with("White"):
+					for peer_id in multiplayer.get_peers():
+						if peer_id != multiplayer.get_unique_id():
+							NetworkManager.rpc_id(peer_id, "request_promotion", target_position, false)
+				else:
+					# Host's own pawn, show UI locally
+					Player.show_promotion_ui(target_position, true)
+			else:
+				# Client: show UI locally (shouldn't happen, but for completeness)
+				Player.show_promotion_ui(target_position, pawn.name.begins_with("White"))
+		else:
+			# Local play: show UI locally
+			Player.show_promotion_ui(target_position, pawn.name.begins_with("White"))
 	elif pawn.name.begins_with("Black") and target_position.y == BoardManager.First_Rank:
 		if Rules.enemy_logic_on:
 			promote_pawn("Queen", UnitManager.BLACK_QUEEN)
@@ -70,35 +82,71 @@ func handle_promotion(pawn, target_position: Vector2):
 		promotion_pawn = pawn
 		promotion_position = target_position
 		is_promotion_in_progress = true  # Set promotion in progress
-		black_2.visible = true
-		black_3.visible = true
-		black_4.visible = true
-		black_5.visible = true
+		if GameManager.online_enabled:
+			if multiplayer.get_unique_id() == 1:
+				# Host: only notify client if it's their pawn
+				if not pawn.name.begins_with("White"):
+					for peer_id in multiplayer.get_peers():
+						if peer_id != multiplayer.get_unique_id():
+							NetworkManager.rpc_id(peer_id, "request_promotion", target_position, false)
+				else:
+					# Host's own pawn, show UI locally
+					Player.show_promotion_ui(target_position, true)
+			else:
+				# Client: show UI locally (shouldn't happen, but for completeness)
+				Player.show_promotion_ui(target_position, pawn.name.begins_with("White"))
+		else:
+			# Local play: show UI locally
+			Player.show_promotion_ui(target_position, pawn.name.begins_with("White"))
 
 func _on_white_5_pressed():
-	promote_pawn("Queen", UnitManager.WHITE_QUEEN)
+	if GameManager.online_enabled and multiplayer.get_unique_id() != 1:
+		NetworkManager.rpc_id(1, "promote_pawn_choice", promotion_position, "Queen")
+	else:
+		promote_pawn("Queen", UnitManager.WHITE_QUEEN)
 
+# Repeat for other promotion buttons:
 func _on_white_4_pressed():
-	promote_pawn("Rook", UnitManager.WHITE_ROOK)
+	if GameManager.online_enabled and multiplayer.get_unique_id() != 1:
+		NetworkManager.rpc_id(1, "promote_pawn_choice", promotion_position, "Rook")
+	else:
+		promote_pawn("Rook", UnitManager.WHITE_ROOK)
 
 func _on_white_3_pressed():
-	promote_pawn("Bishop", UnitManager.WHITE_BISHOP)
+	if GameManager.online_enabled and multiplayer.get_unique_id() != 1:
+		NetworkManager.rpc_id(1, "promote_pawn_choice", promotion_position, "Bishop")
+	else:
+		promote_pawn("Bishop", UnitManager.WHITE_BISHOP)
 
 func _on_white_2_pressed():
-	promote_pawn("Knight", UnitManager.WHITE_KNIGHT)
+	if GameManager.online_enabled and multiplayer.get_unique_id() != 1:
+		NetworkManager.rpc_id(1, "promote_pawn_choice", promotion_position, "Knight")
+	else:
+		promote_pawn("Knight", UnitManager.WHITE_KNIGHT)
 
 func _on_black_5_pressed():
-	promote_pawn("Queen", UnitManager.BLACK_QUEEN)
+	if GameManager.online_enabled and multiplayer.get_unique_id() != 1:
+		NetworkManager.rpc_id(1, "promote_pawn_choice", promotion_position, "Queen")
+	else:
+		promote_pawn("Queen", UnitManager.BLACK_QUEEN)
 
 func _on_black_4_pressed():
-	promote_pawn("Rook", UnitManager.BLACK_ROOK)
+	if GameManager.online_enabled and multiplayer.get_unique_id() != 1:
+		NetworkManager.rpc_id(1, "promote_pawn_choice", promotion_position, "Rook")
+	else:
+		promote_pawn("Rook", UnitManager.BLACK_ROOK)
 
 func _on_black_3_pressed():
-	promote_pawn("Bishop", UnitManager.BLACK_BISHOP)
+	if GameManager.online_enabled and multiplayer.get_unique_id() != 1:
+		NetworkManager.rpc_id(1, "promote_pawn_choice", promotion_position, "Bishop")
+	else:
+		promote_pawn("Bishop", UnitManager.BLACK_BISHOP)
 
 func _on_black_2_pressed():
-	promote_pawn("Knight", UnitManager.BLACK_KNIGHT)
-
+	if GameManager.online_enabled and multiplayer.get_unique_id() != 1:
+		NetworkManager.rpc_id(1, "promote_pawn_choice", promotion_position, "Knight")
+	else:
+		promote_pawn("Knight", UnitManager.BLACK_KNIGHT)
 
 
 func promote_pawn(piece_name: String, piece_scene: PackedScene):
@@ -132,11 +180,14 @@ func promote_pawn(piece_name: String, piece_scene: PackedScene):
 	# Check if the turn should end
 	TurnManager.check_turn_end()
 
+func promote_pawn_networked(pawn_pos: Vector2, piece_name: String):
+	var pawn = BoardManager.board_state[int(pawn_pos.y)][int(pawn_pos.x)]
+	if pawn and pawn.name.find("Pawn") != -1:
+		promote_pawn(piece_name, UnitManager.get_piece_scene(piece_name, pawn.name.begins_with("White")))
 
 #endregion
 
 #region castling
-
 
 func can_castle(is_white: bool, kingside: bool) -> bool:
 	if not castling_enabled:

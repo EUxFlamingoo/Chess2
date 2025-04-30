@@ -49,6 +49,7 @@ Log="*res://addons/logger/logger.gd"
 SoundManager="*res://addons/resonate/sound_manager/sound_manager.gd"
 MusicManager="*res://addons/resonate/music_manager/music_manager.gd"
 NetworkManager="*res://Scenes/network_manager.tscn"
+Player="*res://Scripts/player.gd"
 
 [dialogic]
 

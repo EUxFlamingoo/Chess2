@@ -50,10 +50,11 @@ func receive_full_board_state(state: Array, is_white_turn: bool):
 	BoardManager.can_select_piece = false
 	BoardManager.remove_all_pieces()
 	for piece_data in state:
-		UnitManager.place_piece_by_name(piece_data["type"], piece_data["x"], piece_data["y"])
+		UnitManager.place_piece_by_name(piece_data["type"], int(piece_data["x"]), int(piece_data["y"]))
 	TurnManager.is_white_turn = is_white_turn
 	BoardManager.deselect_piece()
 	BoardManager.can_select_piece = true
+	GameManager.update_turn_label()
 
 func get_board_state_as_array() -> Array:
 	var state = []
@@ -89,3 +90,40 @@ func remote_move(from_pos: Vector2, to_pos: Vector2):
 	for peer_id in multiplayer.get_peers():
 		if peer_id != multiplayer.get_unique_id():
 			rpc_id(peer_id, "receive_full_board_state", state, TurnManager.is_white_turn)
+
+# Client requests valid moves for a piece
+@rpc("any_peer")
+func request_valid_moves(x: int, y: int):
+	if not multiplayer.is_server():
+		return
+	if not BoardManager.is_within_board(x, y):
+		return
+	var piece = BoardManager.board_state[y][x]
+	if piece == null:
+		rpc_id(multiplayer.get_remote_sender_id(), "receive_valid_moves", [])
+		return
+	var is_white_piece = piece.name.begins_with("White")
+	# Only allow the client to request moves for their own pieces and on their turn
+	var client_is_white = false # client is always black in your setup
+	if is_white_piece != client_is_white or TurnManager.is_white_turn == true:
+		rpc_id(multiplayer.get_remote_sender_id(), "receive_valid_moves", [])
+		return
+	var moves = MoveManager.get_valid_moves(piece, x, y)
+	rpc_id(multiplayer.get_remote_sender_id(), "receive_valid_moves", moves)
+
+# Client receives valid moves from host
+@rpc("any_peer")
+func receive_valid_moves(moves: Array):
+	Player.highlight_moves_from_network(moves)
+
+# Host tells client to show promotion UI
+@rpc("any_peer")
+func request_promotion(pawn_pos: Vector2, is_white: bool):
+	Player.show_promotion_ui(pawn_pos, is_white)
+
+# Client tells host which piece to promote to
+@rpc("any_peer")
+func promote_pawn_choice(pawn_pos: Vector2, piece_name: String):
+	if not multiplayer.is_server():
+		return
+	Rules.promote_pawn_networked(pawn_pos, piece_name)

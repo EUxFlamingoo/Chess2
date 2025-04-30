@@ -13,6 +13,7 @@ extends Node
 @onready var offline_button: Button = $offline_button
 @onready var host_button: Button = $host_button
 @onready var join_button: Button = $join_button
+@onready var turn_label: Label = $turn_label
 
 var online_enabled = false
 
@@ -24,6 +25,7 @@ func _on_end_turn_button_pressed() -> void:
 		Rules.en_passant_capture_black = false
 	MoveManager.deselect_piece()
 	TurnManager.end_turn()
+	update_turn_label()
 
 func end_game(result_text: String):
 	game_finish.text = result_text
@@ -132,3 +134,9 @@ func _on_join_button_pressed() -> void:
 	NetworkManager.join_game()
 	join_button.visible = false
 	host_button.visible = false
+
+func update_turn_label():
+	if TurnManager.is_white_turn == true:
+		turn_label.text = "White's turn"
+	else:
+		turn_label.text = "Black's turn"

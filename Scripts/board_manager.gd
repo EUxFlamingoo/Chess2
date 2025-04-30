@@ -68,9 +68,17 @@ func _input(event):
 					if is_tile_occupied(x, y):
 						var piece = board_state[y][x]
 						var is_white_piece = piece.name.begins_with("White")
-						if is_white_piece == TurnManager.is_white_turn:
-							select_piece(x, y)
-							return
+						# Only allow selection if it's your turn, your color, and your piece
+						if GameManager.online_enabled and multiplayer.get_unique_id() != 1:
+							# Client: only allow selecting own pieces on own turn
+							if is_white_piece == Rules.player_is_white and NetworkManager.can_local_player_move():
+								select_piece(x, y)
+								return
+						else:
+							# Host or local: allow normal selection logic
+							if is_white_piece == TurnManager.is_white_turn and NetworkManager.can_local_player_move():
+								select_piece(x, y)
+								return
 					MoveManager.move_selected_piece(x, y)
 
 func get_centered_position(x: int, y: int) -> Vector2:
@@ -101,14 +109,22 @@ func select_piece(x: int, y: int):
 	if is_within_board(x, y) and is_tile_occupied(x, y):
 		var piece = board_state[y][x]
 		var is_white_piece = piece.name.begins_with("White")
-		if is_white_piece == TurnManager.is_white_turn and NetworkManager.can_local_player_move():
-			# allow selection
-			selected_piece = piece
-			selected_piece_position = Vector2(x, y)
-			var moves = MoveManager.get_valid_moves(piece, x, y)
-			MoveManager.highlight_possible_moves(moves)
+		if GameManager.online_enabled and multiplayer.get_unique_id() != 1:
+			# Client: only allow selecting own pieces on own turn
+			if is_white_piece == Rules.player_is_white and NetworkManager.can_local_player_move():
+				selected_piece = piece
+				selected_piece_position = Vector2(x, y)
+				Player.on_piece_selected(x, y)
+			else:
+				print("Cannot select opponent's piece or not your turn.")
 		else:
-			print("Cannot select piece: Not the current player's turn")
+			# Host or local: allow normal selection logic
+			if is_white_piece == TurnManager.is_white_turn and NetworkManager.can_local_player_move():
+				selected_piece = piece
+				selected_piece_position = Vector2(x, y)
+				Player.on_piece_selected(x, y)
+			else:
+				print("Cannot select piece: Not your turn or not your piece.")
 	else:
 		print("No piece found at: ", x, ", ", y)
 

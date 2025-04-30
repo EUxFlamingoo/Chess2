@@ -409,3 +409,33 @@ func place_piece_by_name(type: String, x: int, y: int):
 		scene = BLACK_QUEEN
 	if scene:
 		place_piece(scene, x, y, type)
+	if GameManager.online_enabled and multiplayer.get_unique_id() == 1:
+		var state = NetworkManager.get_board_state_as_array()
+		for peer_id in multiplayer.get_peers():
+			if peer_id != multiplayer.get_unique_id():
+				NetworkManager.rpc_id(peer_id, "receive_full_board_state", state, TurnManager.is_white_turn)
+
+func get_piece_scene(piece_name: String, is_white: bool) -> PackedScene:
+	match piece_name:
+		"Queen":
+			if is_white:
+				return WHITE_QUEEN
+			else:
+				return BLACK_QUEEN
+		"Rook":
+			if is_white:
+				return WHITE_ROOK
+			else:
+				return BLACK_ROOK
+		"Bishop":
+			if is_white:
+				return WHITE_BISHOP
+			else:
+				return BLACK_BISHOP
+		"Knight":
+			if is_white:
+				return WHITE_KNIGHT
+			else:
+				return BLACK_KNIGHT
+		_:
+			return null

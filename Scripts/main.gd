@@ -8,3 +8,4 @@ const UNIT_MANAGER = preload("res://Scenes/unit_manager.tscn")
 
 func _ready():
 	BoardManager.initialize()
+	GameManager.update_turn_label()

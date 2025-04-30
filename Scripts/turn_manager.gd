@@ -21,6 +21,12 @@ func end_turn():
 			GameManager.end_game("Checkmate, Restart?")
 			return
 		EnemyLogic.make_defensive_move()
+	GameManager.update_turn_label()
+	if GameManager.online_enabled and multiplayer.get_unique_id() == 1:
+		var state = NetworkManager.get_board_state_as_array()
+		for peer_id in multiplayer.get_peers():
+			if peer_id != multiplayer.get_unique_id():
+				NetworkManager.rpc_id(peer_id, "receive_full_board_state", state, TurnManager.is_white_turn)
 
 @rpc("any_peer")
 func sync_turn(new_is_white_turn: bool):
