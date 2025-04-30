@@ -8,24 +8,47 @@
 
 config_version=5
 
+[addons]
+
+resources_spreadsheet_view/array_color_tint=100.0
+resources_spreadsheet_view/color_rows=true
+resources_spreadsheet_view/array_min_width=128.0
+resources_spreadsheet_view/resource_preview_size=32.0
+resources_spreadsheet_view/clip_headers=false
+resources_spreadsheet_view/dupe_arrays=true
+resources_spreadsheet_view/context_menu_on_leftclick=false
+resources_spreadsheet_view/fold_docks=false
+
 [application]
 
 config/name="Chess2"
 run/main_scene="uid://p1ockqo357ax"
 config/features=PackedStringArray("4.4", "Forward Plus")
 
+[audio]
+
+manager/sound/bus="Sound"
+manager/sound/pool_1D_size=16
+manager/sound/pool_2D_size=16
+manager/sound/pool_3D_size=16
+manager/sound/max_polyphony=32
+manager/music/bus="Music"
+
 [autoload]
 
-NetworkManager="*res://Scenes/network_manager.tscn"
 BoardManager="*res://Scenes/board.tscn"
 Rules="*res://Scenes/Rules.tscn"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
-Console="*res://addons/gameconsole/console/console.gd"
 UnitManager="*res://Scenes/unit_manager.tscn"
+Console="*res://addons/gameconsole/console/console.gd"
 MoveManager="*res://Scenes/move_manager.tscn"
 TurnManager="*res://Scenes/turn_manager.tscn"
 EnemyLogic="*res://Scripts/enemy_logic.gd"
 GameManager="*res://Scenes/game_manager.tscn"
+Log="*res://addons/logger/logger.gd"
+SoundManager="*res://addons/resonate/sound_manager/sound_manager.gd"
+MusicManager="*res://addons/resonate/music_manager/music_manager.gd"
+NetworkManager="*res://Scenes/network_manager.tscn"
 
 [dialogic]
 

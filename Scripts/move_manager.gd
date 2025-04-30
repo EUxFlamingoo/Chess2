@@ -27,9 +27,6 @@ func move_piece(piece, from_position: Vector2, to_position: Vector2):
 			UnitManager.white_king_pos = to_position
 		else:
 			UnitManager.black_king_pos = to_position
-	# Locate and print the king's position
-	var is_white_turn = TurnManager.is_white_turn
-	var king_position = UnitManager.locate_king(is_white_turn)
 	TurnManager.check_turn_end()
 
 func handle_capture(to_position: Vector2):
@@ -62,15 +59,24 @@ func track_piece_movement(piece, from_position: Vector2):
 			elif from_position == Vector2(7, 7): Rules.black_rook_kingside_moved = true
 
 func move_selected_piece(x: int, y: int):
-	# Get the valid moves for the selected piece
+	if GameManager.online_enabled and multiplayer.get_unique_id() != 1:
+		# Client: send move to host, do not validate locally
+		NetworkManager.rpc_id(1, "remote_move", BoardManager.selected_piece_position, Vector2(x, y))
+		BoardManager.can_select_piece = false
+		BoardManager.deselect_piece()
+		return
+	# Host or offline: validate and apply move locally
 	var moves = get_valid_moves(BoardManager.selected_piece, BoardManager.selected_piece_position.x, BoardManager.selected_piece_position.y)
-	# Highlight only valid moves
-	highlight_possible_moves(moves)
-	# Check if the target position is in the list of valid moves
 	if Vector2(x, y) in moves:
 		move_piece(BoardManager.selected_piece, BoardManager.selected_piece_position, Vector2(x, y))
-		TurnManager.moves_this_turn += 1  # Increment the move counter
-		TurnManager.check_turn_end()  # Check if the turn should end
+		TurnManager.moves_this_turn += 1
+		TurnManager.check_turn_end()
+		# --- SEND BOARD UPDATE TO CLIENTS ---
+		if GameManager.online_enabled and multiplayer.get_unique_id() == 1:
+			var state = NetworkManager.get_board_state_as_array()
+			for peer_id in multiplayer.get_peers():
+				if peer_id != multiplayer.get_unique_id():
+					NetworkManager.rpc_id(peer_id, "receive_full_board_state", state, TurnManager.is_white_turn)
 	else:
 		print("Invalid move")
 	BoardManager.deselect_piece()
@@ -80,9 +86,8 @@ func move_selected_piece(x: int, y: int):
 #region highlite_tile
 
 func highlight_possible_moves(moves: Array):
-	# Clear existing highlights
+	print("Highlighting moves: ", moves)
 	clear_move_highlights()
-	# Add new highlights for valid moves
 	for move in moves:
 		var highlight = PIECE_MOVE.instantiate()
 		highlight.position = Vector2(move.x * BoardManager.TILE_SIZE + BoardManager.TILE_SIZE / 2.0, -move.y * BoardManager.TILE_SIZE + BoardManager.TILE_SIZE / 2.0)
@@ -161,6 +166,7 @@ func is_square_attacked(pos: Vector2, by_white: bool) -> bool:
 func is_king_in_check(is_white: bool) -> bool:
 	var king_pos = UnitManager.white_king_pos if is_white else UnitManager.black_king_pos
 	return is_square_attacked(king_pos, not is_white)
+
 # Returns all pieces attacking the given position
 func get_attackers(pos: Vector2, by_white: bool) -> Array:
 	var attackers = []
@@ -169,7 +175,24 @@ func get_attackers(pos: Vector2, by_white: bool) -> Array:
 			if BoardManager.is_tile_occupied(x, y):
 				var piece = BoardManager.board_state[y][x]
 				if piece.name.begins_with("White") == by_white:
-					var moves = get_valid_moves(piece, x, y)
+					var moves = []
+					if piece.name.find("Pawn") != -1:
+						# Pawns attack diagonally
+						var direction = -1 if by_white else 1
+						for dx in [-1, 1]:
+							var attack_x = x + dx
+							var attack_y = y + direction
+							if BoardManager.is_within_board(attack_x, attack_y):
+								moves.append(Vector2(attack_x, attack_y))
+					elif piece.name.find("Bishop") != -1:
+						moves = UnitManager.get_bishop_attacks(x, y, by_white)
+					elif piece.name.find("Rook") != -1:
+						moves = UnitManager.get_rook_attacks(x, y, by_white)
+					elif piece.name.find("Queen") != -1:
+						moves = UnitManager.get_bishop_attacks(x, y, by_white)
+						moves += UnitManager.get_rook_attacks(x, y, by_white)
+					else:
+						moves = get_valid_moves(piece, x, y, true)
 					if pos in moves:
 						attackers.append({"piece": piece, "position": Vector2(x, y)})
 	return attackers
@@ -202,12 +225,3 @@ func revert_move(from_position: Vector2, to_position: Vector2, captured_piece: V
 			UnitManager.black_king_pos = from_position
 
 #endregion
-
-func get_piece_at(pos: Vector2):
-	if BoardManager.is_within_board(int(pos.x), int(pos.y)):
-		return BoardManager.board_state[int(pos.y)][int(pos.x)]
-	return null
-
-func move_piece_networked(from: Vector2, to: Vector2):
-	# Move the piece without sending another network message
-	move_piece(get_piece_at(from), from, to)

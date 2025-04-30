@@ -16,7 +16,7 @@ const DARK_COLOR = Color(0.3, 0.2, 0.1)  # Modify
 var board_state = []
 var selected_piece = null
 var selected_piece_position = null
-
+var can_select_piece := true
 
 #endregion
 
@@ -48,7 +48,6 @@ func create_chessboard():
 			tile.size = Vector2(TILE_SIZE, TILE_SIZE)
 			tile.position = Vector2(x * TILE_SIZE, -y * TILE_SIZE)
 			add_child(tile)
-
 
 #endregion
 
@@ -96,10 +95,14 @@ func is_within_board(x: int, y: int) -> bool:
 #region select/deselect_unit
 
 func select_piece(x: int, y: int):
+	if not can_select_piece:
+		print("Waiting for board update from host.")
+		return
 	if is_within_board(x, y) and is_tile_occupied(x, y):
 		var piece = board_state[y][x]
 		var is_white_piece = piece.name.begins_with("White")
-		if is_white_piece == TurnManager.is_white_turn:
+		if is_white_piece == TurnManager.is_white_turn and NetworkManager.can_local_player_move():
+			# allow selection
 			selected_piece = piece
 			selected_piece_position = Vector2(x, y)
 			var moves = MoveManager.get_valid_moves(piece, x, y)
@@ -140,19 +143,3 @@ func remove_all_pieces():
 			if piece != null:
 				piece.queue_free()
 			board_state[y][x] = null
-
-
-
-
-func get_board_state_as_array() -> Array:
-	var state = []
-	for y in range(BOARD_HEIGHT):
-		for x in range(BOARD_WIDTH):
-			var piece = board_state[y][x]
-			if piece:
-				state.append({
-					"type": piece.name, # or use a type string
-					"x": x,
-					"y": y
-				})
-	return state

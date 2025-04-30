@@ -314,3 +314,12 @@ func find_checkmate_move(ai_is_white):
 				return {"piece": piece, "from": from_pos, "to": to_pos}
 			MoveManager.revert_move(from_pos, to_pos, captured_piece)
 	return null
+
+func is_covered(pos: Vector2, is_white: bool) -> bool:
+	# Returns true if the piece at pos is attacked by another piece of the same color
+	var defenders = MoveManager.get_attackers(pos, is_white)
+	for defender in defenders:
+		# Exclude the piece itself if needed
+		if defender["position"] != pos:
+			return true
+	return false

@@ -14,6 +14,7 @@ extends Node
 @onready var host_button: Button = $host_button
 @onready var join_button: Button = $join_button
 
+var online_enabled = false
 
 func _on_end_turn_button_pressed() -> void:
 	# Reset en_passant variables
@@ -111,6 +112,7 @@ func _on_online_button_pressed() -> void:
 	offline_button.visible = false
 	join_button.visible = true
 	host_button.visible = true
+	online_enabled = true
 
 func _on_offline_button_pressed() -> void:
 	online_button.visible = false
@@ -127,7 +129,6 @@ func _on_host_button_pressed() -> void:
 	TurnManager.initialize()
 
 func _on_join_button_pressed() -> void:
-	NetworkManager.join_game("192.168.178.54")
+	NetworkManager.join_game()
 	join_button.visible = false
 	host_button.visible = false
-	UnitManager.place_starting_pieces()

@@ -33,6 +33,9 @@ const PIECE_VALUES = {
 var white_king_pos = Vector2(4, BoardManager.First_Rank)
 var black_king_pos = Vector2(4, BoardManager.Last_Rank)
 
+func _enter_tree():
+	set_multiplayer_authority(name.to_int())
+
 func place_starting_pieces():
 	# Remove all existing pieces from the board
 	for y in range(BoardManager.BOARD_HEIGHT):
@@ -243,6 +246,23 @@ func get_rook_moves(x: int, y: int, is_white_piece: bool) -> Array:
 
 	return moves
 
+func get_rook_attacks(x: int, y: int, _is_white_piece: bool) -> Array:
+	var moves = []
+	var directions = [
+		Vector2(1, 0),   # Right
+		Vector2(-1, 0),  # Left
+		Vector2(0, 1),   # Down
+		Vector2(0, -1)   # Up
+	]
+	for direction in directions:
+		var pos = Vector2(x, y) + direction
+		while BoardManager.is_within_board(pos.x, pos.y):
+			moves.append(pos)
+			if BoardManager.is_tile_occupied(pos.x, pos.y):
+				break  # Stop at the first piece, regardless of color
+			pos += direction
+	return moves
+
 func get_bishop_moves(x: int, y: int, is_white_piece: bool) -> Array:
 	var moves = []
 	var directions = [
@@ -262,6 +282,20 @@ func get_bishop_moves(x: int, y: int, is_white_piece: bool) -> Array:
 			else:
 				break  # Stop further moves in this direction
 			pos += direction  # Move to the next position in the direction
+	return moves
+
+func get_bishop_attacks(x: int, y: int, _is_white_piece: bool) -> Array:
+	var moves = []
+	var directions = [
+		Vector2(1, 1), Vector2(-1, 1), Vector2(1, -1), Vector2(-1, -1)
+	]
+	for direction in directions:
+		var pos = Vector2(x, y) + direction
+		while BoardManager.is_within_board(pos.x, pos.y):
+			moves.append(pos)
+			if BoardManager.is_tile_occupied(pos.x, pos.y):
+				break  # Stop at the first piece, regardless of color
+			pos += direction
 	return moves
 
 func get_queen_moves(x: int, y: int, is_white_piece: bool) -> Array:
@@ -293,6 +327,10 @@ func get_king_moves(x: int, y: int, is_white_piece: bool) -> Array:
 			if not BoardManager.is_tile_occupied(target_x, target_y) or BoardManager.is_tile_occupied_by_opponent(target_x, target_y, is_white_piece):
 				# Only allow move if the target square is NOT attacked
 				if not MoveManager.is_square_attacked(Vector2(target_x, target_y), not is_white_piece):
+					# Prevent king from capturing a covered enemy piece
+					if BoardManager.is_tile_occupied_by_opponent(target_x, target_y, is_white_piece):
+						if EnemyLogic.is_covered(Vector2(target_x, target_y), not is_white_piece):
+							continue # Skip this move, as the enemy piece is protected
 					moves.append(Vector2(target_x, target_y))
 	# Add castling moves (you may want to add additional checks for castling safety)
 	moves += get_king_castling_moves(x, y, is_white_piece)
@@ -344,12 +382,30 @@ func get_knight_moves(x: int, y: int, is_white_piece: bool) -> Array:
 #endregion
 
 func place_piece_by_name(type: String, x: int, y: int):
-	# Map type string to PackedScene, e.g.:
 	var scene = null
 	if type.find("WhitePawn") != -1:
 		scene = WHITE_PAWN
 	elif type.find("BlackPawn") != -1:
 		scene = BLACK_PAWN
-	# ...repeat for all piece types...
+	elif type.find("WhiteRook") != -1:
+		scene = WHITE_ROOK
+	elif type.find("BlackRook") != -1:
+		scene = BLACK_ROOK
+	elif type.find("WhiteKnight") != -1:
+		scene = WHITE_KNIGHT
+	elif type.find("BlackKnight") != -1:
+		scene = BLACK_KNIGHT
+	elif type.find("WhiteBishop") != -1:
+		scene = WHITE_BISHOP
+	elif type.find("BlackBishop") != -1:
+		scene = BLACK_BISHOP
+	elif type.find("WhiteKing") != -1:
+		scene = WHITE_KING
+	elif type.find("BlackKing") != -1:
+		scene = BLACK_KING
+	elif type.find("WhiteQueen") != -1:
+		scene = WHITE_QUEEN
+	elif type.find("BlackQueen") != -1:
+		scene = BLACK_QUEEN
 	if scene:
 		place_piece(scene, x, y, type)
