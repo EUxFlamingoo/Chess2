@@ -7,26 +7,26 @@ Everything is made in Godot 4.
 - single player mode against a simple Algorithm which can handle:
   - a few handprepared openings (black side: done)
   - assigning value to own and enemy pieces (done)
-  - threat detection against its own pieces in it's own turn and capture/evade/block response (in progress)
+  - threat detection against its own pieces in it's own turn and capture/evade/block response (done)
   - greed response, take highest value enemy piece (done)
-  - safety response, threat detection for next turn and randomly move to a not threatend empty field
+  - safety response, threat detection for next turn and randomly move to a not threatend empty field (done)
   - fallback random response with no conditions (done)
 
 - Additional rulesets which the non-player algorithm seemlessly adopts, for example
-  - bigger & smaller board size
-  - more & less pieces on both or one side
+  - bigger & smaller board size (done)
+  - more & less pieces on both or one side (done)
   - additional capabilities of pieces
   - additional new pieces
   - additional win/loose conditions
-  - assigning own starting position with given pieces
-  - selection of starting pieces
+  - assigning own starting position with given pieces (done)
+  - selection of starting pieces (done)
   - obsticals on board
   - make the pieces "walk" or "jump" using pathfinding
-  - move multiple pieces in one turn
+  - move multiple pieces in one turn (done)
  - maybe:
    - z-axis capabilities
    - players choose their moves but both turns get resolved simultaniously in an "action phase"
-   - online multiplayer capabilities
+   - online multiplayer capabilities (done (meh))
    - more advanced enemy algorithm
 
 ---------------------------------------------------------------------------------------------------------
