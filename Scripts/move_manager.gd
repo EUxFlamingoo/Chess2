@@ -1,8 +1,7 @@
 extends Node2D
 
 # get_valid_moves needs to be updated when units are added
-
-const PIECE_MOVE = preload("res://Scenes/piece_move.tscn")
+const PIECE_MOVE = preload("res://Scenes/misc/piece_move.tscn")
 
 var move_highlights = []  # List to track move highlight nodes
 

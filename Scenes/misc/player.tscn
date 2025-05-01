@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c3p2tagod4try"]
 
-[ext_resource type="Script" uid="uid://cuu8pvygwka6" path="res://Scripts/player.gd" id="1_v0iea"]
+[ext_resource type="Script" uid="uid://cuu8pvygwka6" path="res://Scripts/player.gd" id="1_a7wm5"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_f60y1"]
 properties/0/path = NodePath(".:position")
@@ -14,7 +14,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_v0iea")
+script = ExtResource("1_a7wm5")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_f60y1")

@@ -18,11 +18,13 @@ resources_spreadsheet_view/clip_headers=false
 resources_spreadsheet_view/dupe_arrays=true
 resources_spreadsheet_view/context_menu_on_leftclick=false
 resources_spreadsheet_view/fold_docks=false
+resources_spreadsheet_view/resource_cell_label_mode=false
+resources_spreadsheet_view/freeze_first_column=true
 
 [application]
 
 config/name="Chess2"
-run/main_scene="uid://p1ockqo357ax"
+run/main_scene="uid://lqydbw3pdyk8"
 config/features=PackedStringArray("4.4", "Forward Plus")
 
 [audio]
@@ -36,19 +38,16 @@ manager/music/bus="Music"
 
 [autoload]
 
-BoardManager="*res://Scenes/board.tscn"
-Rules="*res://Scenes/Rules.tscn"
+BoardManager="*res://Scenes/misc/board.tscn"
+Rules="*res://Scenes/misc/Rules.tscn"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
-UnitManager="*res://Scenes/unit_manager.tscn"
+UnitManager="*res://Scenes/Managers/unit_manager.tscn"
 Console="*res://addons/gameconsole/console/console.gd"
-MoveManager="*res://Scenes/move_manager.tscn"
-TurnManager="*res://Scenes/turn_manager.tscn"
+MoveManager="*res://Scenes/Managers/move_manager.tscn"
+TurnManager="*res://Scenes/Managers/turn_manager.tscn"
 EnemyLogic="*res://Scripts/enemy_logic.gd"
-GameManager="*res://Scenes/game_manager.tscn"
-Log="*res://addons/logger/logger.gd"
-SoundManager="*res://addons/resonate/sound_manager/sound_manager.gd"
-MusicManager="*res://addons/resonate/music_manager/music_manager.gd"
-NetworkManager="*res://Scenes/network_manager.tscn"
+GameManager="*res://Scenes/Managers/game_manager.tscn"
+NetworkManager="*res://Scenes/Managers/network_manager.tscn"
 Player="*res://Scripts/player.gd"
 
 [dialogic]
@@ -58,7 +57,7 @@ directories/dtl_directory={}
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Fantail-Interactive.top_down_camera/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/YouCanDoIt/plugin.cfg", "res://addons/dialogic/plugin.cfg", "res://addons/gameconsole/plugin.cfg", "res://addons/project_time/plugin.cfg", "res://addons/script-ide/plugin.cfg", "res://addons/script_spliter/plugin.cfg", "res://addons/simple_gdscript_formatter/plugin.cfg")
+enabled=PackedStringArray("res://addons/Fantail-Interactive.top_down_camera/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/YouCanDoIt/plugin.cfg", "res://addons/dialogic/plugin.cfg", "res://addons/format_on_save/plugin.cfg", "res://addons/gameconsole/plugin.cfg", "res://addons/gdLinter/plugin.cfg", "res://addons/project_time/plugin.cfg", "res://addons/resources_spreadsheet_view/plugin.cfg", "res://addons/script-ide/plugin.cfg", "res://addons/script_spliter/plugin.cfg", "res://addons/simple_gdscript_formatter/plugin.cfg")
 
 [file_customization]
 

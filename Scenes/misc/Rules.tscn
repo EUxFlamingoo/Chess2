@@ -1,117 +1,117 @@
 [gd_scene load_steps=44 format=3 uid="uid://nssyy6yi516l"]
 
-[ext_resource type="Script" uid="uid://kcpq5kxojtaj" path="res://Scripts/rules.gd" id="1_8rmfh"]
-[ext_resource type="Texture2D" uid="uid://cx1r0e1js6u2a" path="res://Assets/white_knight.png" id="2_kf4e7"]
-[ext_resource type="Texture2D" uid="uid://bly06pm631l0d" path="res://Assets/white_bishop.png" id="3_dr23v"]
-[ext_resource type="Texture2D" uid="uid://dmfuj6c36olmn" path="res://Assets/white_rook.png" id="4_1ud7n"]
-[ext_resource type="Texture2D" uid="uid://b1vdjwwlmhg1v" path="res://Assets/white_queen.png" id="5_rvdrs"]
-[ext_resource type="Texture2D" uid="uid://bksrbngk5joi7" path="res://Assets/black_knight.png" id="6_3jwr6"]
-[ext_resource type="Texture2D" uid="uid://cjkbioloy1lwr" path="res://Assets/black_bishop.png" id="7_r5mbi"]
-[ext_resource type="Texture2D" uid="uid://da6ab4ww6341s" path="res://Assets/black_rook.png" id="8_qb3qx"]
-[ext_resource type="Texture2D" uid="uid://bvxsmtvtqsvtp" path="res://Assets/black_queen.png" id="9_teh1u"]
+[ext_resource type="Script" uid="uid://kcpq5kxojtaj" path="res://Scripts/rules.gd" id="1_wngcr"]
+[ext_resource type="Texture2D" uid="uid://cx1r0e1js6u2a" path="res://Assets/white_knight.png" id="2_26hgg"]
+[ext_resource type="Texture2D" uid="uid://bly06pm631l0d" path="res://Assets/white_bishop.png" id="3_7hx34"]
+[ext_resource type="Texture2D" uid="uid://dmfuj6c36olmn" path="res://Assets/white_rook.png" id="4_8f7ks"]
+[ext_resource type="Texture2D" uid="uid://b1vdjwwlmhg1v" path="res://Assets/white_queen.png" id="5_hfhgh"]
+[ext_resource type="Texture2D" uid="uid://bksrbngk5joi7" path="res://Assets/black_knight.png" id="6_pu7uf"]
+[ext_resource type="Texture2D" uid="uid://cjkbioloy1lwr" path="res://Assets/black_bishop.png" id="7_se1b7"]
+[ext_resource type="Texture2D" uid="uid://da6ab4ww6341s" path="res://Assets/black_rook.png" id="8_qcevw"]
+[ext_resource type="Texture2D" uid="uid://bvxsmtvtqsvtp" path="res://Assets/black_queen.png" id="9_qr4pb"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4ocan"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uhxfv"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4x4sf"]
-texture = ExtResource("2_kf4e7")
+texture = ExtResource("2_26hgg")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vyptn"]
-texture = ExtResource("2_kf4e7")
+texture = ExtResource("2_26hgg")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_r5fix"]
-texture = ExtResource("2_kf4e7")
+texture = ExtResource("2_26hgg")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6uol7"]
-texture = ExtResource("2_kf4e7")
+texture = ExtResource("2_26hgg")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_83pra"]
-texture = ExtResource("3_dr23v")
+texture = ExtResource("3_7hx34")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yu0r6"]
-texture = ExtResource("3_dr23v")
+texture = ExtResource("3_7hx34")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rthsk"]
-texture = ExtResource("3_dr23v")
+texture = ExtResource("3_7hx34")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_drpkg"]
-texture = ExtResource("3_dr23v")
+texture = ExtResource("3_7hx34")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mg8ao"]
-texture = ExtResource("4_1ud7n")
+texture = ExtResource("4_8f7ks")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_h3o7y"]
-texture = ExtResource("4_1ud7n")
+texture = ExtResource("4_8f7ks")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bjreu"]
-texture = ExtResource("4_1ud7n")
+texture = ExtResource("4_8f7ks")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aoux3"]
-texture = ExtResource("4_1ud7n")
+texture = ExtResource("4_8f7ks")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mculp"]
-texture = ExtResource("5_rvdrs")
+texture = ExtResource("5_hfhgh")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2bdmj"]
-texture = ExtResource("5_rvdrs")
+texture = ExtResource("5_hfhgh")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kexf5"]
-texture = ExtResource("5_rvdrs")
+texture = ExtResource("5_hfhgh")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ke00p"]
-texture = ExtResource("5_rvdrs")
+texture = ExtResource("5_hfhgh")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2xm6m"]
-texture = ExtResource("6_3jwr6")
+texture = ExtResource("6_pu7uf")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_27agn"]
-texture = ExtResource("6_3jwr6")
+texture = ExtResource("6_pu7uf")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dosku"]
-texture = ExtResource("6_3jwr6")
+texture = ExtResource("6_pu7uf")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ntew7"]
-texture = ExtResource("6_3jwr6")
+texture = ExtResource("6_pu7uf")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vxp2p"]
-texture = ExtResource("7_r5mbi")
+texture = ExtResource("7_se1b7")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uijgb"]
-texture = ExtResource("7_r5mbi")
+texture = ExtResource("7_se1b7")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_t2r0g"]
-texture = ExtResource("7_r5mbi")
+texture = ExtResource("7_se1b7")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_a0084"]
-texture = ExtResource("7_r5mbi")
+texture = ExtResource("7_se1b7")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bprpb"]
-texture = ExtResource("8_qb3qx")
+texture = ExtResource("8_qcevw")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6l2ye"]
-texture = ExtResource("8_qb3qx")
+texture = ExtResource("8_qcevw")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mtkyf"]
-texture = ExtResource("8_qb3qx")
+texture = ExtResource("8_qcevw")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vior8"]
-texture = ExtResource("8_qb3qx")
+texture = ExtResource("8_qcevw")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sf2kk"]
-texture = ExtResource("9_teh1u")
+texture = ExtResource("9_qr4pb")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l4hko"]
-texture = ExtResource("9_teh1u")
+texture = ExtResource("9_qr4pb")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lhxbs"]
-texture = ExtResource("9_teh1u")
+texture = ExtResource("9_qr4pb")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kk4ef"]
-texture = ExtResource("9_teh1u")
+texture = ExtResource("9_qr4pb")
 
 [node name="Rules" type="Node"]
-script = ExtResource("1_8rmfh")
+script = ExtResource("1_wngcr")
 
 [node name="white2" type="Button" parent="."]
 visible = false

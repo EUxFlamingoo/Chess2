@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bi4fmrai8xlhb"]
 
-[ext_resource type="Script" uid="uid://cvep05j870jv" path="res://Scripts/unit_manager.gd" id="1_00hpp"]
+[ext_resource type="Script" uid="uid://cvep05j870jv" path="res://Scripts/unit_manager.gd" id="1_4hm8d"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_00hpp"]
 properties/0/path = NodePath(".:process_mode")
@@ -8,7 +8,7 @@ properties/0/spawn = true
 properties/0/replication_mode = 1
 
 [node name="UnitManager" type="Node"]
-script = ExtResource("1_00hpp")
+script = ExtResource("1_4hm8d")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_00hpp")

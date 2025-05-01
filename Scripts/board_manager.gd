@@ -138,17 +138,17 @@ func deselect_piece():
 #region tile_occupience
 
 func is_tile_occupied(x: int, y: int) -> bool:
-	# Ensure the coordinates are within the board bounds
 	if not is_within_board(x, y):
-		return false  # Return false if the tile is out of bounds
+		return false
 	return board_state[y][x] != null
 
 func is_tile_occupied_by_opponent(x: int, y: int, is_white_piece: bool) -> bool:
+	if not is_within_board(x, y):
+		return false
 	if not is_tile_occupied(x, y):
 		return false
 	var piece = BoardManager.board_state[y][x]
 	return (is_white_piece and piece.name.begins_with("Black")) or (not is_white_piece and piece.name.begins_with("White"))
-
 
 #endregion
 

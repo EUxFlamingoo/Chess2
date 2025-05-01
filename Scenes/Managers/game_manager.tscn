@@ -1,27 +1,28 @@
 [gd_scene load_steps=4 format=3 uid="uid://db1bnwhfsfbvx"]
 
-[ext_resource type="Script" uid="uid://deirr5xccrio8" path="res://Scripts/game_manager.gd" id="1_oj352"]
-[ext_resource type="FontFile" uid="uid://cxj41dewvwgkt" path="res://Assets/PixelOperator8.ttf" id="2_e5fcp"]
-[ext_resource type="FontFile" uid="uid://bhycs4xjask1f" path="res://Assets/TYPEWR__.TTF" id="3_sq00h"]
+[ext_resource type="Script" uid="uid://deirr5xccrio8" path="res://Scripts/game_manager.gd" id="1_hqrb7"]
+[ext_resource type="FontFile" uid="uid://cxj41dewvwgkt" path="res://Assets/PixelOperator8.ttf" id="2_6lden"]
+[ext_resource type="FontFile" uid="uid://bhycs4xjask1f" path="res://Assets/TYPEWR__.TTF" id="3_j1mdm"]
 
 [node name="game_manager" type="Node"]
-script = ExtResource("1_oj352")
+script = ExtResource("1_hqrb7")
 
 [node name="reload_button" type="Button" parent="."]
 offset_left = 551.0
 offset_top = -451.0
 offset_right = 730.0
 offset_bottom = -374.0
-theme_override_fonts/font = ExtResource("2_e5fcp")
+theme_override_fonts/font = ExtResource("2_6lden")
 theme_override_font_sizes/font_size = 15
 text = "Restart"
 
 [node name="undo_button" type="Button" parent="."]
+visible = false
 offset_left = 626.0
 offset_top = -371.0
 offset_right = 725.0
 offset_bottom = -307.0
-theme_override_fonts/font = ExtResource("2_e5fcp")
+theme_override_fonts/font = ExtResource("2_6lden")
 theme_override_font_sizes/font_size = 15
 text = "undo"
 
@@ -31,7 +32,7 @@ offset_left = 569.0
 offset_top = 30.0
 offset_right = 736.0
 offset_bottom = 68.0
-theme_override_fonts/font = ExtResource("3_sq00h")
+theme_override_fonts/font = ExtResource("3_j1mdm")
 theme_override_font_sizes/font_size = 22
 text = "End turn"
 
@@ -134,6 +135,11 @@ offset_left = 542.0
 offset_top = -304.0
 offset_right = 722.0
 offset_bottom = -265.0
+theme_override_fonts/font = ExtResource("2_6lden")
+theme_override_font_sizes/font_size = 21
+text = "Turn Order"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="reload_button" to="." method="_on_reload_button_pressed"]
 [connection signal="pressed" from="end_turn_button" to="." method="_on_end_turn_button_pressed"]
