@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bhpxlbds7bhiv"]
 
-[ext_resource type="Script" uid="uid://dxncci4bmtpr1" path="res://Scripts/enemy_logic.gd" id="1_wsra6"]
+[ext_resource type="Script" uid="uid://dxncci4bmtpr1" path="res://Scripts/misc/enemy_logic.gd" id="1_wsra6"]
 
 [node name="enemy_logic" type="Node"]
 script = ExtResource("1_wsra6")

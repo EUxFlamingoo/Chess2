@@ -17,38 +17,31 @@ resources_spreadsheet_view/resource_preview_size=32.0
 resources_spreadsheet_view/clip_headers=false
 resources_spreadsheet_view/dupe_arrays=true
 resources_spreadsheet_view/context_menu_on_leftclick=false
-resources_spreadsheet_view/fold_docks=false
-resources_spreadsheet_view/resource_cell_label_mode=false
+resources_spreadsheet_view/fold_docks=true
+resources_spreadsheet_view/resource_cell_label_mode=1
 resources_spreadsheet_view/freeze_first_column=true
 
 [application]
 
-config/name="Chess2"
+config/name="ChessTest"
 run/main_scene="uid://lqydbw3pdyk8"
 config/features=PackedStringArray("4.4", "Forward Plus")
-
-[audio]
-
-manager/sound/bus="Sound"
-manager/sound/pool_1D_size=16
-manager/sound/pool_2D_size=16
-manager/sound/pool_3D_size=16
-manager/sound/max_polyphony=32
-manager/music/bus="Music"
+config/icon="res://icon.svg"
 
 [autoload]
 
-BoardManager="*res://Scenes/misc/board.tscn"
-Rules="*res://Scenes/misc/Rules.tscn"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
-UnitManager="*res://Scenes/Managers/unit_manager.tscn"
 Console="*res://addons/gameconsole/console/console.gd"
+BoardManager="*res://Scenes/Managers/board_manager.tscn"
+UnitManager="*res://Scenes/Managers/unit_manager.tscn"
 MoveManager="*res://Scenes/Managers/move_manager.tscn"
 TurnManager="*res://Scenes/Managers/turn_manager.tscn"
-EnemyLogic="*res://Scripts/enemy_logic.gd"
+EnemyLogic="*res://Scripts/misc/enemy_logic.gd"
 GameManager="*res://Scenes/Managers/game_manager.tscn"
 NetworkManager="*res://Scenes/Managers/network_manager.tscn"
-Player="*res://Scripts/player.gd"
+Player="*res://Scripts/misc/player.gd"
+Rules="*res://Scenes/misc/Rules.tscn"
+MoveUtils="*res://Scripts/misc/move_utils.gd"
 
 [dialogic]
 
@@ -64,7 +57,11 @@ enabled=PackedStringArray("res://addons/Fantail-Interactive.top_down_camera/plug
 folder_colors={
 "res://Assets/": "purple",
 "res://Scenes/": "green",
-"res://Scripts/": "red"
+"res://Scenes/Managers/": "orange",
+"res://Scenes/Pieces/": "yellow",
+"res://Scripts/": "red",
+"res://Scripts/Managers/": "yellow",
+"res://Scripts/pieces/": "orange"
 }
 
 [input]

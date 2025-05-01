@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://o5b7gshe8kkd"]
+
+[ext_resource type="Texture2D" uid="uid://cjkbioloy1lwr" path="res://Assets/pieces/black/black_bishop.png" id="1_l7c40"]
+[ext_resource type="Script" uid="uid://d2e8olwhnnnwb" path="res://Scripts/pieces/custom/unit_template.gd" id="2_c686e"]
+
+[node name="custom_piece" type="Sprite2D"]
+rotation = 3.14159
+scale = Vector2(3.4, 3.4)
+texture = ExtResource("1_l7c40")
+script = ExtResource("2_c686e")

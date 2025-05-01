@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://db1bnwhfsfbvx"]
 
-[ext_resource type="Script" uid="uid://deirr5xccrio8" path="res://Scripts/game_manager.gd" id="1_hqrb7"]
-[ext_resource type="FontFile" uid="uid://cxj41dewvwgkt" path="res://Assets/PixelOperator8.ttf" id="2_6lden"]
-[ext_resource type="FontFile" uid="uid://bhycs4xjask1f" path="res://Assets/TYPEWR__.TTF" id="3_j1mdm"]
+[ext_resource type="Script" uid="uid://deirr5xccrio8" path="res://Scripts/Managers/game_manager.gd" id="1_hqrb7"]
+[ext_resource type="FontFile" uid="uid://cxj41dewvwgkt" path="res://Assets/font/PixelOperator8.ttf" id="2_6lden"]
+[ext_resource type="FontFile" uid="uid://bhycs4xjask1f" path="res://Assets/font/TYPEWR__.TTF" id="3_j1mdm"]
 
 [node name="game_manager" type="Node"]
 script = ExtResource("1_hqrb7")

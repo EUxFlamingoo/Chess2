@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cj1vlbejkibe4"]
-
-[ext_resource type="Texture2D" uid="uid://da6ab4ww6341s" path="res://Assets/black_rook.png" id="1_x23eh"]
-
-[node name="black_rook" type="Sprite2D"]
-scale = Vector2(3.4, 3.4)
-texture = ExtResource("1_x23eh")

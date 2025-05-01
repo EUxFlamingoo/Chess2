@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c3p2tagod4try"]
 
-[ext_resource type="Script" uid="uid://cuu8pvygwka6" path="res://Scripts/player.gd" id="1_a7wm5"]
+[ext_resource type="Script" uid="uid://cuu8pvygwka6" path="res://Scripts/misc/player.gd" id="1_a7wm5"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_f60y1"]
 properties/0/path = NodePath(".:position")
