@@ -1,32 +1,31 @@
 The goal is to make a lightweight and modular chess framework, which can be used to make chess clones, turn based top down strategie games and similar.
 Everything is horrible and unoptimized, I'm very much a beginner.
-Initial setup was made with https://youtube.com/playlist?list=PLd_56bdSJ-tS4-q1gczTdKJhqMep3Ij_w&si=yFeAbLqsj4sf9zSc as a guide.
 Everything is made in Godot 4.
 
 - local 2 Player mode adhering to all conventional chess rules (done)
 - single player mode against a simple Algorithm which can handle:
   - a few handprepared openings (black side: done)
   - assigning value to own and enemy pieces (done)
-  - threat detection against its own pieces in it's own turn and capture/evade/block response (in progress)
+  - threat detection against its own pieces in it's own turn and capture/evade/block response (done)
   - greed response, take highest value enemy piece (done)
-  - safety response, threat detection for next turn and randomly move to a not threatend empty field
+  - safety response, threat detection for next turn and randomly move to a not threatend empty field (done)
   - fallback random response with no conditions (done)
 
 - Additional rulesets which the non-player algorithm seemlessly adopts, for example
-  - bigger & smaller board size
-  - more & less pieces on both or one side
+  - bigger & smaller board size (done)
+  - more & less pieces on both or one side (done)
   - additional capabilities of pieces
   - additional new pieces
   - additional win/loose conditions
-  - assigning own starting position with given pieces
-  - selection of starting pieces
+  - assigning own starting position with given pieces (done)
+  - selection of starting pieces (done)
   - obsticals on board
   - make the pieces "walk" or "jump" using pathfinding
-  - move multiple pieces in one turn
+  - move multiple pieces in one turn (done)
  - maybe:
    - z-axis capabilities
    - players choose their moves but both turns get resolved simultaniously in an "action phase"
-   - online multiplayer capabilities
+   - online multiplayer capabilities (done (meh))
    - more advanced enemy algorithm
 
 ---------------------------------------------------------------------------------------------------------
