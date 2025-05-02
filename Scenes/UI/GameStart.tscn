@@ -1,0 +1,86 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2k75uer7j5qy"]
+
+[ext_resource type="Script" uid="uid://bale3i5tljdob" path="res://Scenes/UI/game_start.gd" id="1_llu22"]
+
+[node name="GameStart" type="Node2D"]
+script = ExtResource("1_llu22")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="player_2" type="Button" parent="CanvasLayer"]
+z_index = 100
+offset_left = 457.0
+offset_top = 241.0
+offset_right = 657.0
+offset_bottom = 316.0
+text = "2-Player"
+
+[node name="player_1" type="Button" parent="CanvasLayer"]
+z_index = 100
+offset_left = 457.0
+offset_top = 316.0
+offset_right = 657.0
+offset_bottom = 391.0
+text = "1-Player"
+
+[node name="play_white" type="Button" parent="CanvasLayer"]
+visible = false
+offset_left = 432.0
+offset_top = 314.0
+offset_right = 685.0
+offset_bottom = 411.0
+text = "White"
+
+[node name="play_black" type="Button" parent="CanvasLayer"]
+visible = false
+offset_left = 432.0
+offset_top = 217.0
+offset_right = 685.0
+offset_bottom = 314.0
+text = "Black"
+
+[node name="online_button" type="Button" parent="CanvasLayer"]
+visible = false
+z_index = 100
+offset_left = 456.0
+offset_top = 237.0
+offset_right = 656.0
+offset_bottom = 312.0
+text = "online"
+metadata/_edit_use_anchors_ = true
+
+[node name="offline_button" type="Button" parent="CanvasLayer"]
+visible = false
+z_index = 100
+offset_left = 456.0
+offset_top = 313.0
+offset_right = 656.0
+offset_bottom = 388.0
+text = "local"
+metadata/_edit_use_anchors_ = true
+
+[node name="host_button" type="Button" parent="CanvasLayer"]
+visible = false
+z_index = 100
+offset_left = 456.0
+offset_top = 87.0
+offset_right = 656.0
+offset_bottom = 162.0
+text = "Host"
+metadata/_edit_use_anchors_ = true
+
+[node name="join_button" type="Button" parent="CanvasLayer"]
+visible = false
+z_index = 100
+offset_left = 456.0
+offset_top = 162.0
+offset_right = 656.0
+offset_bottom = 237.0
+text = "Join"
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="CanvasLayer/player_2" to="." method="_on_player_2_pressed"]
+[connection signal="pressed" from="CanvasLayer/player_1" to="." method="_on_player_1_pressed"]
+[connection signal="pressed" from="CanvasLayer/play_white" to="." method="_on_play_white_pressed"]
+[connection signal="pressed" from="CanvasLayer/play_black" to="." method="_on_play_black_pressed"]
+[connection signal="pressed" from="CanvasLayer/offline_button" to="." method="_on_offline_button_pressed"]

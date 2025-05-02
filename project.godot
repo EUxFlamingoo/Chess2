@@ -36,12 +36,13 @@ BoardManager="*res://Scenes/Managers/board_manager.tscn"
 UnitManager="*res://Scenes/Managers/unit_manager.tscn"
 MoveManager="*res://Scenes/Managers/move_manager.tscn"
 TurnManager="*res://Scenes/Managers/turn_manager.tscn"
-EnemyLogic="*res://Scripts/misc/enemy_logic.gd"
+EnemyLogic="*res://Scenes/misc/enemy_logic.gd"
 GameManager="*res://Scenes/Managers/game_manager.tscn"
 NetworkManager="*res://Scenes/Managers/network_manager.tscn"
-Player="*res://Scripts/misc/player.gd"
+Player="*res://Scenes/misc/player.gd"
 Rules="*res://Scenes/misc/Rules.tscn"
 MoveUtils="*res://Scripts/misc/move_utils.gd"
+EndConditions="*res://Scripts/Rules/end_conditions.gd"
 
 [dialogic]
 
@@ -59,9 +60,7 @@ folder_colors={
 "res://Scenes/": "green",
 "res://Scenes/Managers/": "orange",
 "res://Scenes/Pieces/": "yellow",
-"res://Scripts/": "red",
-"res://Scripts/Managers/": "yellow",
-"res://Scripts/pieces/": "orange"
+"res://Scripts/": "red"
 }
 
 [input]

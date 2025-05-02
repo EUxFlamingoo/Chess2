@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://cj1vlbejkibe4"]
+
+[ext_resource type="Texture2D" uid="uid://da6ab4ww6341s" path="res://Assets/pieces/black/black_rook.png" id="1_x23eh"]
+[ext_resource type="Script" uid="uid://jgqgt6w4fqf8" path="res://Scenes/Pieces/chess/rook.gd" id="2_giesg"]
+
+[node name="black_rook" type="Sprite2D"]
+scale = Vector2(3.4, 3.4)
+texture = ExtResource("1_x23eh")
+script = ExtResource("2_giesg")

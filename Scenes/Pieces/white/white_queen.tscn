@@ -1,9 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://buswjgqrm66jp"]
-
-[ext_resource type="Texture2D" uid="uid://b1vdjwwlmhg1v" path="res://Assets/pieces/white/white_queen.png" id="1_tw3r2"]
-[ext_resource type="Script" path="res://Scripts/pieces/queen.gd" id="2_fxyf2"]
-
-[node name="white_queen" type="Sprite2D"]
-scale = Vector2(3.4, 3.4)
-texture = ExtResource("1_tw3r2")
-script = ExtResource("2_fxyf2")

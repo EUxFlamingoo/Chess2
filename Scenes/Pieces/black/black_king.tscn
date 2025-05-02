@@ -1,9 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://v2deixpm72e6"]
-
-[ext_resource type="Texture2D" uid="uid://cd8gbd6yvuyvn" path="res://Assets/pieces/black/black_king.png" id="1_4fhuf"]
-[ext_resource type="Script" path="res://Scripts/pieces/king.gd" id="2_qyhx7"]
-
-[node name="black_king" type="Sprite2D"]
-scale = Vector2(3.4, 3.4)
-texture = ExtResource("1_4fhuf")
-script = ExtResource("2_qyhx7")

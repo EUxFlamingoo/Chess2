@@ -1,6 +1,6 @@
 [gd_scene load_steps=47 format=3 uid="uid://bi4fmrai8xlhb"]
 
-[ext_resource type="Script" uid="uid://cvep05j870jv" path="res://Scripts/Managers/unit_manager.gd" id="1_4hm8d"]
+[ext_resource type="Script" uid="uid://cvep05j870jv" path="res://Scenes/Managers/unit_manager.gd" id="1_4hm8d"]
 [ext_resource type="Texture2D" uid="uid://cx1r0e1js6u2a" path="res://Assets/pieces/white/white_knight.png" id="2_1y028"]
 [ext_resource type="Texture2D" uid="uid://bly06pm631l0d" path="res://Assets/pieces/white/white_bishop.png" id="3_bsrpx"]
 [ext_resource type="Texture2D" uid="uid://dmfuj6c36olmn" path="res://Assets/pieces/white/white_rook.png" id="4_yrwxa"]
@@ -125,7 +125,9 @@ script = ExtResource("1_4hm8d")
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_00hpp")
 
-[node name="white2" type="Button" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="white2" type="Button" parent="CanvasLayer"]
 visible = false
 top_level = true
 z_index = 50
@@ -147,7 +149,7 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_1uil8")
 theme_override_styles/normal = SubResource("StyleBoxTexture_ihb8j")
 metadata/_edit_use_anchors_ = true
 
-[node name="white3" type="Button" parent="."]
+[node name="white3" type="Button" parent="CanvasLayer"]
 visible = false
 top_level = true
 z_index = 50
@@ -169,7 +171,7 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_rqwxw")
 theme_override_styles/normal = SubResource("StyleBoxTexture_ef3qk")
 metadata/_edit_use_anchors_ = true
 
-[node name="white4" type="Button" parent="."]
+[node name="white4" type="Button" parent="CanvasLayer"]
 visible = false
 top_level = true
 z_index = 50
@@ -191,7 +193,7 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_p3rpk")
 theme_override_styles/normal = SubResource("StyleBoxTexture_cl1a4")
 metadata/_edit_use_anchors_ = true
 
-[node name="white5" type="Button" parent="."]
+[node name="white5" type="Button" parent="CanvasLayer"]
 visible = false
 top_level = true
 z_index = 50
@@ -213,7 +215,7 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_ja053")
 theme_override_styles/normal = SubResource("StyleBoxTexture_b564o")
 metadata/_edit_use_anchors_ = true
 
-[node name="black2" type="Button" parent="."]
+[node name="black2" type="Button" parent="CanvasLayer"]
 visible = false
 top_level = true
 z_index = 15
@@ -230,7 +232,7 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_a86t5")
 theme_override_styles/normal = SubResource("StyleBoxTexture_gx4eg")
 metadata/_edit_use_anchors_ = true
 
-[node name="black3" type="Button" parent="."]
+[node name="black3" type="Button" parent="CanvasLayer"]
 visible = false
 top_level = true
 z_index = 15
@@ -247,7 +249,7 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_hx74h")
 theme_override_styles/normal = SubResource("StyleBoxTexture_1ow08")
 metadata/_edit_use_anchors_ = true
 
-[node name="black4" type="Button" parent="."]
+[node name="black4" type="Button" parent="CanvasLayer"]
 visible = false
 top_level = true
 z_index = 15
@@ -264,7 +266,7 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_c1f5t")
 theme_override_styles/normal = SubResource("StyleBoxTexture_rywx1")
 metadata/_edit_use_anchors_ = true
 
-[node name="black5" type="Button" parent="."]
+[node name="black5" type="Button" parent="CanvasLayer"]
 visible = false
 top_level = true
 z_index = 15
@@ -281,11 +283,11 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_ada7d")
 theme_override_styles/normal = SubResource("StyleBoxTexture_sxb7m")
 metadata/_edit_use_anchors_ = true
 
-[connection signal="pressed" from="white2" to="." method="_on_white_2_pressed"]
-[connection signal="pressed" from="white3" to="." method="_on_white_3_pressed"]
-[connection signal="pressed" from="white4" to="." method="_on_white_4_pressed"]
-[connection signal="pressed" from="white5" to="." method="_on_white_5_pressed"]
-[connection signal="pressed" from="black2" to="." method="_on_black_2_pressed"]
-[connection signal="pressed" from="black3" to="." method="_on_black_3_pressed"]
-[connection signal="pressed" from="black4" to="." method="_on_black_4_pressed"]
-[connection signal="pressed" from="black5" to="." method="_on_black_5_pressed"]
+[connection signal="pressed" from="CanvasLayer/white2" to="." method="_on_white_2_pressed"]
+[connection signal="pressed" from="CanvasLayer/white3" to="." method="_on_white_3_pressed"]
+[connection signal="pressed" from="CanvasLayer/white4" to="." method="_on_white_4_pressed"]
+[connection signal="pressed" from="CanvasLayer/white5" to="." method="_on_white_5_pressed"]
+[connection signal="pressed" from="CanvasLayer/black2" to="." method="_on_black_2_pressed"]
+[connection signal="pressed" from="CanvasLayer/black3" to="." method="_on_black_3_pressed"]
+[connection signal="pressed" from="CanvasLayer/black4" to="." method="_on_black_4_pressed"]
+[connection signal="pressed" from="CanvasLayer/black5" to="." method="_on_black_5_pressed"]

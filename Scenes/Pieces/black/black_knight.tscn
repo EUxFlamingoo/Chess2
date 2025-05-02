@@ -1,9 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://cwg10g5xdfwgq"]
-
-[ext_resource type="Texture2D" uid="uid://bksrbngk5joi7" path="res://Assets/pieces/black/black_knight.png" id="1_ngqt5"]
-[ext_resource type="Script" path="res://Scripts/pieces/knight.gd" id="2_fbnxr"]
-
-[node name="black_knight" type="Sprite2D"]
-scale = Vector2(3.4, 3.4)
-texture = ExtResource("1_ngqt5")
-script = ExtResource("2_fbnxr")

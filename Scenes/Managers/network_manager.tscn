@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dqh8yi46e4txk"]
 
-[ext_resource type="Script" uid="uid://b6jnpx7t3dqk0" path="res://Scripts/Managers/network_manager.gd" id="1_gm4uk"]
+[ext_resource type="Script" uid="uid://b6jnpx7t3dqk0" path="res://Scenes/Managers/network_manager.gd" id="1_gm4uk"]
 [ext_resource type="PackedScene" uid="uid://c3p2tagod4try" path="res://Scenes/misc/player.tscn" id="2_halar"]
 
 [node name="network_manager1" type="Node"]

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cq763g08r55im"]
+
+[ext_resource type="Script" uid="uid://bs1xb173vkg38" path="res://Scenes/maps/map_elements/obstacles.gd" id="1_cel2d"]
+[ext_resource type="PackedScene" uid="uid://cjquwt0r2veog" path="res://Scenes/Pieces/chess/black_pawn.tscn" id="2_w8rlp"]
+
+[node name="Obstacles" type="Node2D"]
+script = ExtResource("1_cel2d")
+
+[node name="obstacle" parent="." instance=ExtResource("2_w8rlp")]
+rotation = 3.14159
+scale = Vector2(4.2, 4.2)

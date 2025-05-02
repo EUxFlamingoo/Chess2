@@ -1,0 +1,50 @@
+[gd_scene load_steps=4 format=3 uid="uid://cku5kiewpii00"]
+
+[ext_resource type="Script" uid="uid://dqqcwxhfuukdl" path="res://Scenes/UI/map_ui.gd" id="1_j65kp"]
+[ext_resource type="FontFile" uid="uid://cxj41dewvwgkt" path="res://Assets/font/PixelOperator8.ttf" id="1_wshxg"]
+[ext_resource type="FontFile" uid="uid://bhycs4xjask1f" path="res://Assets/font/TYPEWR__.TTF" id="2_j65kp"]
+
+[node name="MapUi" type="Node2D"]
+script = ExtResource("1_j65kp")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="input_blocker" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = -1576.0
+offset_top = -1321.0
+offset_right = 2418.0
+offset_bottom = 1331.0
+
+[node name="undo_button" type="Button" parent="CanvasLayer"]
+visible = false
+offset_left = 1036.0
+offset_top = 128.0
+offset_right = 1135.0
+offset_bottom = 192.0
+theme_override_fonts/font = ExtResource("1_wshxg")
+theme_override_font_sizes/font_size = 15
+text = "undo"
+
+[node name="end_turn_button" type="Button" parent="CanvasLayer"]
+offset_left = 969.0
+offset_top = 17.0
+offset_right = 1136.0
+offset_bottom = 55.0
+theme_override_fonts/font = ExtResource("2_j65kp")
+theme_override_font_sizes/font_size = 22
+text = "End turn"
+
+[node name="reload_button" type="Button" parent="CanvasLayer"]
+offset_left = 969.0
+offset_top = 61.0
+offset_right = 1136.0
+offset_bottom = 101.0
+theme_override_fonts/font = ExtResource("1_wshxg")
+theme_override_font_sizes/font_size = 15
+text = "Restart"
+
+[connection signal="pressed" from="CanvasLayer/end_turn_button" to="." method="_on_end_turn_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/reload_button" to="." method="_on_reload_button_pressed"]

@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://chd78ddvsqtjj"]
+
+[ext_resource type="Texture2D" uid="uid://b3ryjpbuyofwq" path="res://Assets/pieces/white/white_pawn.png" id="1_orrx8"]
+[ext_resource type="Script" uid="uid://5wev2wff6php" path="res://Scenes/Pieces/custom/white_side_pawn.gd" id="2_33pmh"]
+
+[node name="custom_piece" type="Sprite2D"]
+rotation = 1.5708
+scale = Vector2(3.4, 3.4)
+texture = ExtResource("1_orrx8")
+script = ExtResource("2_33pmh")

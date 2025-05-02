@@ -1,9 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://cjquwt0r2veog"]
-
-[ext_resource type="Texture2D" uid="uid://c5yqrwnn2hsri" path="res://Assets/pieces/black/black_pawn.png" id="1_ebj0b"]
-[ext_resource type="Script" uid="uid://dt1lgdumrhjoh" path="res://Scripts/pieces/pawn.gd" id="2_d13do"]
-
-[node name="black_pawn" type="Sprite2D"]
-scale = Vector2(3.6, 3.6)
-texture = ExtResource("1_ebj0b")
-script = ExtResource("2_d13do")

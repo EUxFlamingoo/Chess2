@@ -1,15 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://lqydbw3pdyk8"]
 
-[ext_resource type="Script" uid="uid://ccrv77fmm21ct" path="res://Scripts/main.gd" id="1_jjgbg"]
+[ext_resource type="Script" uid="uid://ccrv77fmm21ct" path="res://Scenes/main.gd" id="1_jjgbg"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jjgbg"]
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_jjgbg")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(264, -191)
-zoom = Vector2(0.8, 0.8)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_jjgbg")

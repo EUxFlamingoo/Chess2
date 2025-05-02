@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://71w1yonakm3c"]
+
+[ext_resource type="Texture2D" uid="uid://dmfuj6c36olmn" path="res://Assets/pieces/white/white_rook.png" id="1_xfu65"]
+[ext_resource type="Script" uid="uid://jgqgt6w4fqf8" path="res://Scenes/Pieces/chess/rook.gd" id="2_loyf3"]
+
+[node name="white_rook" type="Sprite2D"]
+scale = Vector2(3.4, 3.4)
+texture = ExtResource("1_xfu65")
+script = ExtResource("2_loyf3")
