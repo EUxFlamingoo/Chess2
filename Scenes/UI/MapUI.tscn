@@ -1,22 +1,21 @@
-[gd_scene load_steps=4 format=3 uid="uid://cku5kiewpii00"]
+[gd_scene load_steps=10 format=3 uid="uid://dxy62clq8cb85"]
 
 [ext_resource type="Script" uid="uid://dqqcwxhfuukdl" path="res://Scenes/UI/map_ui.gd" id="1_j65kp"]
 [ext_resource type="FontFile" uid="uid://cxj41dewvwgkt" path="res://Assets/font/PixelOperator8.ttf" id="1_wshxg"]
 [ext_resource type="FontFile" uid="uid://bhycs4xjask1f" path="res://Assets/font/TYPEWR__.TTF" id="2_j65kp"]
+[ext_resource type="Texture2D" uid="uid://b3ryjpbuyofwq" path="res://Assets/pieces/white/white_pawn.png" id="4_i1hk5"]
+[ext_resource type="Texture2D" uid="uid://cp21sy4dhkd6f" path="res://Assets/pieces/white/white_king.png" id="5_1mtfi"]
+[ext_resource type="Texture2D" uid="uid://cx1r0e1js6u2a" path="res://Assets/pieces/white/white_knight.png" id="6_6y32g"]
+[ext_resource type="Texture2D" uid="uid://bly06pm631l0d" path="res://Assets/pieces/white/white_bishop.png" id="7_w4lel"]
+[ext_resource type="Texture2D" uid="uid://dmfuj6c36olmn" path="res://Assets/pieces/white/white_rook.png" id="8_pxr4w"]
+[ext_resource type="Texture2D" uid="uid://b1vdjwwlmhg1v" path="res://Assets/pieces/white/white_queen.png" id="9_0jr0q"]
 
 [node name="MapUi" type="Node2D"]
+top_level = true
+z_index = 4096
 script = ExtResource("1_j65kp")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="input_blocker" type="Control" parent="CanvasLayer"]
-visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_left = -1576.0
-offset_top = -1321.0
-offset_right = 2418.0
-offset_bottom = 1331.0
 
 [node name="undo_button" type="Button" parent="CanvasLayer"]
 visible = false
@@ -46,5 +45,301 @@ theme_override_fonts/font = ExtResource("1_wshxg")
 theme_override_font_sizes/font_size = 15
 text = "Restart"
 
+[node name="turn_label" type="Label" parent="CanvasLayer"]
+offset_right = 180.0
+offset_bottom = 39.0
+theme_override_fonts/font = ExtResource("1_wshxg")
+theme_override_font_sizes/font_size = 21
+text = "Turn Order"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MovesLeftLabel" type="Label" parent="CanvasLayer"]
+offset_top = 35.0
+offset_right = 180.0
+offset_bottom = 74.0
+theme_override_fonts/font = ExtResource("1_wshxg")
+theme_override_font_sizes/font_size = 21
+text = "Moves"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="value_label" type="Label" parent="CanvasLayer"]
+offset_left = 453.0
+offset_top = 17.0
+offset_right = 633.0
+offset_bottom = 56.0
+theme_override_fonts/font = ExtResource("1_wshxg")
+theme_override_font_sizes/font_size = 21
+text = "Value: "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PieceShop" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -407.0
+offset_top = -100.0
+offset_right = 1.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 36
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/PieceShop"]
+layout_mode = 2
+theme_override_constants/separation = 36
+
+[node name="wpawn" type="Button" parent="CanvasLayer/PieceShop/HBoxContainer"]
+layout_mode = 2
+text = "1"
+icon = ExtResource("4_i1hk5")
+
+[node name="wking" type="Button" parent="CanvasLayer/PieceShop/HBoxContainer"]
+layout_mode = 2
+text = "2"
+icon = ExtResource("5_1mtfi")
+
+[node name="wknight" type="Button" parent="CanvasLayer/PieceShop/HBoxContainer"]
+layout_mode = 2
+text = "3"
+icon = ExtResource("6_6y32g")
+
+[node name="wbishop" type="Button" parent="CanvasLayer/PieceShop/HBoxContainer"]
+layout_mode = 2
+text = "4
+"
+icon = ExtResource("7_w4lel")
+
+[node name="wrook" type="Button" parent="CanvasLayer/PieceShop/HBoxContainer"]
+layout_mode = 2
+text = "5"
+icon = ExtResource("8_pxr4w")
+
+[node name="wqueen" type="Button" parent="CanvasLayer/PieceShop/HBoxContainer"]
+layout_mode = 2
+text = "9"
+icon = ExtResource("9_0jr0q")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/PieceShop"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 36
+
+[node name="wpawn" type="Button" parent="CanvasLayer/PieceShop/HBoxContainer2"]
+layout_mode = 2
+text = "1"
+icon = ExtResource("4_i1hk5")
+
+[node name="wking" type="Button" parent="CanvasLayer/PieceShop/HBoxContainer2"]
+layout_mode = 2
+text = "2"
+icon = ExtResource("5_1mtfi")
+
+[node name="wknight" type="Button" parent="CanvasLayer/PieceShop/HBoxContainer2"]
+layout_mode = 2
+text = "3"
+icon = ExtResource("6_6y32g")
+
+[node name="wbishop" type="Button" parent="CanvasLayer/PieceShop/HBoxContainer2"]
+layout_mode = 2
+text = "4
+"
+icon = ExtResource("7_w4lel")
+
+[node name="wrook" type="Button" parent="CanvasLayer/PieceShop/HBoxContainer2"]
+layout_mode = 2
+text = "5"
+icon = ExtResource("8_pxr4w")
+
+[node name="wqueen" type="Button" parent="CanvasLayer/PieceShop/HBoxContainer2"]
+layout_mode = 2
+text = "9"
+icon = ExtResource("9_0jr0q")
+
+[node name="Inventory" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -251.0
+offset_right = 133.0
+offset_bottom = 251.0
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Inventory"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 21
+text = "Your Pieces:"
+
+[node name="Label2" type="Label" parent="CanvasLayer/Inventory"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "(click to remove)"
+
+[node name="iwpawn" type="Button" parent="CanvasLayer/Inventory"]
+layout_mode = 2
+text = "0"
+icon = ExtResource("4_i1hk5")
+
+[node name="iwking" type="Button" parent="CanvasLayer/Inventory"]
+layout_mode = 2
+text = "0"
+icon = ExtResource("5_1mtfi")
+
+[node name="iwknight" type="Button" parent="CanvasLayer/Inventory"]
+layout_mode = 2
+text = "0"
+icon = ExtResource("6_6y32g")
+
+[node name="iwbishop" type="Button" parent="CanvasLayer/Inventory"]
+layout_mode = 2
+text = "0"
+icon = ExtResource("7_w4lel")
+
+[node name="iwrook" type="Button" parent="CanvasLayer/Inventory"]
+layout_mode = 2
+text = "0"
+icon = ExtResource("8_pxr4w")
+
+[node name="iwqueen" type="Button" parent="CanvasLayer/Inventory"]
+layout_mode = 2
+text = "0"
+icon = ExtResource("9_0jr0q")
+
+[node name="PlaceUnitsButton" type="Button" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -197.0
+offset_top = -118.0
+offset_right = 197.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 80
+text = "Place Units"
+
+[node name="Start" type="Button" parent="CanvasLayer"]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -197.0
+offset_top = -118.0
+offset_right = 197.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 80
+text = "Start"
+
+[node name="BackToShop" type="Button" parent="CanvasLayer"]
+visible = false
+offset_left = 12.0
+offset_top = 403.0
+offset_right = 193.0
+offset_bottom = 633.0
+theme_override_font_sizes/font_size = 50
+text = "Back to Shop"
+autowrap_mode = 2
+
+[node name="InfoPanel" type="Panel" parent="."]
+visible = false
+offset_left = 333.0
+offset_top = 156.0
+offset_right = 777.0
+offset_bottom = 402.0
+
+[node name="MarginContainer" type="MarginContainer" parent="InfoPanel"]
+layout_mode = 0
+offset_right = 444.0
+offset_bottom = 246.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="InfoText" type="RichTextLabel" parent="InfoPanel/MarginContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("2_j65kp")
+theme_override_fonts/mono_font = ExtResource("2_j65kp")
+theme_override_fonts/italics_font = ExtResource("2_j65kp")
+theme_override_fonts/bold_italics_font = ExtResource("2_j65kp")
+theme_override_fonts/bold_font = ExtResource("2_j65kp")
+theme_override_font_sizes/bold_italics_font_size = 25
+theme_override_font_sizes/italics_font_size = 25
+theme_override_font_sizes/mono_font_size = 25
+theme_override_font_sizes/normal_font_size = 25
+theme_override_font_sizes/bold_font_size = 25
+text = "Infotext"
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="SaveButton" type="Button" parent="CanvasLayer2"]
+offset_left = 1094.0
+offset_top = 107.0
+offset_right = 1137.0
+offset_bottom = 138.0
+text = "save"
+metadata/_edit_use_anchors_ = true
+
+[node name="LoadButton" type="Button" parent="CanvasLayer2"]
+offset_left = 1036.0
+offset_top = 107.0
+offset_right = 1079.0
+offset_bottom = 138.0
+text = "load"
+metadata/_edit_use_anchors_ = true
+
+[node name="CurrentMap" type="Label" parent="CanvasLayer2"]
+offset_left = 193.0
+offset_right = 316.0
+offset_bottom = 35.0
+text = "?"
+metadata/_edit_use_anchors_ = true
+
+[node name="switchTo" type="Button" parent="CanvasLayer2"]
+top_level = true
+offset_left = 837.0
+offset_top = 17.0
+offset_right = 964.0
+offset_bottom = 48.0
+text = "switch to "
+metadata/_edit_use_anchors_ = true
+
+[node name="ResetButton" type="Button" parent="CanvasLayer2"]
+offset_left = 882.0
+offset_top = 55.0
+offset_right = 960.0
+offset_bottom = 77.0
+text = "reset"
+
 [connection signal="pressed" from="CanvasLayer/end_turn_button" to="." method="_on_end_turn_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/reload_button" to="." method="_on_reload_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PieceShop/HBoxContainer/wpawn" to="." method="_on_wpawn_pressed"]
+[connection signal="pressed" from="CanvasLayer/PieceShop/HBoxContainer/wking" to="." method="_on_wking_pressed"]
+[connection signal="pressed" from="CanvasLayer/PieceShop/HBoxContainer/wknight" to="." method="_on_wknight_pressed"]
+[connection signal="pressed" from="CanvasLayer/PieceShop/HBoxContainer/wbishop" to="." method="_on_wbishop_pressed"]
+[connection signal="pressed" from="CanvasLayer/PieceShop/HBoxContainer/wrook" to="." method="_on_wrook_pressed"]
+[connection signal="pressed" from="CanvasLayer/PieceShop/HBoxContainer/wqueen" to="." method="_on_wqueen_pressed"]
+[connection signal="pressed" from="CanvasLayer/Inventory/iwpawn" to="." method="_on_iwpawn_pressed"]
+[connection signal="pressed" from="CanvasLayer/Inventory/iwking" to="." method="_on_iwking_pressed"]
+[connection signal="pressed" from="CanvasLayer/Inventory/iwknight" to="." method="_on_iwknight_pressed"]
+[connection signal="pressed" from="CanvasLayer/Inventory/iwbishop" to="." method="_on_iwbishop_pressed"]
+[connection signal="pressed" from="CanvasLayer/Inventory/iwrook" to="." method="_on_iwrook_pressed"]
+[connection signal="pressed" from="CanvasLayer/Inventory/iwqueen" to="." method="_on_iwqueen_pressed"]
+[connection signal="pressed" from="CanvasLayer/PlaceUnitsButton" to="." method="_on_place_units_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="CanvasLayer/BackToShop" to="." method="_on_back_to_shop_pressed"]
+[connection signal="pressed" from="CanvasLayer2/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="CanvasLayer2/LoadButton" to="." method="_on_load_button_pressed"]
+[connection signal="pressed" from="CanvasLayer2/switchTo" to="." method="_on_switch_to_pressed"]
+[connection signal="pressed" from="CanvasLayer2/ResetButton" to="." method="_on_reset_button_pressed"]

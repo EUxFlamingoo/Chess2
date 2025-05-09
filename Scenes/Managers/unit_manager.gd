@@ -82,15 +82,17 @@ func _enter_tree():
 func place_piece(piece_scene: PackedScene, board_x: int, board_y: int, name_prefix: String = ""):
 	var piece = piece_scene.instantiate()
 	if name_prefix != "":
-		piece.name = name_prefix + "_" + str(board_x) + "_" + str(board_y)  # Set a unique name
-	piece.position = BoardManager.get_centered_position(board_x, board_y)  # Use Global for positioning
-	# Set is_white based on name_prefix or scene
-	if name_prefix.begins_with("White"):
+		piece.name = name_prefix
+	else:
+		piece.name = piece_scene.resource_path.get_file().get_basename() + "_" + str(board_x) + "_" + str(board_y)
+	piece.position = BoardManager.get_centered_position(board_x, board_y)
+	if piece.name.begins_with("White"):
 		piece.is_white = true
-	elif name_prefix.begins_with("Black"):
+	elif piece.name.begins_with("Black"):
 		piece.is_white = false
-	BoardManager.add_child(piece)  # Add the piece to the board
-	BoardManager.board_state[board_y][board_x] = piece  # Update the board state
+	BoardManager.add_child(piece)
+	BoardManager.board_state[board_y][board_x] = piece
+	return piece
 
 #region place_pieces
 

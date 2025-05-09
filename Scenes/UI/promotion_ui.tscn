@@ -1,0 +1,110 @@
+[gd_scene load_steps=8 format=3 uid="uid://b7up3icujsnmj"]
+
+[ext_resource type="Texture2D" uid="uid://b3ryjpbuyofwq" path="res://Assets/pieces/white/white_pawn.png" id="1_4gbdd"]
+[ext_resource type="Script" uid="uid://ca3b53vo6sb7f" path="res://Scenes/UI/promotion_ui.gd" id="1_xm8s4"]
+[ext_resource type="Texture2D" uid="uid://cp21sy4dhkd6f" path="res://Assets/pieces/white/white_king.png" id="2_xm8s4"]
+[ext_resource type="Texture2D" uid="uid://cx1r0e1js6u2a" path="res://Assets/pieces/white/white_knight.png" id="3_2pijq"]
+[ext_resource type="Texture2D" uid="uid://bly06pm631l0d" path="res://Assets/pieces/white/white_bishop.png" id="4_ql2nc"]
+[ext_resource type="Texture2D" uid="uid://dmfuj6c36olmn" path="res://Assets/pieces/white/white_rook.png" id="5_0jngq"]
+[ext_resource type="Texture2D" uid="uid://b1vdjwwlmhg1v" path="res://Assets/pieces/white/white_queen.png" id="6_td0nl"]
+
+[node name="PromotionUi" type="Node2D"]
+script = ExtResource("1_xm8s4")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PiecePromotion" type="VBoxContainer" parent="CanvasLayer"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -391.0
+offset_top = -102.0
+offset_right = 17.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 36
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/PiecePromotion"]
+layout_mode = 2
+theme_override_constants/separation = 36
+
+[node name="wpawn" type="Button" parent="CanvasLayer/PiecePromotion/HBoxContainer"]
+layout_mode = 2
+text = "1"
+icon = ExtResource("1_4gbdd")
+
+[node name="wking" type="Button" parent="CanvasLayer/PiecePromotion/HBoxContainer"]
+layout_mode = 2
+text = "2"
+icon = ExtResource("2_xm8s4")
+
+[node name="wknight" type="Button" parent="CanvasLayer/PiecePromotion/HBoxContainer"]
+layout_mode = 2
+text = "3"
+icon = ExtResource("3_2pijq")
+
+[node name="wbishop" type="Button" parent="CanvasLayer/PiecePromotion/HBoxContainer"]
+layout_mode = 2
+text = "4
+"
+icon = ExtResource("4_ql2nc")
+
+[node name="wrook" type="Button" parent="CanvasLayer/PiecePromotion/HBoxContainer"]
+layout_mode = 2
+text = "5"
+icon = ExtResource("5_0jngq")
+
+[node name="wqueen" type="Button" parent="CanvasLayer/PiecePromotion/HBoxContainer"]
+layout_mode = 2
+text = "9"
+icon = ExtResource("6_td0nl")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/PiecePromotion"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 36
+
+[node name="wpawn" type="Button" parent="CanvasLayer/PiecePromotion/HBoxContainer2"]
+layout_mode = 2
+text = "1"
+icon = ExtResource("1_4gbdd")
+
+[node name="wking" type="Button" parent="CanvasLayer/PiecePromotion/HBoxContainer2"]
+layout_mode = 2
+text = "2"
+icon = ExtResource("2_xm8s4")
+
+[node name="wknight" type="Button" parent="CanvasLayer/PiecePromotion/HBoxContainer2"]
+layout_mode = 2
+text = "3"
+icon = ExtResource("3_2pijq")
+
+[node name="wbishop" type="Button" parent="CanvasLayer/PiecePromotion/HBoxContainer2"]
+layout_mode = 2
+text = "4
+"
+icon = ExtResource("4_ql2nc")
+
+[node name="wrook" type="Button" parent="CanvasLayer/PiecePromotion/HBoxContainer2"]
+layout_mode = 2
+text = "5"
+icon = ExtResource("5_0jngq")
+
+[node name="wqueen" type="Button" parent="CanvasLayer/PiecePromotion/HBoxContainer2"]
+layout_mode = 2
+text = "9"
+icon = ExtResource("6_td0nl")
+
+[connection signal="pressed" from="CanvasLayer/PiecePromotion/HBoxContainer/wpawn" to="." method="_on_wpawn_pressed"]
+[connection signal="pressed" from="CanvasLayer/PiecePromotion/HBoxContainer/wking" to="." method="_on_wking_pressed"]
+[connection signal="pressed" from="CanvasLayer/PiecePromotion/HBoxContainer/wknight" to="." method="_on_wknight_pressed"]
+[connection signal="pressed" from="CanvasLayer/PiecePromotion/HBoxContainer/wbishop" to="." method="_on_wbishop_pressed"]
+[connection signal="pressed" from="CanvasLayer/PiecePromotion/HBoxContainer/wrook" to="." method="_on_wrook_pressed"]
+[connection signal="pressed" from="CanvasLayer/PiecePromotion/HBoxContainer/wqueen" to="." method="_on_wqueen_pressed"]

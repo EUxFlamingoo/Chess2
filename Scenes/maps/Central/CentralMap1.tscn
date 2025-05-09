@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://dp3ue0ki55tkt"]
+
+[ext_resource type="Script" uid="uid://dlj7575vwf542" path="res://Scenes/maps/Central/central_map_1.gd" id="1_k0x6c"]
+[ext_resource type="PackedScene" uid="uid://cs3jptf8s1q6c" path="res://Scenes/maps/BattleMaps/map1.tscn" id="2_sbbag"]
+[ext_resource type="PackedScene" uid="uid://q76chesodx75" path="res://Scenes/maps/HomeMaps/home1.tscn" id="3_bomwm"]
+[ext_resource type="PackedScene" uid="uid://dxy62clq8cb85" path="res://Scenes/UI/MapUI.tscn" id="4_mapui"]
+
+[node name="CentralMap1" type="Node2D"]
+script = ExtResource("1_k0x6c")
+
+[node name="MainTabs" type="TabContainer" parent="."]
+offset_bottom = 31.0
+current_tab = 0
+tabs_visible = false
+
+[node name="Map1Panel" type="Panel" parent="MainTabs"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Map1" parent="MainTabs/Map1Panel" instance=ExtResource("2_sbbag")]
+
+[node name="Home1Panel" type="Panel" parent="MainTabs"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Home1" parent="MainTabs/Home1Panel" instance=ExtResource("3_bomwm")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Map1Button" type="Button" parent="CanvasLayer"]
+offset_left = 689.0
+offset_top = 17.0
+offset_right = 745.0
+offset_bottom = 48.0
+text = "Map 1"
+metadata/_edit_use_anchors_ = true
+
+[node name="Home1Button" type="Button" parent="CanvasLayer"]
+offset_left = 747.0
+offset_top = 17.0
+offset_right = 815.0
+offset_bottom = 48.0
+text = "Home 1"
+metadata/_edit_use_anchors_ = true
+
+[node name="MapUi" parent="." instance=ExtResource("4_mapui")]

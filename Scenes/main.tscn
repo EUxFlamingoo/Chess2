@@ -1,11 +1,30 @@
-[gd_scene load_steps=3 format=3 uid="uid://lqydbw3pdyk8"]
+[gd_scene load_steps=2 format=3 uid="uid://lqydbw3pdyk8"]
 
 [ext_resource type="Script" uid="uid://ccrv77fmm21ct" path="res://Scenes/main.gd" id="1_jjgbg"]
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jjgbg"]
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_jjgbg")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_jjgbg")
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+offset_left = 431.0
+offset_top = 151.0
+offset_right = 684.0
+offset_bottom = 557.0
+
+[node name="StartGame" type="Button" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+text = "Start Game"
+
+[node name="Options" type="Button" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+text = "Options"
+
+[node name="Quit" type="Button" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/StartGame" to="." method="_on_start_game_pressed"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

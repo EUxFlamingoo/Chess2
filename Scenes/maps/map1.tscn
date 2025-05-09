@@ -1,13 +1,79 @@
-[gd_scene load_steps=3 format=3 uid="uid://cukbh02tb1w64"]
+[gd_scene load_steps=9 format=3 uid="uid://bs2btmkuj7prp"]
 
-[ext_resource type="Script" uid="uid://cdwpcfjoyx14v" path="res://Scenes/maps/map_1.gd" id="1_o2qai"]
-[ext_resource type="PackedScene" uid="uid://cku5kiewpii00" path="res://Scenes/UI/MapUI.tscn" id="2_tmt4b"]
+[ext_resource type="Script" uid="uid://bona61j6t5fki" path="res://Scenes/maps/BattleMaps/map_1.gd" id="1_rs36e"]
+[ext_resource type="PackedScene" uid="uid://dxy62clq8cb85" path="res://Scenes/UI/MapUI.tscn" id="2_tmt4b"]
+[ext_resource type="PackedScene" uid="uid://tmi14bhr6xm5" path="res://Scenes/UI/MapInfo.tscn" id="3_sb70v"]
+[ext_resource type="PackedScene" uid="uid://b7up3icujsnmj" path="res://Scenes/UI/promotion_ui.tscn" id="4_0ksuw"]
+[ext_resource type="PackedScene" uid="uid://utu4nx2gor2i" path="res://Scenes/UI/AbilitiesUi.tscn" id="5_rs36e"]
+[ext_resource type="PackedScene" uid="uid://o5b7gshe8kkd" path="res://Scenes/Pieces/custom/custom_piece.tscn" id="6_1qk88"]
+[ext_resource type="PackedScene" uid="uid://v2deixpm72e6" path="res://Scenes/Pieces/chess/black_king.tscn" id="7_s5775"]
+[ext_resource type="PackedScene" uid="uid://cj1vlbejkibe4" path="res://Scenes/Pieces/chess/black_rook.tscn" id="8_1ybvw"]
 
 [node name="Map1" type="Node2D"]
-script = ExtResource("1_o2qai")
+script = ExtResource("1_rs36e")
+
+[node name="MapInfo" parent="." instance=ExtResource("3_sb70v")]
+
+[node name="MapUi" parent="." instance=ExtResource("2_tmt4b")]
+
+[node name="PromotionUi" parent="." instance=ExtResource("4_0ksuw")]
+
+[node name="AbilitiesUi" parent="." instance=ExtResource("5_rs36e")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(264, -191)
 zoom = Vector2(0.8, 0.8)
 
-[node name="MapUi" parent="." instance=ExtResource("2_tmt4b")]
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="RightMenu" type="VBoxContainer" parent="CanvasLayer2"]
+visible = false
+z_index = 4096
+offset_left = 12.0
+offset_top = 333.0
+offset_right = 104.0
+offset_bottom = 434.0
+mouse_filter = 2
+mouse_default_cursor_shape = 2
+
+[node name="InfoButton" type="Button" parent="CanvasLayer2/RightMenu"]
+z_index = 4096
+layout_mode = 2
+mouse_default_cursor_shape = 2
+action_mode = 0
+button_mask = 3
+text = "Info"
+
+[node name="PromoteButton" type="Button" parent="CanvasLayer2/RightMenu"]
+z_index = 4096
+layout_mode = 2
+text = "Promote"
+
+[node name="AbilitiesButton" type="Button" parent="CanvasLayer2/RightMenu"]
+z_index = 4096
+layout_mode = 2
+text = "Abilities"
+
+[node name="DoNothing" type="Button" parent="CanvasLayer2/RightMenu"]
+z_index = 4096
+layout_mode = 2
+text = "Do Nothing"
+
+[node name="OpenHome" type="Button" parent="CanvasLayer2"]
+offset_left = 1018.0
+offset_top = 588.0
+offset_right = 1142.0
+offset_bottom = 638.0
+text = "Open Home"
+
+[node name="custom_piece" parent="." instance=ExtResource("6_1qk88")]
+
+[node name="black_king" parent="." instance=ExtResource("7_s5775")]
+
+[node name="black_rook" parent="." instance=ExtResource("8_1ybvw")]
+
+[connection signal="pressed" from="CanvasLayer2/RightMenu/InfoButton" to="." method="_on_info_button_pressed"]
+[connection signal="pressed" from="CanvasLayer2/RightMenu/PromoteButton" to="." method="_on_promote_button_pressed"]
+[connection signal="pressed" from="CanvasLayer2/RightMenu/AbilitiesButton" to="." method="_on_abilities_button_pressed"]
+[connection signal="pressed" from="CanvasLayer2/RightMenu/DoNothing" to="." method="_on_do_nothing_pressed"]
+[connection signal="pressed" from="CanvasLayer2/OpenHome" to="." method="_on_open_home_pressed"]

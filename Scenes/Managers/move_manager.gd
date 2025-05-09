@@ -2,6 +2,7 @@ extends Node2D
 
 # get_valid_moves needs to be updated when units are added
 const PIECE_MOVE = preload("res://Scenes/misc/piece_move.tscn")
+const PIECE_ATTACK = preload("res://Assets/misc/Piece_attack.png")
 
 const en_passant_enabled = true
 
@@ -36,11 +37,20 @@ func move_piece(piece, from_position: Vector2, to_position: Vector2):
 		else:
 			UnitManager.black_king_pos = to_position
 	TurnManager.check_turn_end()
+	# --- Allow additional attack after move ---
+	enable_post_move_attack(piece, to_position)
 
 func handle_capture(to_position: Vector2):
 	if BoardManager.is_tile_occupied(int(to_position.x), int(to_position.y)):
 		var captured_piece = BoardManager.board_state[to_position.y][to_position.x]
 		if captured_piece:
+			# Add value for capturing
+			var map_node = get_tree().get_root().get_node("Map1")
+			var captured_value = map_node.get_piece_value(captured_piece.name)
+			var gained = int(floor(captured_value / 2))
+			if gained > 0:
+				map_node.current_value += gained
+				map_node.get_node("MapUi").set_value_label(map_node.current_value)
 			captured_piece.queue_free()
 
 func update_board_state(piece, from_position: Vector2, to_position: Vector2):
@@ -67,6 +77,8 @@ func track_piece_movement(piece, from_position: Vector2):
 			elif from_position == Vector2(7, 7): UnitManager.black_rook_kingside_moved = true
 
 func move_selected_piece(x: int, y: int):
+	if TurnManager.post_move_attack_pending == true:
+		return
 	if GameManager.online_enabled and multiplayer.get_unique_id() != 1:
 		# Client: send move to host, do not validate locally
 		NetworkManager.rpc_id(1, "remote_move", BoardManager.selected_piece_position, Vector2(x, y))
@@ -74,10 +86,19 @@ func move_selected_piece(x: int, y: int):
 		BoardManager.deselect_piece()
 		return
 	# Host or offline: validate and apply move locally
-	var moves = get_valid_moves(BoardManager.selected_piece, BoardManager.selected_piece_position.x, BoardManager.selected_piece_position.y)
+	var piece = BoardManager.selected_piece
+	if not piece.can_move_this_turn():
+		print("This piece has reached its move limit for this turn.")
+		return
+	var moves = get_valid_moves(piece, BoardManager.selected_piece_position.x, BoardManager.selected_piece_position.y)
 	if Vector2(x, y) in moves:
-		move_piece(BoardManager.selected_piece, BoardManager.selected_piece_position, Vector2(x, y))
-		TurnManager.moves_this_turn += 1
+		move_piece(piece, BoardManager.selected_piece_position, Vector2(x, y))
+		piece.increment_moves_this_turn() # <-- increment per-piece move count
+		# Update the correct moves_this_turn variable
+		if TurnManager.is_white_turn:
+			TurnManager.moves_this_turn_white += 1
+		else:
+			TurnManager.moves_this_turn_black += 1
 		TurnManager.check_turn_end()
 		# --- SEND BOARD UPDATE TO CLIENTS ---
 		if GameManager.online_enabled and multiplayer.get_unique_id() == 1:
@@ -87,20 +108,24 @@ func move_selected_piece(x: int, y: int):
 					NetworkManager.rpc_id(peer_id, "receive_full_board_state", state, TurnManager.is_white_turn)
 	else:
 		print("Invalid move")
-	BoardManager.deselect_piece()
+	if TurnManager.post_move_attack_pending == true:
+		return
+	else:
+		BoardManager.deselect_piece()
 
 #endregion
 
 #region highlite_tile
 
 func highlight_possible_moves(moves: Array):
+	if TurnManager.post_move_attack_pending:
+		return
 	if BoardManager.selected_piece:
 		var is_white = BoardManager.selected_piece.is_white
 		# Filter out moves that land on a friendly piece
 		moves = moves.filter(func(move):
 			if BoardManager.is_tile_occupied(move.x, move.y):
 				var target_piece = BoardManager.board_state[move.y][move.x]
-				print("At ", move, " piece: ", target_piece, " is_white: ", target_piece.is_white)
 				return target_piece.is_white != is_white
 			return true
 		)
@@ -117,6 +142,15 @@ func highlight_range_attack_tiles(tiles: Array, texture: Texture2D):
 		highlight.texture = texture
 		highlight.position = BoardManager.get_centered_position(tile.x, tile.y)
 		highlight.z_index = 100  # Ensure it's above the board
+		add_child(highlight)
+		move_highlights.append(highlight)
+
+func highlight_melee_attack_tiles(tiles: Array):
+	for tile in tiles:
+		var highlight = Sprite2D.new()
+		highlight.texture = preload("res://Assets/misc/Piece_attack.png")
+		highlight.position = BoardManager.get_centered_position(tile.x, tile.y)
+		highlight.z_index = 100
 		add_child(highlight)
 		move_highlights.append(highlight)
 
@@ -256,3 +290,45 @@ func revert_move(from_position: Vector2, to_position: Vector2, captured_piece: V
 			UnitManager.black_king_pos = from_position
 
 #endregion
+
+func enable_post_move_attack(piece, new_position: Vector2):
+	MoveManager.clear_move_highlights() # <-- Add this line to clear old highlights
+	var melee_tiles = MoveUtils.get_melee_attack_tiles(piece, new_position.x, new_position.y)
+	var ranged_tiles = MoveUtils.get_range_attack_tiles(piece, new_position.x, new_position.y)
+
+	# Filter to only tiles with enemy pieces
+	var valid_melee_targets = []
+	for tile in melee_tiles:
+		if BoardManager.is_tile_occupied(tile.x, tile.y):
+			var target = BoardManager.board_state[tile.y][tile.x]
+			if target.is_white != piece.is_white:
+				valid_melee_targets.append(tile)
+
+	var valid_ranged_targets = []
+	for tile in ranged_tiles:
+		if BoardManager.is_tile_occupied(tile.x, tile.y):
+			var target = BoardManager.board_state[tile.y][tile.x]
+			if target.is_white != piece.is_white:
+				valid_ranged_targets.append(tile)
+
+	if valid_melee_targets.is_empty() and valid_ranged_targets.is_empty():
+		TurnManager.post_move_attack_pending = false
+		TurnManager.check_turn_end()
+	else:
+		TurnManager.post_move_attack_pending = true
+		highlight_possible_attacks(valid_melee_targets, valid_ranged_targets, piece)
+
+func highlight_possible_attacks(melee_tiles: Array, ranged_tiles: Array, _piece):
+	# You can show both or let the player choose which to use
+	if melee_tiles.size() > 0:
+		MoveUtils.highlight_melee_attack_tiles(melee_tiles)
+	if ranged_tiles.size() > 0:
+		MoveUtils.highlight_range_attack_tiles(ranged_tiles)
+	# Optionally, set a state so only one attack can be performed after the move
+
+func reset_all_piece_moves():
+	for y in range(BoardManager.BOARD_HEIGHT):
+		for x in range(BoardManager.BOARD_WIDTH):
+			var piece = BoardManager.board_state[y][x]
+			if piece != null and piece.has_method("reset_moves_this_turn"):
+				piece.reset_moves_this_turn()

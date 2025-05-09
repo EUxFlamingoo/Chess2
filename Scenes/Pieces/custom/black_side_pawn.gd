@@ -2,6 +2,7 @@ extends Sprite2D
 
 @export var is_white: bool = true
 
+var abilities: Array = []
 
 # Name of the unit (e.g., "Knight", "Archbishop")
 const UNIT_NAME := "side_pawn"
@@ -59,5 +60,5 @@ func get_promotion_options() -> Array:
 func handle_promotion(piece, target_position: Vector2):
 	UnitManager.handle_promotion(piece, target_position)
 
-func get_attack_range(x: int, y: int, is_white_override: bool = self.is_white) -> Array:
+func get_attack_range(x: int, y: int, _is_white_override: bool = self.is_white) -> Array:
 	return MoveUtils.get_range_attack_tiles(self, x, y)

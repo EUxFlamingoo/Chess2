@@ -1,0 +1,104 @@
+[gd_scene load_steps=7 format=3 uid="uid://utu4nx2gor2i"]
+
+[ext_resource type="Script" uid="uid://bnvm088tsfq74" path="res://Scenes/UI/abilities_ui.gd" id="1_qny1i"]
+[ext_resource type="Texture2D" uid="uid://cp21sy4dhkd6f" path="res://Assets/pieces/white/white_king.png" id="2_s8s4e"]
+[ext_resource type="Texture2D" uid="uid://cx1r0e1js6u2a" path="res://Assets/pieces/white/white_knight.png" id="3_4wgsd"]
+[ext_resource type="Texture2D" uid="uid://bly06pm631l0d" path="res://Assets/pieces/white/white_bishop.png" id="4_44dii"]
+[ext_resource type="Texture2D" uid="uid://dmfuj6c36olmn" path="res://Assets/pieces/white/white_rook.png" id="5_a3unb"]
+[ext_resource type="Texture2D" uid="uid://b1vdjwwlmhg1v" path="res://Assets/pieces/white/white_queen.png" id="6_uttf4"]
+
+[node name="AbilitiesUi" type="Node2D"]
+script = ExtResource("1_qny1i")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="AbilitiesContainer" type="HBoxContainer" parent="CanvasLayer"]
+visible = false
+offset_left = 224.0
+offset_top = 328.0
+offset_right = 895.0
+offset_bottom = 368.0
+size_flags_stretch_ratio = 7.15
+alignment = 1
+
+[node name="RangedAttacksButton" type="Button" parent="CanvasLayer/AbilitiesContainer"]
+layout_mode = 2
+text = "Ranged Attacks"
+
+[node name="MoreMovementButton" type="Button" parent="CanvasLayer/AbilitiesContainer"]
+layout_mode = 2
+text = "more movement"
+
+[node name="AddJumpButton" type="Button" parent="CanvasLayer/AbilitiesContainer"]
+layout_mode = 2
+text = "get jump"
+
+[node name="RangedPieces" type="HBoxContainer" parent="CanvasLayer"]
+visible = false
+offset_left = 369.0
+offset_top = 250.0
+offset_right = 777.0
+offset_bottom = 281.0
+theme_override_constants/separation = 36
+
+[node name="wking" type="Button" parent="CanvasLayer/RangedPieces"]
+layout_mode = 2
+text = "1"
+icon = ExtResource("2_s8s4e")
+
+[node name="wknight" type="Button" parent="CanvasLayer/RangedPieces"]
+layout_mode = 2
+text = "2"
+icon = ExtResource("3_4wgsd")
+
+[node name="wbishop" type="Button" parent="CanvasLayer/RangedPieces"]
+layout_mode = 2
+text = "3
+"
+icon = ExtResource("4_44dii")
+
+[node name="wrook" type="Button" parent="CanvasLayer/RangedPieces"]
+layout_mode = 2
+text = "3"
+icon = ExtResource("5_a3unb")
+
+[node name="wqueen" type="Button" parent="CanvasLayer/RangedPieces"]
+layout_mode = 2
+text = "5
+"
+icon = ExtResource("6_uttf4")
+
+[node name="MovementAdder" type="HBoxContainer" parent="CanvasLayer"]
+visible = false
+offset_left = 491.0
+offset_top = 275.0
+offset_right = 695.0
+offset_bottom = 315.0
+
+[node name="MinusMovement" type="Button" parent="CanvasLayer/MovementAdder"]
+layout_mode = 2
+text = "-1"
+
+[node name="CurrentMovement" type="Label" parent="CanvasLayer/MovementAdder"]
+layout_mode = 2
+text = "current movement"
+
+[node name="PlusMovement" type="Button" parent="CanvasLayer/MovementAdder"]
+layout_mode = 2
+text = "+1"
+
+[node name="DoneButton" type="Button" parent="CanvasLayer/MovementAdder"]
+layout_mode = 2
+text = "done"
+
+[connection signal="pressed" from="CanvasLayer/AbilitiesContainer/RangedAttacksButton" to="." method="_on_ranged_attacks_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/AbilitiesContainer/MoreMovementButton" to="." method="_on_more_movement_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/AbilitiesContainer/AddJumpButton" to="." method="_on_add_jump_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/RangedPieces/wking" to="." method="_on_wking_pressed"]
+[connection signal="pressed" from="CanvasLayer/RangedPieces/wknight" to="." method="_on_wknight_pressed"]
+[connection signal="pressed" from="CanvasLayer/RangedPieces/wbishop" to="." method="_on_wbishop_pressed"]
+[connection signal="pressed" from="CanvasLayer/RangedPieces/wrook" to="." method="_on_wrook_pressed"]
+[connection signal="pressed" from="CanvasLayer/RangedPieces/wqueen" to="." method="_on_wqueen_pressed"]
+[connection signal="pressed" from="CanvasLayer/MovementAdder/MinusMovement" to="." method="_on_minus_movement_pressed"]
+[connection signal="pressed" from="CanvasLayer/MovementAdder/PlusMovement" to="." method="_on_plus_movement_pressed"]
+[connection signal="pressed" from="CanvasLayer/MovementAdder/DoneButton" to="." method="_on_done_button_pressed"]

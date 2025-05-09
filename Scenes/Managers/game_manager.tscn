@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://db1bnwhfsfbvx"]
+[gd_scene load_steps=2 format=3 uid="uid://db1bnwhfsfbvx"]
 
 [ext_resource type="Script" uid="uid://deirr5xccrio8" path="res://Scenes/Managers/game_manager.gd" id="1_hqrb7"]
-[ext_resource type="FontFile" uid="uid://cxj41dewvwgkt" path="res://Assets/font/PixelOperator8.ttf" id="2_6lden"]
 
 [node name="game_manager" type="Node"]
 script = ExtResource("1_hqrb7")
@@ -15,15 +14,6 @@ offset_left = -1576.0
 offset_top = -1321.0
 offset_right = 2418.0
 offset_bottom = 1331.0
-
-[node name="turn_label" type="Label" parent="CanvasLayer"]
-offset_right = 180.0
-offset_bottom = 39.0
-theme_override_fonts/font = ExtResource("2_6lden")
-theme_override_font_sizes/font_size = 21
-text = "Turn Order"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="game_finish" type="Button" parent="CanvasLayer"]
 visible = false

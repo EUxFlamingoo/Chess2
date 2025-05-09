@@ -81,7 +81,7 @@ func get_interrupted_attack_tiles(piece, x, y) -> Array:
 	return attack_tiles
 
 # Helper for interrupted line moves (rook, bishop, queen)
-func get_interrupted_line_moves(x, y, is_white, directions) -> Array:
+func get_interrupted_line_moves(x, y, _is_white, directions) -> Array:
 	var result = []
 	for dir in directions:
 		var nx = x
@@ -92,10 +92,8 @@ func get_interrupted_line_moves(x, y, is_white, directions) -> Array:
 			if not BoardManager.is_within_board(nx, ny):
 				break
 			if BoardManager.is_tile_obstacle(nx, ny):
-				print("Obstacle at: ", nx, ",", ny)
 				break
 			if BoardManager.is_tile_occupied(nx, ny):
-				print("Piece at: ", nx, ",", ny)
 				result.append(Vector2(nx, ny))
 				break
 			result.append(Vector2(nx, ny))
@@ -109,12 +107,20 @@ func highlight_range_attack_tiles(tiles: Array):
 func perform_range_attack(attacker, target_pos: Vector2):
 	var target_piece = BoardManager.board_state[target_pos.y][target_pos.x]
 	if target_piece != null and target_piece.is_white != attacker.is_white:
-		# Remove the target piece from the board
+		 # Add value for capturing
+		var map_node = GameManager.current_map
+		var captured_value = map_node.get_piece_value(target_piece.name)
+		var gained = int(floor(captured_value / 2))
+		if gained > 0:
+			map_node.current_value += gained
+			map_node.get_node("MapUi").set_value_label(map_node.current_value)
 		target_piece.queue_free()
 		BoardManager.board_state[target_pos.y][target_pos.x] = null
-		print("Range attack: ", attacker.name, " captured ", target_piece.name, " at ", target_pos)
+		TurnManager.post_move_attack_pending = false
+		TurnManager.check_turn_end()
 	else:
-		print("No valid target to attack at ", target_pos)
+		TurnManager.post_move_attack_pending = false
+		TurnManager.check_turn_end()
 
 func get_side_pawn_moves(x, y, is_white):
 	var moves = []
@@ -134,3 +140,110 @@ func get_side_pawn_moves(x, y, is_white):
 			if BoardManager.is_tile_occupied_by_opponent(tx, ty, is_white):
 				moves.append(Vector2(tx, ty))
 	return moves
+
+func get_jump_line_moves(x, y, is_white, directions):
+	var moves = []
+	for direction in directions:
+		var step = 1
+		while true:
+			var nx = x + direction.x * step
+			var ny = y + direction.y * step
+			if not BoardManager.is_within_board(nx, ny):
+				break
+			# Can jump over anything, but can't land on obstacles or friendly pieces
+			if BoardManager.is_tile_obstacle(nx, ny) or BoardManager.is_tile_occupied_by_friendly(nx, ny, is_white):
+				break
+			moves.append(Vector2(nx, ny))
+			# Stop after capturing an enemy piece
+			if BoardManager.is_tile_occupied_by_opponent(nx, ny, is_white):
+				break
+			step += 1
+	return moves
+
+func get_normal_line_moves(x, y, is_white, directions):
+	var moves = []
+	for direction in directions:
+		var step = 1
+		while true:
+			var nx = x + direction.x * step
+			var ny = y + direction.y * step
+			if not BoardManager.is_within_board(nx, ny):
+				break
+			if BoardManager.is_tile_obstacle(nx, ny):
+				break
+			if BoardManager.is_tile_occupied(nx, ny):
+				if BoardManager.is_tile_occupied_by_opponent(nx, ny, is_white):
+					moves.append(Vector2(nx, ny))
+				break
+			moves.append(Vector2(nx, ny))
+			step += 1
+	return moves
+
+func get_tile_moves(x, y, is_white, max_steps = 3) -> Array:
+	var moves = []
+	var visited = {}
+	var queue = []
+	var directions = [
+		Vector2(1, 0), Vector2(-1, 0), Vector2(0, 1), Vector2(0, -1)
+	]
+	queue.append({"pos": Vector2(x, y), "steps": 0})
+	visited[Vector2(x, y)] = 0
+
+	while queue.size() > 0:
+		var current = queue.pop_front()
+		var cur_pos = current["pos"]
+		var cur_steps = current["steps"]
+
+		if cur_steps > 0:
+			moves.append(cur_pos)
+		if cur_steps == max_steps:
+			continue
+
+		for dir in directions:
+			var next = cur_pos + dir
+			if not BoardManager.is_within_board(next.x, next.y):
+				continue
+			if visited.has(next) and visited[next] <= cur_steps + 1:
+				continue
+			if BoardManager.is_tile_obstacle(next.x, next.y) or BoardManager.is_tile_occupied_by_friendly(next.x, next.y, is_white):
+				continue
+			visited[next] = cur_steps + 1
+			queue.append({"pos": next, "steps": cur_steps + 1})
+	return moves
+
+# --- Melee Attack Implementation (king moveset only) ---
+
+# Returns all tiles in melee attack range, respecting interruption if requested
+func get_melee_attack_tiles(piece, x, y) -> Array:
+	return get_king_moves(x, y, piece.is_white)
+
+# Uninterrupted: king moveset only
+func get_uninterrupted_melee_attack_tiles(piece, x, y) -> Array:
+	return get_king_moves(x, y, piece.is_white)
+
+# Interrupted: king moveset only (no interruption logic needed)
+func get_interrupted_melee_attack_tiles(piece, x, y) -> Array:
+	return get_king_moves(x, y, piece.is_white)
+
+# Highlight melee attack range tiles (call this from your UI/highlight system)
+func highlight_melee_attack_tiles(tiles: Array):
+	MoveManager.highlight_melee_attack_tiles(tiles)
+
+# Perform a melee attack: if a piece is on the target tile, capture it (do not move attacker)
+func perform_melee_attack(attacker, target_pos: Vector2):
+	var target_piece = BoardManager.board_state[target_pos.y][target_pos.x]
+	if target_piece != null and target_piece.is_white != attacker.is_white:
+		 # Add value for capturing
+		var map_node = GameManager.current_map
+		var captured_value = map_node.get_piece_value(target_piece.name)
+		var gained = int(floor(captured_value / 2))
+		if gained > 0:
+			map_node.current_value += gained
+			map_node.get_node("MapUi").set_value_label(map_node.current_value)
+		target_piece.queue_free()
+		BoardManager.board_state[target_pos.y][target_pos.x] = null
+		TurnManager.post_move_attack_pending = false
+		TurnManager.check_turn_end()
+	else:
+		TurnManager.post_move_attack_pending = false
+		TurnManager.check_turn_end()

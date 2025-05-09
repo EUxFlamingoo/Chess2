@@ -28,6 +28,7 @@ const START_POS_WHITE := [Vector2(3, 5)]
 
 var defeated_count: int = 0
 var accrued_value: int = 0
+var abilities: Array = []
 
 func get_moves(x: int, y: int, is_white_override: bool = self.is_white) -> Array:
 	var moves = []
@@ -59,5 +60,5 @@ func get_promotion_options() -> Array:
 func handle_promotion(piece, target_position: Vector2):
 	UnitManager.handle_promotion(piece, target_position)
 
-func get_attack_range(x: int, y: int, is_white_override: bool = self.is_white) -> Array:
+func get_attack_range(x: int, y: int, _is_white_override: bool = self.is_white) -> Array:
 	return MoveUtils.get_range_attack_tiles(self, x, y)

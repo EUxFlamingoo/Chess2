@@ -1,19 +1,19 @@
 extends Sprite2D
 
-@export var template_name := "WhiteCustomPiece" # Set this in each piece scene
+@export var template_name := "WhiteFactory" # Set this in each piece scene
 
 # --- UNIT CONFIGURATION (edit these for new custom pieces) ---
 @export var is_white: bool = true
-@export var TILE_MOVE_RANGE := 2
+@export var TILE_MOVE_RANGE := 0
 @export var MOVES_PER_TURN := 1  # How many times this piece can move per turn
 
-const UNIT_NAME := "custom_piece"
+const UNIT_NAME := "white_factory"
 const UNIT_VALUE := 8
-const MOVES := ["move_tiles"] # or combine with others as needed
+const MOVES := [""] # or combine with others as needed
 #const MOVES := ["bishop", "knight"] # List of movesets to inherit
 const PROMOTION_OPTIONS := ["Queen", "Rook", "Bishop", "Knight"]
 var ATTACK_RANGE := []
-var MELEE_ATTACK_RANGE := ["king"] # Melee attack range uses king moveset
+var MELEE_ATTACK_RANGE := [""] # Melee attack range uses king moveset
 var MELEE_ATTACK_INTERRUPTED := false
 var RANGE_ATTACK_INTERRUPTED := true
 

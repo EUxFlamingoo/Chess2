@@ -8,6 +8,7 @@ script = ExtResource("1_llu22")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="player_2" type="Button" parent="CanvasLayer"]
+visible = false
 z_index = 100
 offset_left = 457.0
 offset_top = 241.0
@@ -16,6 +17,7 @@ offset_bottom = 316.0
 text = "2-Player"
 
 [node name="player_1" type="Button" parent="CanvasLayer"]
+visible = false
 z_index = 100
 offset_left = 457.0
 offset_top = 316.0
@@ -40,7 +42,6 @@ offset_bottom = 314.0
 text = "Black"
 
 [node name="online_button" type="Button" parent="CanvasLayer"]
-visible = false
 z_index = 100
 offset_left = 456.0
 offset_top = 237.0
@@ -50,7 +51,6 @@ text = "online"
 metadata/_edit_use_anchors_ = true
 
 [node name="offline_button" type="Button" parent="CanvasLayer"]
-visible = false
 z_index = 100
 offset_left = 456.0
 offset_top = 313.0

@@ -1,13 +1,13 @@
 extends Node
 
-
-@onready var turn_label: Label = $CanvasLayer/turn_label
 @onready var input_blocker: Control = $CanvasLayer/input_blocker
 @onready var game_finish: Button = $CanvasLayer/game_finish
 
-
+# GameContext.gd (autoload this script)
+var current_map = null
 
 var online_enabled = false
+
 
 func end_game(result_text: String):
 	game_finish.text = result_text
@@ -16,7 +16,6 @@ func end_game(result_text: String):
 
 func reset_game_state():
 	TurnManager.is_white_turn = true
-	TurnManager.moves_this_turn = 0
 	if TurnManager.has_method("deselect_piece"):
 		TurnManager.deselect_piece()
 	# Reset castling rights if you track them
@@ -29,6 +28,9 @@ func reset_game_state():
 	# Reset king positions
 	UnitManager.white_king_pos = Vector2(4, BoardManager.First_Rank)
 	UnitManager.black_king_pos = Vector2(4, BoardManager.Last_Rank)
+	BoardManager.delete_all_tiles()
+	BoardManager.clear_custom_highlights()
+	BoardManager.remove_all_pieces()
 
 func _on_game_finish_pressed():
 	game_finish.visible = false
@@ -37,10 +39,3 @@ func _on_game_finish_pressed():
 	reset_game_state()
 	BoardManager.remove_all_pieces()
 	get_tree().change_scene_to_file("res://Scenes/UI/GameStart.tscn")
-
-
-func update_turn_label():
-	if TurnManager.is_white_turn == true:
-		turn_label.text = "White's turn"
-	else:
-		turn_label.text = "Black's turn"

@@ -1,10 +1,13 @@
 extends Sprite2D
 
+@export var template_name := "BlackKing" # Set this in each piece scene
+
 const castling_enabled = true # Modify
 
 var is_white: bool
-
-
+var abilities: Array = []
+var ATTACK_RANGE := []
+var RANGE_ATTACK_INTERRUPTED := true
 
 
 
@@ -17,20 +20,36 @@ func get_king_moves(x: int, y: int, is_white_piece: bool, ignore_attack_check :=
 		Vector2(1, 0), Vector2(-1, 0), Vector2(0, 1), Vector2(0, -1),
 		Vector2(1, 1), Vector2(-1, 1), Vector2(1, -1), Vector2(-1, -1)
 	]
-	for direction in directions:
-		var target_x = x + direction.x
-		var target_y = y + direction.y
-		if BoardManager.is_within_board(target_x, target_y):
-			if not BoardManager.is_tile_occupied(target_x, target_y) or BoardManager.is_tile_occupied_by_opponent(target_x, target_y, is_white_piece):
+	if "jump" in abilities:
+		# Jumping: can pass over any piece or obstacle, but can't land on obstacles or friendly pieces
+		for direction in directions:
+			var target_x = x + direction.x
+			var target_y = y + direction.y
+			if BoardManager.is_within_board(target_x, target_y):
+				if BoardManager.is_tile_obstacle(target_x, target_y) or BoardManager.is_tile_occupied_by_friendly(target_x, target_y, is_white_piece):
+					continue
 				var allow_move = true
-				if EndConditions.checkmate_enabled and not ignore_attack_check:
+				# Use EndConditions to check if checkmate rules are enabled
+				if EndConditions.get_map_toggle("END_CHECKMATE_ENABLED", false) and not ignore_attack_check:
 					if MoveManager.is_square_attacked(Vector2(target_x, target_y), not is_white_piece):
 						allow_move = false
-					elif BoardManager.is_tile_occupied_by_opponent(target_x, target_y, is_white_piece):
-						if EnemyLogic.is_covered(Vector2(target_x, target_y), not is_white_piece):
-							allow_move = false
 				if allow_move:
 					moves.append(Vector2(target_x, target_y))
+	else:
+		for direction in directions:
+			var target_x = x + direction.x
+			var target_y = y + direction.y
+			if BoardManager.is_within_board(target_x, target_y):
+				if not BoardManager.is_tile_occupied(target_x, target_y) or BoardManager.is_tile_occupied_by_opponent(target_x, target_y, is_white_piece):
+					var allow_move = true
+					if EndConditions.get_map_toggle("END_CHECKMATE_ENABLED", false) and not ignore_attack_check:
+						if MoveManager.is_square_attacked(Vector2(target_x, target_y), not is_white_piece):
+							allow_move = false
+						elif BoardManager.is_tile_occupied_by_opponent(target_x, target_y, is_white_piece):
+							if EnemyLogic.is_covered(Vector2(target_x, target_y), not is_white_piece):
+								allow_move = false
+					if allow_move:
+						moves.append(Vector2(target_x, target_y))
 	moves += get_king_castling_moves(x, y, is_white_piece)
 	return moves
 
@@ -91,7 +110,7 @@ func handle_castling(piece, from_position: Vector2, to_position: Vector2):
 	if not piece.has_method("get_moves"):
 		return
 
-	var is_white = piece.is_white
+	is_white = piece.is_white
 
 	if is_white:
 		if from_position == Vector2(4, 0) and to_position == Vector2(6, 0):  # White kingside
@@ -113,3 +132,22 @@ func handle_castling(piece, from_position: Vector2, to_position: Vector2):
 				rook.move_rook(Vector2(0, 7), Vector2(3, 7))
 
 #endregion
+
+func get_attack_range(x: int, y: int, _is_white_override: bool = self.is_white) -> Array:
+	return MoveUtils.get_range_attack_tiles(self, x, y)
+
+
+var moves_made_this_turn := 0 
+@export var MOVES_PER_TURN := 1
+func can_move_this_turn() -> bool:
+	# Get the global max moves per turn from the map
+	var map_node = GameManager.current_map
+	var global_max = map_node.MAX_MOVES_PER_TURN
+	var allowed_moves = min(MOVES_PER_TURN, global_max)
+	return moves_made_this_turn < allowed_moves
+
+func reset_moves_this_turn():
+	moves_made_this_turn = 0
+
+func increment_moves_this_turn():
+	moves_made_this_turn += 1

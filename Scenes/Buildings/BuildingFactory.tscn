@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://bavmg183xtr4d"]
+
+[ext_resource type="Texture2D" uid="uid://dq7wrsybpmv53" path="res://Assets/buildings/Factory.png" id="1_kbqex"]
+[ext_resource type="Script" uid="uid://c2tgpd46djkxm" path="res://Scenes/Buildings/building_factory.gd" id="2_e84w6"]
+
+[node name="BuildingFactory" type="Sprite2D"]
+texture = ExtResource("1_kbqex")
+script = ExtResource("2_e84w6")

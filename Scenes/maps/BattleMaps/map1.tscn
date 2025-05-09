@@ -1,0 +1,108 @@
+[gd_scene load_steps=18 format=3 uid="uid://cs3jptf8s1q6c"]
+
+[ext_resource type="Script" uid="uid://bona61j6t5fki" path="res://Scenes/maps/BattleMaps/map_1.gd" id="1_4pf1s"]
+[ext_resource type="PackedScene" uid="uid://tmi14bhr6xm5" path="res://Scenes/UI/MapInfo.tscn" id="2_5bgr4"]
+[ext_resource type="PackedScene" uid="uid://b7up3icujsnmj" path="res://Scenes/UI/promotion_ui.tscn" id="4_nsyju"]
+[ext_resource type="PackedScene" uid="uid://cwey62lkmorf3" path="res://Scenes/Pieces/chess/black_bishop.tscn" id="5_qf8gc"]
+[ext_resource type="PackedScene" uid="uid://utu4nx2gor2i" path="res://Scenes/UI/AbilitiesUi.tscn" id="5_wvwu2"]
+[ext_resource type="PackedScene" uid="uid://v2deixpm72e6" path="res://Scenes/Pieces/chess/black_king.tscn" id="6_kuvvg"]
+[ext_resource type="PackedScene" uid="uid://cwg10g5xdfwgq" path="res://Scenes/Pieces/chess/black_knight.tscn" id="7_t6hl1"]
+[ext_resource type="PackedScene" uid="uid://cjquwt0r2veog" path="res://Scenes/Pieces/chess/black_pawn.tscn" id="8_c1ira"]
+[ext_resource type="PackedScene" uid="uid://8v2wdlgdhhbk" path="res://Scenes/Pieces/chess/black_queen.tscn" id="9_vur17"]
+[ext_resource type="PackedScene" uid="uid://cj1vlbejkibe4" path="res://Scenes/Pieces/chess/black_rook.tscn" id="10_krf7i"]
+[ext_resource type="PackedScene" uid="uid://bk7qowiywxrpm" path="res://Scenes/Pieces/chess/white_bishop.tscn" id="11_1qowx"]
+[ext_resource type="PackedScene" uid="uid://cks7wwf6kurqe" path="res://Scenes/Pieces/chess/white_king.tscn" id="12_hat82"]
+[ext_resource type="PackedScene" uid="uid://cyh3h0tukmhk0" path="res://Scenes/Pieces/chess/white_knight.tscn" id="13_lfgq7"]
+[ext_resource type="PackedScene" uid="uid://crc06idroqlgk" path="res://Scenes/Pieces/chess/white_pawn.tscn" id="14_7r3jd"]
+[ext_resource type="PackedScene" uid="uid://buswjgqrm66jp" path="res://Scenes/Pieces/chess/white_queen.tscn" id="15_dcrn2"]
+[ext_resource type="PackedScene" uid="uid://71w1yonakm3c" path="res://Scenes/Pieces/chess/white_rook.tscn" id="16_1odno"]
+[ext_resource type="PackedScene" uid="uid://o5b7gshe8kkd" path="res://Scenes/Pieces/custom/custom_piece.tscn" id="17_2o7eq"]
+
+[node name="Map1" type="Node2D"]
+script = ExtResource("1_4pf1s")
+
+[node name="MapInfo" parent="." instance=ExtResource("2_5bgr4")]
+
+[node name="PromotionUi" parent="." instance=ExtResource("4_nsyju")]
+
+[node name="AbilitiesUi" parent="." instance=ExtResource("5_wvwu2")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(264, -191)
+zoom = Vector2(0.8, 0.8)
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="RightMenu" type="VBoxContainer" parent="CanvasLayer2"]
+visible = false
+z_index = 4096
+offset_left = 12.0
+offset_top = 333.0
+offset_right = 104.0
+offset_bottom = 434.0
+mouse_filter = 2
+mouse_default_cursor_shape = 2
+
+[node name="InfoButton" type="Button" parent="CanvasLayer2/RightMenu"]
+z_index = 4096
+layout_mode = 2
+mouse_default_cursor_shape = 2
+action_mode = 0
+button_mask = 3
+text = "Info"
+
+[node name="PromoteButton" type="Button" parent="CanvasLayer2/RightMenu"]
+z_index = 4096
+layout_mode = 2
+text = "Promote"
+
+[node name="AbilitiesButton" type="Button" parent="CanvasLayer2/RightMenu"]
+z_index = 4096
+layout_mode = 2
+text = "Abilities"
+
+[node name="DoNothing" type="Button" parent="CanvasLayer2/RightMenu"]
+z_index = 4096
+layout_mode = 2
+text = "Do Nothing"
+
+[node name="black_bishop" parent="." instance=ExtResource("5_qf8gc")]
+visible = false
+
+[node name="black_king" parent="." instance=ExtResource("6_kuvvg")]
+
+[node name="black_knight" parent="." instance=ExtResource("7_t6hl1")]
+visible = false
+
+[node name="black_pawn" parent="." instance=ExtResource("8_c1ira")]
+visible = false
+
+[node name="black_queen" parent="." instance=ExtResource("9_vur17")]
+visible = false
+
+[node name="black_rook" parent="." instance=ExtResource("10_krf7i")]
+
+[node name="white_bishop" parent="." instance=ExtResource("11_1qowx")]
+visible = false
+
+[node name="white_king" parent="." instance=ExtResource("12_hat82")]
+visible = false
+
+[node name="white_knight" parent="." instance=ExtResource("13_lfgq7")]
+visible = false
+
+[node name="white_pawn" parent="." instance=ExtResource("14_7r3jd")]
+visible = false
+
+[node name="white_queen" parent="." instance=ExtResource("15_dcrn2")]
+visible = false
+
+[node name="white_rook" parent="." instance=ExtResource("16_1odno")]
+visible = false
+
+[node name="custom_piece" parent="." instance=ExtResource("17_2o7eq")]
+
+[connection signal="pressed" from="CanvasLayer2/RightMenu/InfoButton" to="." method="_on_info_button_pressed"]
+[connection signal="pressed" from="CanvasLayer2/RightMenu/PromoteButton" to="." method="_on_promote_button_pressed"]
+[connection signal="pressed" from="CanvasLayer2/RightMenu/AbilitiesButton" to="." method="_on_abilities_button_pressed"]
+[connection signal="pressed" from="CanvasLayer2/RightMenu/DoNothing" to="." method="_on_do_nothing_pressed"]

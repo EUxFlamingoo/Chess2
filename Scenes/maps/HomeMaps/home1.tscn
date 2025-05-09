@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=3 uid="uid://q76chesodx75"]
+
+[ext_resource type="Script" uid="uid://dprtyvmp4iab1" path="res://Scenes/maps/HomeMaps/home_1.gd" id="1_oihlo"]
+[ext_resource type="PackedScene" uid="uid://tmi14bhr6xm5" path="res://Scenes/UI/MapInfo.tscn" id="2_e7alg"]
+[ext_resource type="PackedScene" uid="uid://b7up3icujsnmj" path="res://Scenes/UI/promotion_ui.tscn" id="4_0k7ja"]
+[ext_resource type="PackedScene" uid="uid://utu4nx2gor2i" path="res://Scenes/UI/AbilitiesUi.tscn" id="5_dkvts"]
+[ext_resource type="PackedScene" uid="uid://bavmg183xtr4d" path="res://Scenes/Buildings/BuildingFactory.tscn" id="6_5c4o4"]
+
+[node name="Home1" type="Node2D"]
+script = ExtResource("1_oihlo")
+
+[node name="MapInfo" parent="." instance=ExtResource("2_e7alg")]
+
+[node name="PromotionUi" parent="." instance=ExtResource("4_0k7ja")]
+
+[node name="AbilitiesUi" parent="." instance=ExtResource("5_dkvts")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(264, -191)
+zoom = Vector2(0.8, 0.8)
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="RightMenu" type="VBoxContainer" parent="CanvasLayer2"]
+visible = false
+z_index = 4096
+offset_left = 12.0
+offset_top = 333.0
+offset_right = 104.0
+offset_bottom = 434.0
+mouse_filter = 2
+mouse_default_cursor_shape = 2
+
+[node name="InfoButton" type="Button" parent="CanvasLayer2/RightMenu"]
+z_index = 4096
+layout_mode = 2
+mouse_default_cursor_shape = 2
+action_mode = 0
+button_mask = 3
+text = "Info"
+
+[node name="PromoteButton" type="Button" parent="CanvasLayer2/RightMenu"]
+z_index = 4096
+layout_mode = 2
+text = "Promote"
+
+[node name="AbilitiesButton" type="Button" parent="CanvasLayer2/RightMenu"]
+z_index = 4096
+layout_mode = 2
+text = "Abilities"
+
+[node name="DoNothing" type="Button" parent="CanvasLayer2/RightMenu"]
+z_index = 4096
+layout_mode = 2
+text = "Do Nothing"
+
+[node name="BuildingFactory" parent="." instance=ExtResource("6_5c4o4")]
